@@ -33,6 +33,31 @@ class DocumentController extends Controller
     }
 
     /**
+     * បង្ហាញទំព័រ Preview និងព័ត៌មានលម្អិតឯកសារ (Sala Digital Preview Layout ដូចរូបភាព)
+     */
+    public function show(Document $document)
+    {
+        $document->load('category');
+
+        $relatedDocuments = Document::with('category')
+            ->where('id', '!=', $document->id)
+            ->where('category_id', $document->category_id)
+            ->latest()
+            ->take(4)
+            ->get();
+
+        if ($relatedDocuments->isEmpty()) {
+            $relatedDocuments = Document::with('category')
+                ->where('id', '!=', $document->id)
+                ->latest()
+                ->take(4)
+                ->get();
+        }
+
+        return view('documents.show', compact('document', 'relatedDocuments'));
+    }
+
+    /**
      * មុខងារផ្ទុកឯកសារចូល Storage និងរក្សាទុកទិន្នន័យក្នុង Database
      */
     public function store(Request $request)

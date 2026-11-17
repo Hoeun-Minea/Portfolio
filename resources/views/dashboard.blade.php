@@ -218,12 +218,10 @@
 
                     <!-- Hover Quick Actions Overlay -->
                     <div class="absolute inset-0 bg-slate-950/75 backdrop-blur-xs opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex flex-col items-center justify-center gap-2 p-3 z-20">
-                        @if(in_array($doc->file_type, ['pdf', 'jpg', 'jpeg', 'png', 'webp']))
-                            <a href="/documents/{{ $doc->id }}/preview" target="_blank" class="w-full py-2 px-3 rounded-xl bg-white text-blue-700 hover:bg-blue-50 text-xs font-bold text-center shadow transition flex items-center justify-center gap-1.5">
-                                <i class="fa-solid fa-eye text-xs"></i>
-                                <span>មើលឯកសារ</span>
-                            </a>
-                        @endif
+                        <a href="/documents/{{ $doc->id }}" class="w-full py-2 px-3 rounded-xl bg-white text-blue-700 hover:bg-blue-50 text-xs font-bold text-center shadow transition flex items-center justify-center gap-1.5">
+                            <i class="fa-solid fa-eye text-xs"></i>
+                            <span>មើលឯកសារ (Preview)</span>
+                        </a>
 
                         <a href="/documents/{{ $doc->id }}/download" download class="w-full py-2 px-3 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold text-center shadow transition flex items-center justify-center gap-1.5">
                             <i class="fa-solid fa-download text-xs"></i>
@@ -254,10 +252,15 @@
                     <div>
                         <!-- Title (max 2 lines) -->
                         <h4 class="font-bold text-slate-900 text-xs sm:text-sm line-clamp-2 leading-snug group-hover:text-blue-700 transition" title="{{ $doc->title }}">
-                            {{ $doc->title }}
+                            <a href="/documents/{{ $doc->id }}" class="hover:underline">
+                                {{ $doc->title }}
+                            </a>
                         </h4>
                         <!-- Author Line -->
                         <p class="text-[11px] text-slate-500 mt-1 truncate">
+                            by ហឿន មិនា | ICT
+                        </p>
+                    </div>
                             by ហឿន មិនា | ICT
                         </p>
                     </div>
@@ -326,7 +329,9 @@
                                         {{ $doc->file_type }}
                                     </div>
                                     <div>
-                                        <p class="font-bold text-slate-900 line-clamp-1">{{ $doc->title }}</p>
+                                        <a href="/documents/{{ $doc->id }}" class="hover:text-blue-700 transition">
+                                            <p class="font-bold text-slate-900 line-clamp-1">{{ $doc->title }}</p>
+                                        </a>
                                         <p class="text-[10px] text-slate-400">by ហឿន មិនា | ICT</p>
                                     </div>
                                 </div>
@@ -346,11 +351,9 @@
                                 @endif
                             </td>
                             <td class="py-3.5 px-5 text-right space-x-1 whitespace-nowrap">
-                                @if(in_array($doc->file_type, ['pdf', 'jpg', 'jpeg', 'png', 'webp']))
-                                    <a href="/documents/{{ $doc->id }}/preview" target="_blank" class="p-1.5 text-blue-600 hover:bg-blue-50 rounded-lg inline-block" title="មើល">
-                                        <i class="fa-solid fa-eye"></i>
-                                    </a>
-                                @endif
+                                <a href="/documents/{{ $doc->id }}" class="p-1.5 text-blue-600 hover:bg-blue-50 rounded-lg inline-block" title="មើលឯកសារ (Preview)">
+                                    <i class="fa-solid fa-eye"></i>
+                                </a>
                                 <a href="/documents/{{ $doc->id }}/download" download class="p-1.5 text-emerald-600 hover:bg-emerald-50 rounded-lg inline-block" title="ទាញយក">
                                     <i class="fa-solid fa-download"></i>
                                 </a>

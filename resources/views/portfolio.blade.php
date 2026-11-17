@@ -213,12 +213,10 @@
 
                         <!-- Hover Overlay -->
                         <div class="absolute inset-0 bg-slate-950/75 backdrop-blur-xs opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex flex-col items-center justify-center gap-2 p-3 z-20">
-                            @if(in_array($item->file_type, ['pdf', 'jpg', 'jpeg', 'png', 'webp']))
-                                <a href="/documents/{{ $item->id }}/preview" target="_blank" class="w-full py-2 px-3 rounded-xl bg-white text-blue-700 hover:bg-blue-50 text-xs font-bold text-center shadow transition flex items-center justify-center gap-1.5">
-                                    <i class="fa-solid fa-eye text-xs"></i>
-                                    <span>មើលឯកសារ</span>
-                                </a>
-                            @endif
+                            <a href="/documents/{{ $item->id }}" class="w-full py-2 px-3 rounded-xl bg-white text-blue-700 hover:bg-blue-50 text-xs font-bold text-center shadow transition flex items-center justify-center gap-1.5">
+                                <i class="fa-solid fa-eye text-xs"></i>
+                                <span>មើលឯកសារ (Preview)</span>
+                            </a>
 
                             <a href="/documents/{{ $item->id }}/download" download class="w-full py-2 px-3 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold text-center shadow transition flex items-center justify-center gap-1.5">
                                 <i class="fa-solid fa-download text-xs"></i>
@@ -232,9 +230,14 @@
                     <div class="p-3.5 flex flex-col justify-between flex-1 space-y-2">
                         <div>
                             <h4 class="font-bold text-slate-900 text-xs sm:text-sm line-clamp-2 leading-snug group-hover:text-blue-700 transition" title="{{ $item->title }}">
-                                {{ $item->title }}
+                                <a href="/documents/{{ $item->id }}" class="hover:underline">
+                                    {{ $item->title }}
+                                </a>
                             </h4>
                             <p class="text-[11px] text-slate-500 mt-1 truncate">
+                                by ហឿន មិនា | ICT
+                            </p>
+                        </div>
                                 by ហឿន មិនា | ICT
                             </p>
                         </div>
