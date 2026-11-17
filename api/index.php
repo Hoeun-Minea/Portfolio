@@ -11,6 +11,7 @@ $tmpDirs = [
     '/tmp/storage/framework/sessions',
     '/tmp/storage/logs',
     '/tmp/storage/app/public',
+    '/tmp/storage/app/public/documents',
     '/tmp/views',
     '/tmp/sessions',
     '/tmp/cache',
@@ -19,7 +20,7 @@ $tmpDirs = [
 
 foreach ($tmpDirs as $dir) {
     if (!is_dir($dir)) {
-        @mkdir($dir, 0755, true);
+        @mkdir($dir, 0777, true);
     }
 }
 
@@ -50,8 +51,10 @@ $targetDb = '/tmp/database.sqlite';
 
 if (file_exists($sourceDb) && (!file_exists($targetDb) || filesize($targetDb) === 0)) {
     @copy($sourceDb, $targetDb);
+    @chmod($targetDb, 0666);
 } elseif (!file_exists($targetDb)) {
     @touch($targetDb);
+    @chmod($targetDb, 0666);
 }
 
 if (empty(getenv('DB_CONNECTION')) || getenv('DB_CONNECTION') === 'sqlite') {
@@ -61,5 +64,22 @@ if (empty(getenv('DB_CONNECTION')) || getenv('DB_CONNECTION') === 'sqlite') {
     $_ENV['DB_DATABASE'] = $targetDb;
 }
 
-// 4. Forward execution to Laravel's public index
+// 4. Copy bundled documents to /tmp/storage/app/public/documents if missing
+$sourceDocs = __DIR__ . '/../storage/app/public/documents';
+$targetDocs = '/tmp/storage/app/public/documents';
+if (is_dir($sourceDocs)) {
+    $files = scandir($sourceDocs);
+    foreach ($files as $file) {
+        if ($file !== '.' && $file !== '..') {
+            $srcFile = $sourceDocs . '/' . $file;
+            $dstFile = $targetDocs . '/' . $file;
+            if (!file_exists($dstFile) && is_file($srcFile)) {
+                @copy($srcFile, $dstFile);
+                @chmod($dstFile, 0666);
+            }
+        }
+    }
+}
+
+// 5. Forward execution to Laravel's public index
 require __DIR__ . '/../public/index.php';

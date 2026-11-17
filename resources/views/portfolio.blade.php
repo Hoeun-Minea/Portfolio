@@ -202,13 +202,13 @@
 
                         <div class="flex items-center gap-1.5">
                             @if(in_array($item->file_type, ['pdf', 'jpg', 'jpeg', 'png', 'webp']))
-                                <a href="{{ route('documents.preview', $item) }}" target="_blank" class="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-xl bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold transition" title="មើលផ្ទាល់">
+                                <a href="/documents/{{ $item->id }}/preview" target="_blank" class="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-xl bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold transition" title="មើលផ្ទាល់">
                                     <i class="fa-solid fa-eye text-[11px]"></i>
                                     <span>មើល</span>
                                 </a>
                             @endif
 
-                            <a href="{{ route('documents.download', $item) }}" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-primary-600 hover:bg-primary-700 active:scale-95 text-white text-xs font-semibold shadow-sm transition">
+                            <a href="/documents/{{ $item->id }}/download" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-primary-600 hover:bg-primary-700 active:scale-95 text-white text-xs font-semibold shadow-sm transition">
                                 <i class="fa-solid fa-download text-[11px]"></i>
                                 <span>ទាញយក</span>
                             </a>

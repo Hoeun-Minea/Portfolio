@@ -222,14 +222,14 @@
                             <td class="py-4 px-6 text-right space-x-1.5 whitespace-nowrap">
                                 <!-- Preview Button (for PDF & images) -->
                                 @if(in_array($doc->file_type, ['pdf', 'jpg', 'jpeg', 'png', 'webp']))
-                                    <a href="{{ route('documents.preview', $doc) }}" target="_blank" class="inline-flex items-center gap-1 px-2.5 py-1.5 text-xs font-semibold text-indigo-700 bg-indigo-50 hover:bg-indigo-100 rounded-xl transition border border-indigo-200/60 shadow-sm" title="មើលឯកសារផ្ទាល់">
+                                    <a href="/documents/{{ $doc->id }}/preview" target="_blank" class="inline-flex items-center gap-1 px-2.5 py-1.5 text-xs font-semibold text-indigo-700 bg-indigo-50 hover:bg-indigo-100 rounded-xl transition border border-indigo-200/60 shadow-sm" title="មើលឯកសារផ្ទាល់">
                                         <i class="fa-solid fa-eye text-[11px]"></i>
                                         <span class="hidden sm:inline">មើល</span>
                                     </a>
                                 @endif
 
                                 <!-- Download Button -->
-                                <a href="{{ route('documents.download', $doc) }}" class="inline-flex items-center gap-1 px-2.5 py-1.5 text-xs font-semibold text-primary-700 bg-primary-50 hover:bg-primary-100 rounded-xl transition border border-primary-200/60 shadow-sm" title="ទាញយកឯកសារ">
+                                <a href="/documents/{{ $doc->id }}/download" class="inline-flex items-center gap-1 px-2.5 py-1.5 text-xs font-semibold text-primary-700 bg-primary-50 hover:bg-primary-100 rounded-xl transition border border-primary-200/60 shadow-sm" title="ទាញយកឯកសារ">
                                     <i class="fa-solid fa-download text-[11px]"></i>
                                     <span class="hidden sm:inline">ទាញយក</span>
                                 </a>
@@ -240,7 +240,7 @@
                                 </button>
 
                                 <!-- Delete Form Button -->
-                                <form action="{{ route('documents.destroy', $doc) }}" method="POST" class="inline-block" onsubmit="return confirm('តើលោកគ្រូ ហឿន មិនា ពិតជាចង់លុបឯកសារ «{{ $doc->title }}» នេះមែនទេ?');">
+                                <form action="/documents/{{ $doc->id }}" method="POST" class="inline-block" onsubmit="return confirm('តើលោកគ្រូ ហឿន មិនា ពិតជាចង់លុបឯកសារ «{{ $doc->title }}» នេះមែនទេ?');">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="p-2 text-rose-500 hover:text-rose-700 hover:bg-rose-50 rounded-xl transition" title="លុបឯកសារ">
