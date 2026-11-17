@@ -147,17 +147,17 @@
             <div class="flex flex-wrap items-center justify-center gap-2.5 pt-3">
                 <a href="https://web.facebook.com/MineaHoeun10" target="_blank" class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-600/90 hover:bg-blue-600 text-white text-xs font-semibold shadow-sm transition transform hover:-translate-y-0.5">
                     <i class="fa-brands fa-facebook-f text-sm"></i>
-                    <span>Facebook: Minea Hoeun</span>
+                    <span>Facebook</span>
                 </a>
 
                 <a href="https://www.youtube.com/@hoeunminea8304" target="_blank" class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-red-600/90 hover:bg-red-600 text-white text-xs font-semibold shadow-sm transition transform hover:-translate-y-0.5">
                     <i class="fa-brands fa-youtube text-sm"></i>
-                    <span>YouTube: @hoeunminea8304</span>
+                    <span>YouTube</span>
                 </a>
 
                 <a href="https://t.me/mineahoeun" target="_blank" class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-sky-500/90 hover:bg-sky-500 text-white text-xs font-semibold shadow-sm transition transform hover:-translate-y-0.5">
                     <i class="fa-brands fa-telegram text-sm"></i>
-                    <span>Telegram: @mineahoeun</span>
+                    <span>Telegram</span>
                 </a>
 
                 <a href="https://hssp.vercel.app/" target="_blank" class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-emerald-600/90 hover:bg-emerald-600 text-white text-xs font-semibold shadow-sm transition transform hover:-translate-y-0.5">

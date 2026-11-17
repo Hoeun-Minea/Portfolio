@@ -233,19 +233,19 @@
                         <li>
                             <a href="https://web.facebook.com/MineaHoeun10" target="_blank" class="hover:text-blue-700 flex items-center space-x-2 text-blue-600">
                                 <i class="fa-brands fa-facebook text-base"></i>
-                                <span class="text-slate-600 hover:text-blue-600 font-medium">Facebook: Minea Hoeun</span>
+                                <span class="text-slate-600 hover:text-blue-600 font-medium">Facebook</span>
                             </a>
                         </li>
                         <li>
                             <a href="https://www.youtube.com/@hoeunminea8304" target="_blank" class="hover:text-red-700 flex items-center space-x-2 text-red-600">
                                 <i class="fa-brands fa-youtube text-base"></i>
-                                <span class="text-slate-600 hover:text-red-600 font-medium">YouTube: @hoeunminea8304</span>
+                                <span class="text-slate-600 hover:text-red-600 font-medium">YouTube</span>
                             </a>
                         </li>
                         <li>
                             <a href="https://t.me/mineahoeun" target="_blank" class="hover:text-sky-700 flex items-center space-x-2 text-sky-500">
                                 <i class="fa-brands fa-telegram text-base"></i>
-                                <span class="text-slate-600 hover:text-sky-600 font-medium">Telegram: @mineahoeun</span>
+                                <span class="text-slate-600 hover:text-sky-600 font-medium">Telegram</span>
                             </a>
                         </li>
                     </ul>
