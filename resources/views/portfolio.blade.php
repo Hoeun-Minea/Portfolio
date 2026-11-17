@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portfolio ស្នាដៃ និងសមិទ្ធផលការងារគ្រូបង្រៀន</title>
+    <title>Portfolio ស្នាដៃ និងសមិទ្ធផលការងារ — ហឿន មិនា | ICT</title>
 
     <!-- Google Fonts: Kantumruy Pro, Moul, Siemreap -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -78,7 +78,7 @@
         </div>
     </nav>
 
-    <!-- Hero Header / Profile Section -->
+    <!-- Hero Header / Profile Section: ហឿន មិនា | ICT -->
     <header class="relative bg-gradient-to-br from-slate-950 via-primary-950 to-primary-900 text-white overflow-hidden py-14 sm:py-20 px-4 sm:px-6">
         <div class="absolute -right-20 -top-20 w-80 h-80 bg-primary-500/20 rounded-full blur-3xl pointer-events-none"></div>
         <div class="absolute left-10 -bottom-20 w-96 h-96 bg-indigo-500/15 rounded-full blur-3xl pointer-events-none"></div>
@@ -87,38 +87,41 @@
             
             <!-- Avatar / Photo -->
             <div class="relative inline-block mx-auto">
-                <div class="w-28 h-28 sm:w-32 sm:h-32 rounded-3xl bg-gradient-to-tr from-primary-600 to-indigo-600 p-1 shadow-2xl mx-auto flex items-center justify-center">
-                    <div class="w-full h-full bg-slate-900 rounded-[22px] flex items-center justify-center text-4xl text-primary-300">
-                        <i class="fa-solid fa-user-graduate"></i>
+                <div class="w-28 h-28 sm:w-32 sm:h-32 rounded-3xl bg-gradient-to-tr from-primary-600 via-primary-500 to-indigo-500 p-1 shadow-2xl mx-auto flex items-center justify-center">
+                    <div class="w-full h-full bg-slate-900 rounded-[22px] flex items-center justify-center text-4xl text-primary-300 font-extrabold tracking-wider">
+                        HM
                     </div>
                 </div>
-                <span class="absolute bottom-1 right-1 w-6 h-6 bg-emerald-500 border-4 border-slate-900 rounded-full" title="Active"></span>
+                <span class="absolute bottom-1 right-1 w-6 h-6 bg-emerald-500 border-4 border-slate-900 rounded-full" title="Active Teacher"></span>
             </div>
 
-            <!-- Profile Info -->
+            <!-- Profile Info: ហឿន មិនា | ICT -->
             <div class="space-y-2">
-                <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/10 backdrop-blur-md border border-white/15 text-xs text-primary-200 font-medium">
-                    <i class="fa-solid fa-award text-amber-400"></i>
-                    <span>Digital Teacher Portfolio</span>
+                <div class="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-white/10 backdrop-blur-md border border-white/15 text-xs text-primary-200 font-medium">
+                    <i class="fa-solid fa-laptop-code text-amber-400"></i>
+                    <span>គ្រប់គ្រង និងរៀបចំដោយ ហឿន មិនា | ICT</span>
                 </div>
                 <h1 class="font-khmer-muol text-2xl sm:text-3xl text-white tracking-wide">
-                    លោកគ្រូ / អ្នកគ្រូ (គ្រូបង្រៀនកម្រិតឧត្តម)
+                    លោកគ្រូ ហឿន មិនា (Hoeun Minea)
                 </h1>
                 <p class="text-xs sm:text-sm text-slate-300 max-w-xl mx-auto leading-relaxed">
-                    វិទ្យាល័យ ហ៊ុន សែន សេរីភាព • ក្រសួងអប់រំ យុវជន និងកីឡា
+                    គ្រូបង្រៀនមុខវិជ្ជាព័ត៌មានវិទ្យា (ICT) • វិទ្យាល័យ ហ៊ុន សែន សេរីភាព
+                </p>
+                <p class="text-[11px] sm:text-xs text-slate-400 max-w-lg mx-auto italic">
+                    «ប្តេជ្ញាលើកកម្ពស់គុណភាពអប់រំតាមបែបឌីជីថល តាមរយៈការបញ្ចូលបច្ចេកវិទ្យាព័ត៌មានវិទ្យាទៅក្នុងការបង្រៀន និងការអភិវឌ្ឍសមត្ថភាពសិស្ស»
                 </p>
             </div>
 
             <!-- Badges -->
             <div class="flex flex-wrap items-center justify-center gap-3 pt-2 text-xs">
                 <span class="px-3.5 py-1.5 rounded-xl bg-white/10 backdrop-blur-md border border-white/10 text-slate-200 flex items-center gap-1.5">
-                    <i class="fa-solid fa-chalkboard-user text-primary-400"></i> បទពិសោធន៍បង្រៀន
+                    <i class="fa-solid fa-laptop-file text-primary-400"></i> គ្រូបង្រៀន ICT
                 </span>
                 <span class="px-3.5 py-1.5 rounded-xl bg-white/10 backdrop-blur-md border border-white/10 text-slate-200 flex items-center gap-1.5">
-                    <i class="fa-solid fa-certificate text-emerald-400"></i> ស្នាដៃ {{ $portfolioDocuments->count() }} ឯកសារ
+                    <i class="fa-solid fa-award text-amber-400"></i> ស្នាដៃ {{ $portfolioDocuments->count() }} ឯកសារ
                 </span>
                 <span class="px-3.5 py-1.5 rounded-xl bg-white/10 backdrop-blur-md border border-white/10 text-slate-200 flex items-center gap-1.5">
-                    <i class="fa-regular fa-calendar-check text-amber-400"></i> ឆ្នាំសិក្សា ២០២៤-២០២៥
+                    <i class="fa-solid fa-school text-emerald-400"></i> វិទ្យាល័យ ហ៊ុន សែន សេរីភាព
                 </span>
             </div>
 
@@ -132,11 +135,11 @@
         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-slate-200/80 mb-8">
             <div>
                 <h2 class="font-khmer-muol text-xl text-slate-900">ស្នាដៃ និងសមិទ្ធផលការងារដែលបានជ្រើសរើស</h2>
-                <p class="text-xs text-slate-500 mt-1">ភ័ស្តុតាងកិច្ចតែងការគំរូ ឯកសារបង្រៀន និងវិញ្ញាបនបត្រអភិវឌ្ឍវិជ្ជាជីវៈ</p>
+                <p class="text-xs text-slate-500 mt-1">ភ័ស្តុតាងកិច្ចតែងការគំរូ ICT ស្លាយមេរៀន និងវិញ្ញាបនបត្រអភិវឌ្ឍវិជ្ជាជីវៈ</p>
             </div>
 
             <div class="text-xs font-semibold text-slate-600 bg-white px-3.5 py-2 rounded-xl border border-slate-200 shadow-sm self-start sm:self-auto">
-                បង្ហាញ <span class="text-primary-600">{{ $portfolioDocuments->count() }}</span> ឯកសារ
+                បង្ហាញ <span class="text-primary-600 font-bold">{{ $portfolioDocuments->count() }}</span> ឯកសារស្នាដៃ
             </div>
         </div>
 
@@ -191,16 +194,25 @@
                         </p>
                     </div>
 
-                    <!-- Bottom Card Footer & Download Button -->
-                    <div class="pt-4 mt-5 border-t border-slate-100 flex items-center justify-between gap-3">
+                    <!-- Bottom Card Footer & Action Buttons -->
+                    <div class="pt-4 mt-5 border-t border-slate-100 flex items-center justify-between gap-2">
                         <span class="text-[11px] font-mono text-slate-400">
                             {{ strtoupper($item->file_type) }} • {{ $item->file_size }}
                         </span>
 
-                        <a href="{{ route('documents.download', $item) }}" class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-primary-600 hover:bg-primary-700 active:scale-95 text-white text-xs font-semibold shadow-sm transition">
-                            <i class="fa-solid fa-download text-[11px]"></i>
-                            <span>ទាញយក</span>
-                        </a>
+                        <div class="flex items-center gap-1.5">
+                            @if(in_array($item->file_type, ['pdf', 'jpg', 'jpeg', 'png', 'webp']))
+                                <a href="{{ route('documents.preview', $item) }}" target="_blank" class="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-xl bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold transition" title="មើលផ្ទាល់">
+                                    <i class="fa-solid fa-eye text-[11px]"></i>
+                                    <span>មើល</span>
+                                </a>
+                            @endif
+
+                            <a href="{{ route('documents.download', $item) }}" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-primary-600 hover:bg-primary-700 active:scale-95 text-white text-xs font-semibold shadow-sm transition">
+                                <i class="fa-solid fa-download text-[11px]"></i>
+                                <span>ទាញយក</span>
+                            </a>
+                        </div>
                     </div>
 
                 </div>
@@ -222,9 +234,10 @@
 
     </main>
 
-    <!-- Footer -->
-    <footer class="py-8 px-6 border-t border-slate-200 text-center text-xs text-slate-400 bg-white no-print">
-        <p>Portfolio ឌីជីថលផ្ទាល់ខ្លួនរបស់គ្រូបង្រៀន &copy; {{ date('Y') }}</p>
+    <!-- Footer: គ្រប់គ្រង និងរៀបចំដោយ ហឿន មិនា | ICT -->
+    <footer class="py-8 px-6 border-t border-slate-200 text-center text-xs text-slate-400 bg-white no-print space-y-1">
+        <p class="font-medium text-slate-600">Portfolio ឌីជីថលផ្ទាល់ខ្លួន — គ្រប់គ្រង និងរៀបចំដោយ <strong>ហឿន មិនា | ICT</strong></p>
+        <p>វិទ្យាល័យ ហ៊ុន សែន សេរីភាព &copy; {{ date('Y') }} — រក្សាសិទ្ធិគ្រប់យ៉ាង</p>
     </footer>
 
     <!-- Copy Link Notification Toast -->

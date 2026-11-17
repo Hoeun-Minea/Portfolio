@@ -1,12 +1,12 @@
 @extends('layouts.app')
 
-@section('title', 'ផ្ទាំងគ្រប់គ្រងឯកសារ និង Portfolio គ្រូបង្រៀន')
+@section('title', 'ផ្ទាំងគ្រប់គ្រងឯកសារ — ហឿន មិនា | ICT')
 
 @section('content')
 <div class="space-y-8">
 
-    <!-- Hero Banner with Greeting and Upload Action -->
-    <div class="relative overflow-hidden rounded-3xl bg-gradient-to-r from-slate-900 via-primary-950 to-primary-900 text-white p-6 sm:p-8 lg:p-10 shadow-xl border border-slate-800">
+    <!-- Hero Banner with Greeting and Teacher Info -->
+    <div class="relative overflow-hidden rounded-3xl bg-gradient-to-r from-slate-950 via-primary-950 to-primary-900 text-white p-6 sm:p-8 lg:p-10 shadow-xl border border-slate-800">
         <!-- Background decorative ambient circles -->
         <div class="absolute -right-16 -top-16 w-64 h-64 bg-primary-500/20 rounded-full blur-3xl pointer-events-none"></div>
         <div class="absolute right-1/3 -bottom-20 w-80 h-80 bg-indigo-500/15 rounded-full blur-3xl pointer-events-none"></div>
@@ -14,14 +14,14 @@
         <div class="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
             <div class="max-w-2xl space-y-3">
                 <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 backdrop-blur-md border border-white/15 text-xs text-primary-200 font-medium">
-                    <i class="fa-solid fa-sparkles text-amber-300"></i>
-                    <span>ប្រព័ន្ធផ្ទុកឯកសារឌីជីថលជំនាន់ថ្មី</span>
+                    <i class="fa-solid fa-laptop-code text-amber-300"></i>
+                    <span>គ្រប់គ្រង និងរៀបចំដោយ ហឿន មិនា | ICT</span>
                 </div>
                 <h2 class="font-khmer-muol text-2xl sm:text-3xl text-white leading-normal">
-                    សួស្តីលោកគ្រូ អ្នកគ្រូ!
+                    សួស្តីលោកគ្រូ ហឿន មិនា!
                 </h2>
                 <p class="text-sm sm:text-base text-slate-300 font-normal leading-relaxed">
-                    គ្រប់គ្រងភ័ស្តុតាងការងារ កិច្ចតែងការបង្រៀន ឯកសាររដ្ឋបាល និងរៀបចំ Portfolio ផ្ទាល់ខ្លួនប្រកបដោយវិជ្ជាជីវៈ និងភាពងាយស្រួល។
+                    គ្រប់គ្រងភ័ស្តុតាងការងារ កិច្ចតែងការបង្រៀនព័ត៌មានវិទ្យា (ICT) ស្លាយមេរៀន ឯកសាររដ្ឋបាល និងរៀបចំ Portfolio ផ្ទាល់ខ្លួនប្រកបដោយវិជ្ជាជីវៈ។
                 </p>
             </div>
 
@@ -76,7 +76,7 @@
                     <span class="text-xs font-semibold text-indigo-600 uppercase tracking-wider">ប្រភេទឯកសារ</span>
                     <h3 class="text-3xl font-extrabold text-indigo-700 mt-2 tracking-tight">{{ $categories->count() }}</h3>
                     <p class="text-xs text-slate-400 mt-1 flex items-center gap-1">
-                        <i class="fa-solid fa-tags text-indigo-500"></i> ប្រភេទនៃការបង្រៀន
+                        <i class="fa-solid fa-tags text-indigo-500"></i> ប្រភេទនៃការបង្រៀន ICT
                     </p>
                 </div>
                 <div class="w-14 h-14 rounded-2xl bg-indigo-50 text-indigo-600 flex items-center justify-center text-2xl shadow-sm border border-indigo-100 group-hover:scale-110 group-hover:bg-indigo-600 group-hover:text-white transition duration-300">
@@ -116,8 +116,8 @@
         <!-- Table Toolbar & Instant Search Bar -->
         <div class="p-5 sm:p-6 border-b border-slate-100 flex flex-col md:flex-row md:items-center justify-between gap-4 bg-slate-50/50">
             <div>
-                <h3 id="documents-table-title" class="font-khmer-muol text-lg text-slate-900">បញ្ជីឯកសារទាំងអស់</h3>
-                <p class="text-xs text-slate-500 mt-0.5">ឯកសារការងារដែលបានផ្ទុកក្នុងប្រព័ន្ធ</p>
+                <h3 id="documents-table-title" class="font-khmer-muol text-lg text-slate-900">បញ្ជីឯកសារ និងស្នាដៃការងារ</h3>
+                <p class="text-xs text-slate-500 mt-0.5">ឯកសារការងារដែលបានផ្ទុកក្នុងប្រព័ន្ធដោយ ហឿន មិនា | ICT</p>
             </div>
 
             <!-- Instant Search Input -->
@@ -144,7 +144,13 @@
                 </thead>
                 <tbody id="documentsTableBody" class="divide-y divide-slate-100">
                     @forelse($recentDocuments as $doc)
-                        <tr class="document-row hover:bg-slate-50/70 transition duration-150" data-category-id="{{ $doc->category_id }}" data-title="{{ strtolower($doc->title) }}">
+                        <tr class="document-row hover:bg-slate-50/70 transition duration-150" 
+                            data-category-id="{{ $doc->category_id }}" 
+                            data-title="{{ strtolower($doc->title) }}"
+                            data-id="{{ $doc->id }}"
+                            data-academic-year="{{ $doc->academic_year }}"
+                            data-description="{{ $doc->description ?? '' }}"
+                            data-is-portfolio="{{ $doc->is_portfolio ? '1' : '0' }}">
                             
                             <!-- Document Title & Icon -->
                             <td class="py-4 px-6">
@@ -214,14 +220,27 @@
 
                             <!-- Actions -->
                             <td class="py-4 px-6 text-right space-x-1.5 whitespace-nowrap">
+                                <!-- Preview Button (for PDF & images) -->
+                                @if(in_array($doc->file_type, ['pdf', 'jpg', 'jpeg', 'png', 'webp']))
+                                    <a href="{{ route('documents.preview', $doc) }}" target="_blank" class="inline-flex items-center gap-1 px-2.5 py-1.5 text-xs font-semibold text-indigo-700 bg-indigo-50 hover:bg-indigo-100 rounded-xl transition border border-indigo-200/60 shadow-sm" title="មើលឯកសារផ្ទាល់">
+                                        <i class="fa-solid fa-eye text-[11px]"></i>
+                                        <span class="hidden sm:inline">មើល</span>
+                                    </a>
+                                @endif
+
                                 <!-- Download Button -->
-                                <a href="{{ route('documents.download', $doc) }}" class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-primary-700 bg-primary-50 hover:bg-primary-100 rounded-xl transition border border-primary-200/60 shadow-sm" title="ទាញយកឯកសារ">
+                                <a href="{{ route('documents.download', $doc) }}" class="inline-flex items-center gap-1 px-2.5 py-1.5 text-xs font-semibold text-primary-700 bg-primary-50 hover:bg-primary-100 rounded-xl transition border border-primary-200/60 shadow-sm" title="ទាញយកឯកសារ">
                                     <i class="fa-solid fa-download text-[11px]"></i>
-                                    <span>ទាញយក</span>
+                                    <span class="hidden sm:inline">ទាញយក</span>
                                 </a>
 
+                                <!-- Edit Button -->
+                                <button type="button" class="edit-doc-btn p-2 text-amber-600 hover:text-amber-800 hover:bg-amber-50 rounded-xl transition" title="កែប្រែព័ត៌មាន">
+                                    <i class="fa-regular fa-pen-to-square text-sm"></i>
+                                </button>
+
                                 <!-- Delete Form Button -->
-                                <form action="{{ route('documents.destroy', $doc) }}" method="POST" class="inline-block" onsubmit="return confirm('តើលោកគ្រូ/អ្នកគ្រូពិតជាចង់លុបឯកសារ «{{ $doc->title }}» នេះមែនទេ?');">
+                                <form action="{{ route('documents.destroy', $doc) }}" method="POST" class="inline-block" onsubmit="return confirm('តើលោកគ្រូ ហឿន មិនា ពិតជាចង់លុបឯកសារ «{{ $doc->title }}» នេះមែនទេ?');">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="p-2 text-rose-500 hover:text-rose-700 hover:bg-rose-50 rounded-xl transition" title="លុបឯកសារ">
@@ -238,7 +257,7 @@
                                     <i class="fa-solid fa-folder-open"></i>
                                 </div>
                                 <h4 class="font-khmer-muol text-base text-slate-700 mb-1">មិនទាន់មានឯកសារនៅឡើយទេ</h4>
-                                <p class="text-xs text-slate-400 mb-4">ចាប់ផ្តើមផ្ទុកឯកសារកិច្ចតែងការ ឬស្នាដៃការងារដំបូងរបស់អ្នក</p>
+                                <p class="text-xs text-slate-400 mb-4">ចាប់ផ្តើមផ្ទុកឯកសារកិច្ចតែងការ ICT ឬស្នាដៃការងារដំបូងរបស់អ្នក</p>
                                 <button type="button" onclick="document.getElementById('openUploadDialogBtn').click()" class="inline-flex items-center gap-2 px-4 py-2 bg-primary-600 text-white text-xs font-semibold rounded-xl hover:bg-primary-700 shadow-sm transition">
                                     <i class="fa-solid fa-cloud-arrow-up"></i> បញ្ចូលឯកសារឥឡូវនេះ
                                 </button>
@@ -258,19 +277,19 @@
 
 </div>
 
-<!-- 3. Modern Accessible Native <dialog> Modal (Modern Web Guidance) -->
+<!-- 3. Modern Accessible Native <dialog> Modal for Upload -->
 <dialog id="uploadDialog" closedby="any" aria-labelledby="dialog-title" class="p-0 rounded-3xl bg-white shadow-2xl border border-slate-200/80 w-full max-w-xl mx-auto my-auto overflow-hidden">
     <div class="flex flex-col">
         
         <!-- Dialog Header -->
-        <div class="px-6 py-5 bg-gradient-to-r from-slate-900 to-primary-950 text-white flex items-center justify-between border-b border-slate-800">
+        <div class="px-6 py-5 bg-gradient-to-r from-slate-950 to-primary-950 text-white flex items-center justify-between border-b border-slate-800">
             <div class="flex items-center space-x-3">
                 <div class="w-9 h-9 rounded-xl bg-primary-600/40 text-primary-300 flex items-center justify-center border border-primary-500/30">
                     <i class="fa-solid fa-cloud-arrow-up text-sm"></i>
                 </div>
                 <div>
                     <h3 id="dialog-title" class="font-khmer-muol text-base text-white">បញ្ចូលឯកសារការងារថ្មី</h3>
-                    <p class="text-[11px] text-slate-400">បំពេញព័ត៌មានខាងក្រោមដើម្បីផ្ទុកឯកសារ</p>
+                    <p class="text-[11px] text-slate-400">គ្រប់គ្រង និងរៀបចំដោយ ហឿន មិនា | ICT</p>
                 </div>
             </div>
             
@@ -286,7 +305,7 @@
             <!-- 1. Document Title -->
             <div>
                 <label for="title" class="block text-xs font-semibold text-slate-700 mb-1.5">ចំណងជើងឯកសារ <span class="text-rose-500">*</span></label>
-                <input type="text" name="title" id="title" required placeholder="ឧ. កិច្ចតែងការគណិតវិទ្យា ថ្នាក់ទី១០ ជំពូកទី១" class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-primary-500/20 focus:border-primary-500 outline-none text-xs text-slate-800 transition">
+                <input type="text" name="title" id="title" required placeholder="ឧ. កិច្ចតែងការបង្រៀនកុំព្យូទ័រ និងបណ្តាញ ថ្នាក់ទី១០" class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-primary-500/20 focus:border-primary-500 outline-none text-xs text-slate-800 transition">
             </div>
 
             <!-- 2. Category & Academic Year (Grid 2 cols) -->
@@ -318,7 +337,7 @@
                         ចុចទីនេះ ឬអូសទម្លាក់ File ចូលទីនេះ
                     </p>
                     <p class="text-[11px] text-slate-400 mt-1">
-                        ទទួលស្គាល់ PDF, Word, PowerPoint, Excel (ទំហំអតិបរមា 20MB)
+                        ទទួលស្គាល់ PDF, Word, PowerPoint, Excel, Images (ទំហំអតិបរមា 30MB)
                     </p>
 
                     <!-- Selected File Info Pill -->
@@ -328,7 +347,7 @@
                         <span id="selectedFileSize" class="text-primary-500 text-[10px]"></span>
                     </div>
 
-                    <input id="document_file" name="document_file" type="file" required class="hidden" accept=".pdf,.doc,.docx,.ppt,.pptx,.xls,.xlsx,.jpg,.jpeg,.png">
+                    <input id="document_file" name="document_file" type="file" required class="hidden" accept=".pdf,.doc,.docx,.ppt,.pptx,.xls,.xlsx,.jpg,.jpeg,.png,.webp,.zip">
                 </div>
             </div>
 
@@ -346,7 +365,7 @@
                     </div>
                     <div>
                         <p class="text-xs font-semibold text-slate-800">កំណត់ជាឯកសារស្នាដៃ (Portfolio)</p>
-                        <p class="text-[11px] text-slate-400">បង្ហាញជាសាធារណៈលើទំព័រ Showcase ស្នាដៃរបស់អ្នក</p>
+                        <p class="text-[11px] text-slate-400">បង្ហាញជាសាធារណៈលើទំព័រ Showcase ស្នាដៃរបស់លោកគ្រូ ហឿន មិនា</p>
                     </div>
                 </div>
                 <input type="checkbox" name="is_portfolio" id="is_portfolio" value="1" class="w-4 h-4 rounded text-primary-600 focus:ring-primary-500 border-slate-300">
@@ -366,42 +385,157 @@
 
     </div>
 </dialog>
+
+<!-- 4. Edit Document Modal Dialog -->
+<dialog id="editDialog" closedby="any" aria-labelledby="edit-dialog-title" class="p-0 rounded-3xl bg-white shadow-2xl border border-slate-200/80 w-full max-w-xl mx-auto my-auto overflow-hidden">
+    <div class="flex flex-col">
+        <!-- Edit Dialog Header -->
+        <div class="px-6 py-5 bg-gradient-to-r from-slate-950 to-amber-950 text-white flex items-center justify-between border-b border-slate-800">
+            <div class="flex items-center space-x-3">
+                <div class="w-9 h-9 rounded-xl bg-amber-600/40 text-amber-300 flex items-center justify-center border border-amber-500/30">
+                    <i class="fa-solid fa-pen-to-square text-sm"></i>
+                </div>
+                <div>
+                    <h3 id="edit-dialog-title" class="font-khmer-muol text-base text-white">កែប្រែព័ត៌មានឯកសារ</h3>
+                    <p class="text-[11px] text-slate-400">ធ្វើបច្ចុប្បន្នភាពព័ត៌មានឯកសារការងារ</p>
+                </div>
+            </div>
+            
+            <button type="button" id="closeEditDialogBtn" class="text-slate-400 hover:text-white p-2 rounded-xl hover:bg-white/10 transition">
+                <i class="fa-solid fa-xmark text-lg"></i>
+            </button>
+        </div>
+
+        <!-- Edit Form -->
+        <form id="editDocumentForm" method="POST" class="p-6 space-y-4">
+            @csrf
+            @method('PUT')
+
+            <!-- Edit Title -->
+            <div>
+                <label for="edit_title" class="block text-xs font-semibold text-slate-700 mb-1.5">ចំណងជើងឯកសារ <span class="text-rose-500">*</span></label>
+                <input type="text" name="title" id="edit_title" required class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500 outline-none text-xs text-slate-800 transition">
+            </div>
+
+            <!-- Edit Category & Year -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                    <label for="edit_category_id" class="block text-xs font-semibold text-slate-700 mb-1.5">ប្រភេទឯកសារ <span class="text-rose-500">*</span></label>
+                    <select name="category_id" id="edit_category_id" required class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500 outline-none text-xs text-slate-800 transition">
+                        @foreach($categories as $category)
+                            <option value="{{ $category->id }}">{{ $category->name }}</option>
+                        @endforeach
+                    </select>
+                </div>
+
+                <div>
+                    <label for="edit_academic_year" class="block text-xs font-semibold text-slate-700 mb-1.5">ឆ្នាំសិក្សា <span class="text-rose-500">*</span></label>
+                    <input type="text" name="academic_year" id="edit_academic_year" required class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500 outline-none text-xs text-slate-800 transition">
+                </div>
+            </div>
+
+            <!-- Edit Description -->
+            <div>
+                <label for="edit_description" class="block text-xs font-semibold text-slate-700 mb-1.5">ការបរិយាយសង្ខេប</label>
+                <textarea name="description" id="edit_description" rows="2" class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500 outline-none text-xs text-slate-800 transition"></textarea>
+            </div>
+
+            <!-- Edit Portfolio Toggle -->
+            <label class="flex items-center justify-between p-3.5 rounded-2xl bg-slate-50 border border-slate-200/80 cursor-pointer hover:bg-slate-100/60 transition">
+                <div class="flex items-center space-x-3">
+                    <div class="w-8 h-8 rounded-xl bg-emerald-50 text-emerald-500 flex items-center justify-center">
+                        <i class="fa-solid fa-medal text-sm"></i>
+                    </div>
+                    <div>
+                        <p class="text-xs font-semibold text-slate-800">កំណត់ជាឯកសារស្នាដៃ (Portfolio)</p>
+                        <p class="text-[11px] text-slate-400">បង្ហាញជាសាធារណៈលើទំព័រ Portfolio</p>
+                    </div>
+                </div>
+                <input type="checkbox" name="is_portfolio" id="edit_is_portfolio" value="1" class="w-4 h-4 rounded text-amber-600 focus:ring-amber-500 border-slate-300">
+            </label>
+
+            <!-- Actions -->
+            <div class="pt-3 border-t border-slate-100 flex items-center justify-end space-x-3">
+                <button type="button" id="cancelEditDialogBtn" class="px-5 py-2.5 text-xs font-semibold text-slate-600 hover:text-slate-800 hover:bg-slate-100 rounded-xl transition">
+                    បោះបង់
+                </button>
+                <button type="submit" class="inline-flex items-center gap-2 px-6 py-2.5 bg-amber-600 hover:bg-amber-700 active:scale-95 text-white text-xs font-semibold rounded-xl shadow-md shadow-amber-700/30 transition">
+                    <i class="fa-solid fa-check"></i>
+                    <span>ធ្វើបច្ចុប្បន្នភាព</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</dialog>
 @endsection
 
 @push('scripts')
 <script>
     document.addEventListener('DOMContentLoaded', () => {
-        // 1. Native <dialog> Management (Modern Web Guidance)
-        const dialog = document.getElementById('uploadDialog');
-        const openBtn = document.getElementById('openUploadDialogBtn');
-        const closeBtn = document.getElementById('closeUploadDialogBtn');
-        const cancelBtn = document.getElementById('cancelUploadDialogBtn');
+        // 1. Upload Dialog Management
+        const uploadDialog = document.getElementById('uploadDialog');
+        const openUploadBtn = document.getElementById('openUploadDialogBtn');
+        const closeUploadBtn = document.getElementById('closeUploadDialogBtn');
+        const cancelUploadBtn = document.getElementById('cancelUploadDialogBtn');
 
-        if (openBtn && dialog) {
-            openBtn.addEventListener('click', () => {
-                dialog.showModal();
+        if (openUploadBtn && uploadDialog) {
+            openUploadBtn.addEventListener('click', () => uploadDialog.showModal());
+        }
+
+        const closeUploadModal = () => { if (uploadDialog) uploadDialog.close(); };
+        if (closeUploadBtn) closeUploadBtn.addEventListener('click', closeUploadModal);
+        if (cancelUploadBtn) cancelUploadBtn.addEventListener('click', closeUploadModal);
+
+        // 2. Edit Dialog Management
+        const editDialog = document.getElementById('editDialog');
+        const closeEditBtn = document.getElementById('closeEditDialogBtn');
+        const cancelEditBtn = document.getElementById('cancelEditDialogBtn');
+        const editForm = document.getElementById('editDocumentForm');
+        const editTitle = document.getElementById('edit_title');
+        const editCategory = document.getElementById('edit_category_id');
+        const editYear = document.getElementById('edit_academic_year');
+        const editDesc = document.getElementById('edit_description');
+        const editPortfolio = document.getElementById('edit_is_portfolio');
+
+        document.querySelectorAll('.edit-doc-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const row = btn.closest('.document-row');
+                const docId = row.getAttribute('data-id');
+                const title = row.querySelector('.font-semibold.text-slate-900').textContent.trim();
+                const catId = row.getAttribute('data-category-id');
+                const year = row.getAttribute('data-academic-year');
+                const desc = row.getAttribute('data-description');
+                const isPort = row.getAttribute('data-is-portfolio') === '1';
+
+                editForm.action = `/documents/${docId}`;
+                editTitle.value = title;
+                editCategory.value = catId;
+                editYear.value = year;
+                editDesc.value = desc;
+                editPortfolio.checked = isPort;
+
+                editDialog.showModal();
             });
-        }
+        });
 
-        const closeDialog = () => {
-            if (dialog) dialog.close();
-        };
+        const closeEditModal = () => { if (editDialog) editDialog.close(); };
+        if (closeEditBtn) closeEditBtn.addEventListener('click', closeEditModal);
+        if (cancelEditBtn) cancelEditBtn.addEventListener('click', closeEditModal);
 
-        if (closeBtn) closeBtn.addEventListener('click', closeDialog);
-        if (cancelBtn) cancelBtn.addEventListener('click', closeDialog);
+        // Light dismiss for dialogs
+        [uploadDialog, editDialog].forEach(dlg => {
+            if (dlg && !('closedBy' in HTMLDialogElement.prototype)) {
+                const outside = (e, targetDlg) => {
+                    const r = targetDlg.getBoundingClientRect();
+                    return e.clientX < r.left || e.clientX > r.right || e.clientY < r.top || e.clientY > r.bottom;
+                };
+                let pressedOutside = false;
+                dlg.addEventListener('pointerdown', (e) => { pressedOutside = outside(e, dlg); });
+                dlg.addEventListener('pointerup', (e) => { if (pressedOutside && outside(e, dlg)) dlg.close(); });
+            }
+        });
 
-        // Light-dismiss support for native dialog (Modern Web Guidance)
-        if (!('closedBy' in HTMLDialogElement.prototype) && dialog) {
-            const outside = (e, dlg) => {
-                const r = dlg.getBoundingClientRect();
-                return e.clientX < r.left || e.clientX > r.right || e.clientY < r.top || e.clientY > r.bottom;
-            };
-            let pressedOutside = false;
-            dialog.addEventListener('pointerdown', (e) => { pressedOutside = outside(e, dialog); });
-            dialog.addEventListener('pointerup', (e) => { if (pressedOutside && outside(e, dialog)) dialog.close(); });
-        }
-
-        // 2. Drag & Drop File Handling
+        // 3. Drag & Drop File Handling
         const dropZone = document.getElementById('dropZone');
         const fileInput = document.getElementById('document_file');
         const selectedFileInfo = document.getElementById('selectedFileInfo');
@@ -447,7 +581,7 @@
             }
         }
 
-        // 3. Instant Search & Category Filtering
+        // 4. Instant Search & Category Filtering
         const searchInput = document.getElementById('searchInput');
         const filterBtns = document.querySelectorAll('.category-filter-btn');
         const documentRows = document.querySelectorAll('.document-row');
