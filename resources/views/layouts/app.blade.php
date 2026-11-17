@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="km" class="h-full bg-slate-50">
+<html lang="km" class="h-full bg-[#f4f6f8]">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
-    <title>@yield('title', 'ប្រព័ន្ធគ្រប់គ្រងឯកសារ និង Portfolio ឌីជីថល — ហឿន មិនា | ICT')</title>
-    
+    <title>@yield('title', 'សាលាឌីជីថល — ប្រព័ន្ធគ្រប់គ្រងឯកសារ និង Portfolio | ហឿន មិនា ICT')</title>
+
     <!-- Google Fonts: Kantumruy Pro, Moul, Siemreap -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -14,7 +14,7 @@
     <!-- FontAwesome 6 Pro/Free Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
-    <!-- Tailwind CSS with custom configuration -->
+    <!-- Tailwind CSS with Sala Digital Theme -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -26,18 +26,12 @@
                         body: ['"Kantumruy Pro"', '"Khmer OS Siemreap"', 'sans-serif'],
                     },
                     colors: {
-                        primary: {
-                            50: '#eff6ff',
-                            100: '#dbeafe',
-                            200: '#bfdbfe',
-                            300: '#93c5fd',
-                            400: '#60a5fa',
-                            500: '#3b82f6',
-                            600: '#2563eb',
-                            700: '#1d4ed8',
-                            800: '#1e40af',
-                            900: '#1e3a8a',
-                            950: '#172554',
+                        moeys: {
+                            blue: '#005596',
+                            dark: '#003a66',
+                            light: '#e6f0f8',
+                            teal: '#008ba3',
+                            navy: '#0f2744',
                         }
                     }
                 }
@@ -48,13 +42,13 @@
     <style>
         .font-khmer-muol {
             font-family: 'Khmer OS Muol Light', 'Khmer OS Muol', 'Moul', serif;
-            letter-spacing: 0.02em;
+            letter-spacing: 0.015em;
         }
         .font-khmer-body {
             font-family: 'Kantumruy Pro', 'Khmer OS Siemreap', 'Siemreap', sans-serif;
         }
 
-        /* Modern Dialog Backdrop and Scroll Containment (Modern Web Guidance) */
+        /* Modern Dialog Backdrop and Scroll Containment */
         dialog:modal {
             overscroll-behavior: contain;
         }
@@ -65,7 +59,7 @@
             overscroll-behavior: contain;
         }
 
-        /* Smooth custom scrollbars */
+        /* Custom Scrollbar */
         ::-webkit-scrollbar {
             width: 6px;
             height: 6px;
@@ -82,200 +76,236 @@
         }
     </style>
 </head>
-<body class="h-full font-khmer-body text-slate-800 antialiased flex flex-col bg-slate-50 selection:bg-primary-600 selection:text-white">
+<body class="min-h-full font-khmer-body text-slate-800 antialiased flex flex-col bg-[#f4f6f8]">
 
-    <div class="min-h-screen flex flex-col lg:flex-row">
-
-        <!-- Mobile Sidebar Overlay Backdrop -->
-        <div id="mobileBackdrop" class="fixed inset-0 z-40 bg-slate-900/60 backdrop-blur-sm hidden lg:hidden transition-opacity"></div>
-
-        <!-- Sidebar Navigation -->
-        <aside id="sidebar" class="fixed inset-y-0 left-0 z-50 w-72 bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 text-white flex flex-col justify-between transform -translate-x-full lg:translate-x-0 lg:static lg:inset-auto transition-transform duration-300 ease-in-out border-r border-slate-800 shadow-2xl lg:shadow-none">
-            
-            <div class="flex flex-col h-full">
-                <!-- Brand Header: ហឿន មិនា | ICT -->
-                <div class="h-20 px-6 flex items-center justify-between border-b border-slate-800/80 bg-slate-950/50">
+    <!-- 1. Sala Digital Top Navbar (ដូចរូបភាព sala.moeys.gov.kh) -->
+    <header class="bg-white border-b border-slate-200 sticky top-0 z-40 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="h-20 flex items-center justify-between gap-4">
+                
+                <!-- Logo: សាលាឌីជីថល (Sala Digital) -->
+                <div class="flex items-center space-x-3 flex-shrink-0">
                     <a href="{{ route('dashboard') }}" class="flex items-center space-x-3 group">
-                        <div class="w-11 h-11 rounded-xl bg-gradient-to-tr from-primary-600 via-primary-500 to-indigo-500 flex items-center justify-center text-white shadow-lg shadow-primary-900/40 group-hover:scale-105 transition transform">
-                            <i class="fa-solid fa-laptop-code text-lg"></i>
+                        <!-- Open Book with Gradient Logo -->
+                        <div class="w-12 h-12 rounded-xl bg-gradient-to-tr from-amber-500 via-rose-500 to-blue-600 p-0.5 shadow-md group-hover:scale-105 transition transform">
+                            <div class="w-full h-full bg-white rounded-[10px] flex items-center justify-center">
+                                <i class="fa-solid fa-book-open-reader text-2xl text-blue-600 group-hover:text-amber-500 transition"></i>
+                            </div>
                         </div>
                         <div>
-                            <h1 class="font-khmer-muol text-sm tracking-wide text-white group-hover:text-primary-300 transition">ហឿន មិនា | ICT</h1>
-                            <p class="text-[11px] text-primary-300/80 font-medium">Digital Portfolio Hub</p>
+                            <div class="flex items-center space-x-1.5">
+                                <span class="font-khmer-muol text-lg sm:text-xl text-slate-900 group-hover:text-blue-700 transition">សាលាឌីជីថល</span>
+                            </div>
+                            <p class="text-[11px] text-slate-500 font-medium">ក្រសួងអប់រំ យុវជន និងកីឡា • ហឿន មិនា | ICT</p>
                         </div>
                     </a>
-                    <button id="closeMobileSidebar" class="lg:hidden p-2 text-slate-400 hover:text-white rounded-lg hover:bg-slate-800/60">
-                        <i class="fa-solid fa-xmark text-lg"></i>
+                </div>
+
+                <!-- Navigation Menu Links (ដូច sala.moeys.gov.kh) -->
+                <nav class="hidden md:flex items-center space-x-6 text-sm">
+                    <a href="{{ route('dashboard') }}" class="flex items-center space-x-2 py-2 px-1 font-medium transition {{ request()->routeIs('dashboard') ? 'text-blue-700 border-b-2 border-blue-700' : 'text-slate-600 hover:text-blue-700' }}">
+                        <i class="fa-solid fa-layer-group text-blue-600 text-xs"></i>
+                        <span>ផ្ទាំងគ្រប់គ្រង</span>
+                    </a>
+
+                    <a href="{{ route('portfolio.public') }}" target="_blank" class="flex items-center space-x-2 py-2 px-1 font-medium transition {{ request()->routeIs('portfolio.public') ? 'text-blue-700 border-b-2 border-blue-700' : 'text-slate-600 hover:text-blue-700' }}">
+                        <i class="fa-solid fa-award text-amber-500 text-xs"></i>
+                        <span>Portfolio ស្នាដៃ</span>
+                    </a>
+
+                    <a href="#librarySection" class="flex items-center space-x-2 py-2 px-1 text-slate-600 hover:text-blue-700 font-medium transition">
+                        <i class="fa-solid fa-book-bookmark text-emerald-600 text-xs"></i>
+                        <span>បណ្ណាល័យ ICT</span>
+                    </a>
+
+                    <a href="#aboutTeacher" class="flex items-center space-x-2 py-2 px-1 text-slate-600 hover:text-blue-700 font-medium transition">
+                        <i class="fa-solid fa-circle-info text-indigo-600 text-xs"></i>
+                        <span>អំពីគ្រូបង្រៀន</span>
+                    </a>
+                </nav>
+
+                <!-- Right Actions: Upload Button & Teacher Profile -->
+                <div class="flex items-center space-x-3">
+                    <button type="button" id="headerUploadBtn" onclick="document.getElementById('openUploadDialogBtn')?.click()" class="hidden sm:inline-flex items-center space-x-2 px-4 py-2 rounded-full bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold shadow-sm hover:shadow transition active:scale-95">
+                        <i class="fa-solid fa-cloud-arrow-up"></i>
+                        <span>+ បញ្ចូលឯកសារ</span>
                     </button>
-                </div>
 
-                <!-- Navigation Links -->
-                <div class="px-4 py-6 flex-1 overflow-y-auto space-y-6">
-                    <div>
-                        <p class="px-3 text-[11px] font-semibold uppercase tracking-wider text-slate-400 mb-2">ម៉ឺនុយគ្រប់គ្រង</p>
-                        <nav class="space-y-1.5">
-                            <a href="{{ route('dashboard') }}" class="flex items-center px-3.5 py-3 rounded-xl text-sm font-medium transition-all duration-200 {{ request()->routeIs('dashboard') ? 'bg-primary-600 text-white shadow-lg shadow-primary-900/30' : 'text-slate-300 hover:bg-slate-800/70 hover:text-white' }}">
-                                <div class="w-7 text-center mr-2">
-                                    <i class="fa-solid fa-chart-pie text-base {{ request()->routeIs('dashboard') ? 'text-white' : 'text-primary-400' }}"></i>
-                                </div>
-                                <span class="flex-1">ផ្ទាំងគ្រប់គ្រង (Dashboard)</span>
-                                @if(request()->routeIs('dashboard'))
-                                    <span class="w-1.5 h-5 bg-white/70 rounded-full"></span>
-                                @endif
-                            </a>
-
-                            <a href="{{ route('portfolio.public') }}" target="_blank" class="flex items-center px-3.5 py-3 rounded-xl text-sm font-medium transition-all duration-200 {{ request()->routeIs('portfolio.public') ? 'bg-primary-600 text-white shadow-lg shadow-primary-900/30' : 'text-slate-300 hover:bg-slate-800/70 hover:text-white' }}">
-                                <div class="w-7 text-center mr-2">
-                                    <i class="fa-solid fa-award text-base text-amber-400"></i>
-                                </div>
-                                <span class="flex-1">Portfolio សាធារណៈ</span>
-                                <i class="fa-solid fa-arrow-up-right-from-square text-xs text-slate-400"></i>
-                            </a>
-                        </nav>
-                    </div>
-
-                    <!-- Teacher Information Card -->
-                    <div class="p-4 rounded-2xl bg-gradient-to-br from-slate-800/80 to-slate-900/90 border border-slate-700/60 text-slate-300 space-y-2">
-                        <div class="flex items-center space-x-2 text-primary-400">
-                            <i class="fa-solid fa-chalkboard-user text-sm"></i>
-                            <span class="text-xs font-semibold">ព័ត៌មានគ្រូបង្រៀន</span>
+                    <!-- Teacher Account Pill (ដូចប៊ូតុង ចូលគណនី) -->
+                    <div class="flex items-center space-x-2.5 pl-2 border-l border-slate-200">
+                        <div class="w-9 h-9 rounded-full bg-gradient-to-tr from-blue-700 to-teal-500 text-white flex items-center justify-center font-bold text-xs shadow-sm">
+                            HM
                         </div>
-                        <p class="text-xs text-slate-300 font-medium">
-                            លោកគ្រូ <span class="text-white font-bold">ហឿន មិនា</span>
-                        </p>
-                        <p class="text-[11px] text-slate-400 leading-relaxed">
-                            ឯកទេស៖ ព័ត៌មានវិទ្យា (ICT)<br>
-                            ស្ថាប័ន៖ វិទ្យាល័យ ហ៊ុន សែន សេរីភាព
-                        </p>
+                        <div class="hidden lg:block text-left">
+                            <p class="text-xs font-bold text-slate-800 leading-tight">ហឿន មិនា</p>
+                            <p class="text-[10px] text-teal-700 font-semibold">គ្រូបង្រៀន ICT</p>
+                        </div>
                     </div>
                 </div>
 
-                <!-- Teacher Profile Summary at Bottom -->
-                <div class="p-4 border-t border-slate-800/80 bg-slate-950/60 flex items-center justify-between">
-                    <div class="flex items-center space-x-3 min-w-0">
-                        <div class="relative flex-shrink-0">
-                            <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-primary-600 to-indigo-600 flex items-center justify-center font-bold text-white text-sm shadow-md">
+            </div>
+        </div>
+    </header>
+
+    <!-- 2. Flash Messages Alert -->
+    @if(session('success'))
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-4 w-full">
+            <div class="p-4 bg-emerald-50 border-l-4 border-emerald-500 text-emerald-900 rounded-xl shadow-sm flex items-center justify-between">
+                <div class="flex items-center space-x-3">
+                    <i class="fa-solid fa-circle-check text-emerald-600 text-lg"></i>
+                    <div>
+                        <p class="text-xs font-bold">ជោគជ័យ!</p>
+                        <p class="text-xs text-emerald-700">{{ session('success') }}</p>
+                    </div>
+                </div>
+                <button onclick="this.parentElement.remove()" class="text-emerald-400 hover:text-emerald-700 p-1">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+        </div>
+    @endif
+
+    @if(session('error'))
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-4 w-full">
+            <div class="p-4 bg-rose-50 border-l-4 border-rose-500 text-rose-900 rounded-xl shadow-sm flex items-center justify-between">
+                <div class="flex items-center space-x-3">
+                    <i class="fa-solid fa-circle-exclamation text-rose-600 text-lg"></i>
+                    <div>
+                        <p class="text-xs font-bold">មានបញ្ហា!</p>
+                        <p class="text-xs text-rose-700">{{ session('error') }}</p>
+                    </div>
+                </div>
+                <button onclick="this.parentElement.remove()" class="text-rose-400 hover:text-rose-700 p-1">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+        </div>
+    @endif
+
+    <!-- 3. Main Content Container -->
+    <main class="flex-1 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
+        @yield('content')
+    </main>
+
+    <!-- 4. Sala Digital / MoEYS Style Footer (ដូចរូបភាព sala.moeys.gov.kh បេះបិទ) -->
+    <footer class="mt-auto bg-white border-t border-slate-200 text-slate-600 pt-12 pb-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 pb-10 border-b border-slate-200">
+                
+                <!-- Col 1: គេហទំព័រផ្លូវការ -->
+                <div>
+                    <h4 class="font-khmer-muol text-sm text-slate-900 mb-4 pb-1 border-b-2 border-blue-600 inline-block">
+                        គេហទំព័រផ្លូវការ
+                    </h4>
+                    <ul class="space-y-2.5 text-xs">
+                        <li>
+                            <a href="https://moeys.gov.kh" target="_blank" class="hover:text-blue-700 flex items-center space-x-2">
+                                <i class="fa-solid fa-landmark text-slate-400 text-[10px]"></i>
+                                <span>ក្រសួងអប់រំ យុវជន និងកីឡា</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://sala.moeys.gov.kh" target="_blank" class="hover:text-blue-700 flex items-center space-x-2">
+                                <i class="fa-solid fa-graduation-cap text-slate-400 text-[10px]"></i>
+                                <span>ប្រព័ន្ធសាលាឌីជីថល (MoEYS)</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="hover:text-blue-700 flex items-center space-x-2">
+                                <i class="fa-solid fa-school text-slate-400 text-[10px]"></i>
+                                <span>វិទ្យាល័យ ហ៊ុន សែន សេរីភាព</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Col 2: បណ្តាញសង្គមផ្លូវការ -->
+                <div>
+                    <h4 class="font-khmer-muol text-sm text-slate-900 mb-4 pb-1 border-b-2 border-blue-600 inline-block">
+                        បណ្តាញសង្គមផ្លូវការ
+                    </h4>
+                    <ul class="space-y-2.5 text-xs">
+                        <li>
+                            <a href="#" class="hover:text-blue-700 flex items-center space-x-2 text-blue-600">
+                                <i class="fa-brands fa-facebook text-base"></i>
+                                <span class="text-slate-600 hover:text-blue-600">ទំព័រហ្វេសប៊ុកផ្លូវការ</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="hover:text-red-700 flex items-center space-x-2 text-red-600">
+                                <i class="fa-brands fa-youtube text-base"></i>
+                                <span class="text-slate-600 hover:text-red-600">ទំព័រយូធូបផ្លូវការ</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="hover:text-sky-700 flex items-center space-x-2 text-sky-500">
+                                <i class="fa-brands fa-telegram text-base"></i>
+                                <span class="text-slate-600 hover:text-sky-600">ឆានែលតេឡេក្រាម ICT</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Col 3: ជំនួយ និងឯកសារ -->
+                <div id="aboutTeacher">
+                    <h4 class="font-khmer-muol text-sm text-slate-900 mb-4 pb-1 border-b-2 border-blue-600 inline-block">
+                        ជំនួយ និងការគាំទ្រ
+                    </h4>
+                    <ul class="space-y-2.5 text-xs">
+                        <li>
+                            <a href="{{ route('portfolio.public') }}" class="hover:text-blue-700 flex items-center space-x-1.5">
+                                <i class="fa-solid fa-arrow-right text-[10px] text-blue-600"></i>
+                                <span>Portfolio ស្នាដៃគ្រូបង្រៀន</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#librarySection" class="hover:text-blue-700 flex items-center space-x-1.5">
+                                <i class="fa-solid fa-arrow-right text-[10px] text-blue-600"></i>
+                                <span>កាតាឡុកឯកសារ ICT</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="hover:text-blue-700 flex items-center space-x-1.5">
+                                <i class="fa-solid fa-arrow-right text-[10px] text-blue-600"></i>
+                                <span>មជ្ឈមណ្ឌលជំនួយបច្ចេកទេស</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Col 4: ដៃគូសហការ និងរៀបចំដោយ -->
+                <div>
+                    <h4 class="font-khmer-muol text-sm text-slate-900 mb-4 pb-1 border-b-2 border-blue-600 inline-block">
+                        ដៃគូសហការ និងគ្រប់គ្រង
+                    </h4>
+                    <div class="space-y-3">
+                        <div class="flex items-center space-x-3 p-3 rounded-xl bg-slate-50 border border-slate-200">
+                            <div class="w-10 h-10 rounded-lg bg-blue-700 text-white flex items-center justify-center font-bold text-sm">
                                 HM
                             </div>
-                            <span class="absolute bottom-0 right-0 w-3 h-3 bg-emerald-500 border-2 border-slate-900 rounded-full" title="Active"></span>
+                            <div>
+                                <p class="text-xs font-bold text-slate-900">ហឿន មិនា | ICT</p>
+                                <p class="text-[10px] text-slate-500">អ្នករៀបចំ និងគ្រប់គ្រងប្រព័ន្ធ</p>
+                            </div>
                         </div>
-                        <div class="min-w-0">
-                            <h4 class="text-sm font-semibold text-white truncate">ហឿន មិនា</h4>
-                            <p class="text-xs text-slate-400 truncate">គ្រូបង្រៀន ICT</p>
-                        </div>
+                        <p class="text-[11px] text-slate-500 leading-relaxed">
+                            រៀបចំឡើងស្របតាមស្តង់ដារប្រព័ន្ធសាលាឌីជីថល ដើម្បីលើកកម្ពស់ការគ្រប់គ្រងឯកសារបង្រៀន និងស្នាដៃឌីជីថល។
+                        </p>
                     </div>
-                    <a href="{{ route('portfolio.public') }}" target="_blank" class="text-slate-400 hover:text-white p-1.5 rounded-lg hover:bg-slate-800 transition" title="មើល Portfolio">
-                        <i class="fa-solid fa-arrow-up-right-from-square text-xs"></i>
-                    </a>
+                </div>
+
+            </div>
+
+            <!-- Bottom Copyright Bar -->
+            <div class="pt-6 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-400 gap-2">
+                <p>សាលាឌីជីថល &copy; {{ date('Y') }} — គ្រប់គ្រង និងរៀបចំដោយ <strong>ហឿន មិនា | ICT</strong> (វិទ្យាល័យ ហ៊ុន សែន សេរីភាព)</p>
+                <div class="flex space-x-4">
+                    <a href="#" class="hover:underline">លក្ខខណ្ឌប្រើប្រាស់</a>
+                    <a href="#" class="hover:underline">គោលការណ៍ឯកជនភាព</a>
                 </div>
             </div>
-        </aside>
-
-        <!-- Main Content Area -->
-        <div class="flex-1 flex flex-col min-w-0 bg-slate-50">
-            
-            <!-- Modern Sticky Topbar Header -->
-            <header class="bg-white/80 backdrop-blur-md border-b border-slate-200/80 h-20 flex items-center justify-between px-4 sm:px-8 sticky top-0 z-30 transition-all">
-                <div class="flex items-center space-x-4">
-                    <!-- Hamburger Menu Button for Mobile -->
-                    <button id="openMobileSidebar" class="lg:hidden p-2.5 rounded-xl text-slate-600 hover:bg-slate-100 hover:text-slate-900 focus:outline-none transition">
-                        <i class="fa-solid fa-bars text-xl"></i>
-                    </button>
-                    
-                    <div>
-                        <div class="flex items-center space-x-2">
-                            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-primary-50 text-primary-700 border border-primary-200/60">
-                                <span class="w-1.5 h-1.5 rounded-full bg-primary-600 animate-pulse"></span>
-                                ឆ្នាំសិក្សា ២០២៤-២០២៥
-                            </span>
-                            <span class="hidden sm:inline-block text-slate-300">|</span>
-                            <span class="hidden sm:inline-block text-xs text-slate-600 font-medium">
-                                <i class="fa-solid fa-user-check mr-1 text-primary-600"></i> រៀបចំដោយ <strong>ហឿន មិនា | ICT</strong>
-                            </span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="flex items-center space-x-3 sm:space-x-4">
-                    <!-- Link to Public Portfolio Button -->
-                    <a href="{{ route('portfolio.public') }}" target="_blank" class="inline-flex items-center space-x-2 px-3.5 py-2 text-xs sm:text-sm font-medium text-slate-700 bg-white hover:bg-slate-50 hover:text-primary-700 border border-slate-200 rounded-xl shadow-sm transition hover:shadow">
-                        <i class="fa-solid fa-eye text-primary-600"></i>
-                        <span class="hidden sm:inline">ទំព័រ</span> Portfolio សាធារណៈ
-                        <i class="fa-solid fa-arrow-up-right-from-square text-[10px] text-slate-400"></i>
-                    </a>
-                </div>
-            </header>
-
-            <!-- Main Page Content -->
-            <main class="flex-1 p-4 sm:p-6 lg:p-8 max-w-7xl w-full mx-auto">
-                <!-- Flash Notification Banners -->
-                @if(session('success'))
-                    <div class="mb-6 p-4 bg-emerald-50 border border-emerald-200 text-emerald-900 rounded-2xl shadow-sm flex items-start sm:items-center justify-between gap-3 animate-fade-in">
-                        <div class="flex items-center space-x-3">
-                            <div class="w-8 h-8 rounded-xl bg-emerald-100 text-emerald-600 flex items-center justify-center flex-shrink-0 text-sm">
-                                <i class="fa-solid fa-check"></i>
-                            </div>
-                            <div>
-                                <p class="text-sm font-semibold">ជោគជ័យ!</p>
-                                <p class="text-xs text-emerald-700">{{ session('success') }}</p>
-                            </div>
-                        </div>
-                        <button onclick="this.parentElement.remove()" class="text-emerald-400 hover:text-emerald-700 p-1">
-                            <i class="fa-solid fa-xmark"></i>
-                        </button>
-                    </div>
-                @endif
-
-                @if(session('error'))
-                    <div class="mb-6 p-4 bg-rose-50 border border-rose-200 text-rose-900 rounded-2xl shadow-sm flex items-start sm:items-center justify-between gap-3 animate-fade-in">
-                        <div class="flex items-center space-x-3">
-                            <div class="w-8 h-8 rounded-xl bg-rose-100 text-rose-600 flex items-center justify-center flex-shrink-0 text-sm">
-                                <i class="fa-solid fa-triangle-exclamation"></i>
-                            </div>
-                            <div>
-                                <p class="text-sm font-semibold">មានបញ្ហា!</p>
-                                <p class="text-xs text-rose-700">{{ session('error') }}</p>
-                            </div>
-                        </div>
-                        <button onclick="this.parentElement.remove()" class="text-rose-400 hover:text-rose-700 p-1">
-                            <i class="fa-solid fa-xmark"></i>
-                        </button>
-                    </div>
-                @endif
-
-                @yield('content')
-            </main>
-
-            <!-- Footer: គ្រប់គ្រង និងរៀបចំដោយ ហឿន មិនា | ICT -->
-            <footer class="mt-auto py-6 px-8 border-t border-slate-200/60 bg-white/60 text-center text-xs text-slate-500 space-y-1">
-                <p class="font-medium text-slate-700">ប្រព័ន្ធគ្រប់គ្រងឯកសារ និង Portfolio ឌីជីថល — គ្រប់គ្រង និងរៀបចំដោយ <strong>ហឿន មិនា | ICT</strong></p>
-                <p class="text-slate-400">វិទ្យាល័យ ហ៊ុន សែន សេរីភាព &copy; {{ date('Y') }} — រក្សាសិទ្ធិគ្រប់យ៉ាង</p>
-            </footer>
-
         </div>
-    </div>
-
-    <!-- Mobile Sidebar JavaScript -->
-    <script>
-        const sidebar = document.getElementById('sidebar');
-        const openBtn = document.getElementById('openMobileSidebar');
-        const closeBtn = document.getElementById('closeMobileSidebar');
-        const backdrop = document.getElementById('mobileBackdrop');
-
-        function toggleSidebar(open) {
-            if (open) {
-                sidebar.classList.remove('-translate-x-full');
-                backdrop.classList.remove('hidden');
-            } else {
-                sidebar.classList.add('-translate-x-full');
-                backdrop.classList.add('hidden');
-            }
-        }
-
-        if (openBtn) openBtn.addEventListener('click', () => toggleSidebar(true));
-        if (closeBtn) closeBtn.addEventListener('click', () => toggleSidebar(false));
-        if (backdrop) backdrop.addEventListener('click', () => toggleSidebar(false));
-    </script>
+    </footer>
 
     @stack('scripts')
 </body>
