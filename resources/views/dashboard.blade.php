@@ -299,7 +299,7 @@
         </div>
 
         <!-- Dialog Form -->
-        <form action="{{ route('documents.store') }}" method="POST" enctype="multipart/form-data" class="p-6 space-y-4">
+        <form action="/documents" method="POST" enctype="multipart/form-data" class="p-6 space-y-4">
             @csrf
 
             <!-- 1. Document Title -->
