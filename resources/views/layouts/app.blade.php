@@ -129,23 +129,84 @@
                     </a>
                 </nav>
 
-                <!-- Right Actions: Upload Button & Teacher Profile -->
+                <!-- Right Actions: Upload Button & Account (Sala Digital Style) -->
                 <div class="flex items-center space-x-3">
-                    <button type="button" id="headerUploadBtn" onclick="document.getElementById('openUploadDialogBtn')?.click()" class="hidden sm:inline-flex items-center space-x-2 px-4 py-2 rounded-full bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold shadow-sm hover:shadow transition active:scale-95">
-                        <i class="fa-solid fa-cloud-arrow-up"></i>
-                        <span>+ បញ្ចូលឯកសារ</span>
-                    </button>
+                    @auth
+                        <!-- Upload Button for Authenticated Teacher -->
+                        <button type="button" id="headerUploadBtn" onclick="document.getElementById('openUploadDialogBtn')?.click()" class="hidden sm:inline-flex items-center space-x-2 px-4 py-2 rounded-full bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold shadow-sm hover:shadow transition active:scale-95">
+                            <i class="fa-solid fa-cloud-arrow-up"></i>
+                            <span>+ បញ្ចូលឯកសារ</span>
+                        </button>
 
-                    <!-- Teacher Account Pill (ដូចប៊ូតុង ចូលគណនី) -->
-                    <div class="flex items-center space-x-2.5 pl-2 border-l border-slate-200">
-                        <div class="w-9 h-9 rounded-full bg-gradient-to-tr from-blue-700 to-teal-500 text-white flex items-center justify-center font-bold text-xs shadow-sm">
-                            HM
+                        <!-- Notification Bell (ដូច Sala Digital) -->
+                        <button type="button" class="w-9 h-9 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-600 flex items-center justify-center transition" title="ការជូនដំណឹង">
+                            <i class="fa-regular fa-bell text-sm"></i>
+                        </button>
+
+                        <!-- User Profile Dropdown (ដូច sala.moeys.gov.kh) -->
+                        <div class="relative" id="userMenuContainer">
+                            <button type="button" onclick="toggleUserDropdown()" class="flex items-center space-x-2.5 pl-2 py-1 pr-1.5 rounded-full hover:bg-slate-100 transition focus:outline-none">
+                                @if(Auth::user()->avatar)
+                                    <img src="{{ Auth::user()->avatar }}" alt="{{ Auth::user()->name }}" class="w-9 h-9 rounded-full object-cover border border-slate-200 shadow-xs">
+                                @else
+                                    <div class="w-9 h-9 rounded-full bg-gradient-to-tr from-blue-700 to-teal-500 text-white flex items-center justify-center font-bold text-xs shadow-sm">
+                                        {{ mb_substr(Auth::user()->name, 0, 2) }}
+                                    </div>
+                                @endif
+                                <div class="hidden lg:block text-left max-w-[140px]">
+                                    <p class="text-xs font-bold text-slate-800 leading-tight truncate">{{ Auth::user()->name }}</p>
+                                    <p class="text-[10px] text-teal-700 font-semibold truncate">
+                                        @if(Auth::user()->provider === 'google')
+                                            <i class="fa-brands fa-google text-[9px] mr-0.5"></i> Google
+                                        @elseif(Auth::user()->provider === 'telegram')
+                                            <i class="fa-brands fa-telegram text-[9px] mr-0.5 text-sky-500"></i> Telegram
+                                        @else
+                                            គ្រូបង្រៀន ICT
+                                        @endif
+                                    </p>
+                                </div>
+                                <i class="fa-solid fa-chevron-down text-[10px] text-slate-400"></i>
+                            </button>
+
+                            <!-- Dropdown Menu -->
+                            <div id="userDropdownMenu" class="hidden absolute right-0 mt-2 w-64 bg-white rounded-2xl shadow-xl border border-slate-200 py-2 z-50">
+                                <div class="px-4 py-3 border-b border-slate-100">
+                                    <p class="text-xs font-bold text-slate-800">{{ Auth::user()->name }}</p>
+                                    <p class="text-[11px] text-slate-500 truncate mt-0.5">{{ Auth::user()->email }}</p>
+                                    <span class="inline-flex items-center gap-1 mt-1.5 px-2 py-0.5 rounded-full text-[10px] font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200/60">
+                                        <i class="fa-solid fa-circle-check text-[9px]"></i> បានចូលគណនី ({{ ucfirst(Auth::user()->provider ?? 'teacher') }})
+                                    </span>
+                                </div>
+
+                                <div class="py-1 text-xs">
+                                    <a href="{{ route('dashboard') }}" class="flex items-center gap-2.5 px-4 py-2 text-slate-700 hover:bg-slate-50 hover:text-blue-700 transition">
+                                        <i class="fa-solid fa-layer-group text-slate-400 w-4"></i>
+                                        <span>ផ្ទាំងគ្រប់គ្រងសៀវភៅ</span>
+                                    </a>
+                                    <a href="{{ route('portfolio.public') }}" target="_blank" class="flex items-center gap-2.5 px-4 py-2 text-slate-700 hover:bg-slate-50 hover:text-blue-700 transition">
+                                        <i class="fa-solid fa-award text-slate-400 w-4"></i>
+                                        <span>Portfolio ស្នាដៃគ្រូ</span>
+                                    </a>
+                                </div>
+
+                                <div class="border-t border-slate-100 pt-1">
+                                    <form method="POST" action="{{ route('logout') }}">
+                                        @csrf
+                                        <button type="submit" class="w-full flex items-center gap-2.5 px-4 py-2 text-xs text-rose-600 hover:bg-rose-50 transition font-medium">
+                                            <i class="fa-solid fa-right-from-bracket text-rose-500 w-4"></i>
+                                            <span>ចាកចេញពីគណនី (Logout)</span>
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
                         </div>
-                        <div class="hidden lg:block text-left">
-                            <p class="text-xs font-bold text-slate-800 leading-tight">ហឿន មិនា</p>
-                            <p class="text-[10px] text-teal-700 font-semibold">គ្រូបង្រៀន ICT</p>
-                        </div>
-                    </div>
+                    @else
+                        <!-- Guest State: Sala Digital Teal Pill Button «ចូលគណនី» (ដូច sala.moeys.gov.kh) -->
+                        <a href="{{ route('login') }}" class="px-5 py-2 rounded-full bg-[#008ba3] hover:bg-[#007387] active:scale-95 text-white text-xs font-semibold shadow-sm hover:shadow transition flex items-center gap-2">
+                            <i class="fa-solid fa-arrow-right-to-bracket text-xs"></i>
+                            <span>ចូលគណនី</span>
+                        </a>
+                    @endauth
                 </div>
 
             </div>
@@ -326,6 +387,24 @@
             </div>
         </div>
     </footer>
+
+    <script>
+        function toggleUserDropdown() {
+            const menu = document.getElementById('userDropdownMenu');
+            if (menu) {
+                menu.classList.toggle('hidden');
+            }
+        }
+
+        // Close dropdown when clicking outside
+        window.addEventListener('click', function(e) {
+            const container = document.getElementById('userMenuContainer');
+            const menu = document.getElementById('userDropdownMenu');
+            if (container && menu && !container.contains(e.target)) {
+                menu.classList.add('hidden');
+            }
+        });
+    </script>
 
     @stack('scripts')
 </body>

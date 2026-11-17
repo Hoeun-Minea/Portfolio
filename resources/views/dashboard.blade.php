@@ -83,10 +83,17 @@
                 </div>
 
                 <!-- Open Upload Dialog Button -->
+                @auth
                 <button type="button" id="openUploadDialogBtn" class="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 active:scale-95 text-white text-xs font-semibold rounded-xl shadow-sm transition">
                     <i class="fa-solid fa-cloud-arrow-up"></i>
                     <span>+ បញ្ចូលឯកសារ</span>
                 </button>
+                @else
+                <a href="{{ route('login') }}" id="openUploadDialogBtn" class="inline-flex items-center gap-2 px-4 py-2 bg-[#008ba3] hover:bg-[#007387] active:scale-95 text-white text-xs font-semibold rounded-xl shadow-sm transition" title="ចូលគណនីដើម្បីបញ្ចូលឯកសារ">
+                    <i class="fa-solid fa-cloud-arrow-up"></i>
+                    <span>+ បញ្ចូលឯកសារ (ចូលគណនី)</span>
+                </a>
+                @endauth
             </div>
         </div>
 
@@ -228,6 +235,7 @@
                             <span>ទាញយក</span>
                         </a>
 
+                        @auth
                         <div class="flex items-center gap-2 w-full pt-1">
                             <button type="button" class="edit-doc-btn flex-1 py-1.5 px-2 rounded-lg bg-white/20 hover:bg-white/30 text-white text-xs font-semibold text-center transition flex items-center justify-center gap-1">
                                 <i class="fa-regular fa-pen-to-square text-xs"></i>
@@ -243,6 +251,7 @@
                                 </button>
                             </form>
                         </div>
+                        @endauth
                     </div>
 
                 </div>
@@ -288,10 +297,17 @@
                 <p class="text-xs text-slate-400 max-w-sm mx-auto mb-4">
                     លោកគ្រូ ហឿន មិនា អាចចុចប៊ូតុងខាងក្រោមដើម្បីចាប់ផ្តើម Upload ឯកសារដំបូង។
                 </p>
+                @auth
                 <button type="button" onclick="document.getElementById('openUploadDialogBtn').click()" class="inline-flex items-center gap-2 px-5 py-2.5 bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold rounded-xl shadow transition">
                     <i class="fa-solid fa-cloud-arrow-up"></i>
                     <span>+ បញ្ចូលឯកសារឥឡូវនេះ</span>
                 </button>
+                @else
+                <a href="{{ route('login') }}" class="inline-flex items-center gap-2 px-5 py-2.5 bg-[#008ba3] hover:bg-[#007387] text-white text-xs font-semibold rounded-xl shadow transition">
+                    <i class="fa-solid fa-right-to-bracket"></i>
+                    <span>ចូលគណនីគ្រូបង្រៀន (ហឿន មិនា | ICT)</span>
+                </a>
+                @endauth
             </div>
         @endforelse
     </div>
@@ -357,6 +373,7 @@
                                 <a href="/documents/{{ $doc->id }}/download" download class="p-1.5 text-emerald-600 hover:bg-emerald-50 rounded-lg inline-block" title="ទាញយក">
                                     <i class="fa-solid fa-download"></i>
                                 </a>
+                                @auth
                                 <button type="button" class="edit-doc-btn p-1.5 text-amber-600 hover:bg-amber-50 rounded-lg" title="កែប្រែ">
                                     <i class="fa-regular fa-pen-to-square"></i>
                                 </button>
@@ -367,6 +384,7 @@
                                         <i class="fa-regular fa-trash-can"></i>
                                     </button>
                                 </form>
+                                @endauth
                             </td>
                         </tr>
                     @empty
