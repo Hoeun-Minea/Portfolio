@@ -225,7 +225,7 @@
                             </a>
                         @endif
 
-                        <a href="/documents/{{ $doc->id }}/download" class="w-full py-2 px-3 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold text-center shadow transition flex items-center justify-center gap-1.5">
+                        <a href="/documents/{{ $doc->id }}/download" download class="w-full py-2 px-3 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold text-center shadow transition flex items-center justify-center gap-1.5">
                             <i class="fa-solid fa-download text-xs"></i>
                             <span>ទាញយក</span>
                         </a>
@@ -351,7 +351,7 @@
                                         <i class="fa-solid fa-eye"></i>
                                     </a>
                                 @endif
-                                <a href="/documents/{{ $doc->id }}/download" class="p-1.5 text-emerald-600 hover:bg-emerald-50 rounded-lg inline-block" title="ទាញយក">
+                                <a href="/documents/{{ $doc->id }}/download" download class="p-1.5 text-emerald-600 hover:bg-emerald-50 rounded-lg inline-block" title="ទាញយក">
                                     <i class="fa-solid fa-download"></i>
                                 </a>
                                 <button type="button" class="edit-doc-btn p-1.5 text-amber-600 hover:bg-amber-50 rounded-lg" title="កែប្រែ">

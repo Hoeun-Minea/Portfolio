@@ -16,6 +16,7 @@ class Document extends Model
         'file_path',
         'file_type',
         'file_size',
+        'file_data',
         'academic_year',
         'description',
         'is_portfolio',

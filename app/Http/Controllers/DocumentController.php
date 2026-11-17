@@ -7,6 +7,7 @@ use App\Models\Document;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use Symfony\Component\HttpFoundation\HeaderUtils;
 
 class DocumentController extends Controller
 {
@@ -63,6 +64,12 @@ class DocumentController extends Controller
             $cleanSlug = Str::slug($originalName) ?: 'doc';
             $fileName = time() . '_' . $cleanSlug . '.' . $fileExtension;
 
+            // Read file binary content for serverless persistence
+            $rawContent = file_get_contents($file->getRealPath());
+            $fileData = ($rawContent !== false && strlen($rawContent) <= 15728640)
+                ? base64_encode($rawContent)
+                : null;
+
             $file->move($destinationDir, $fileName);
             $filePath = 'documents/' . $fileName;
 
@@ -78,6 +85,7 @@ class DocumentController extends Controller
                 'file_path'     => $filePath,
                 'file_type'     => $fileExtension,
                 'file_size'     => $formattedSize,
+                'file_data'     => $fileData,
                 'academic_year' => $validated['academic_year'],
                 'description'   => $validated['description'] ?? null,
                 'is_portfolio'  => $request->boolean('is_portfolio'),
@@ -98,17 +106,31 @@ class DocumentController extends Controller
         $repoPath = base_path('storage/app/public/' . $document->file_path);
         $publicPath = public_path('storage/' . $document->file_path);
 
-        if (file_exists($runtimePath)) {
+        if (file_exists($runtimePath) && filesize($runtimePath) > 0) {
             return $runtimePath;
         }
-        if (file_exists($repoPath)) {
+
+        // Restore file from database binary cache if available
+        if (!empty($document->file_data)) {
+            $targetDir = dirname($runtimePath);
+            if (!is_dir($targetDir)) {
+                @mkdir($targetDir, 0777, true);
+            }
+            $binary = base64_decode($document->file_data);
+            if ($binary !== false) {
+                file_put_contents($runtimePath, $binary);
+                return $runtimePath;
+            }
+        }
+
+        if (file_exists($repoPath) && filesize($repoPath) > 0) {
             return $repoPath;
         }
-        if (file_exists($publicPath)) {
+        if (file_exists($publicPath) && filesize($publicPath) > 0) {
             return $publicPath;
         }
 
-        // Auto-generate dynamic file if missing to ensure download never fails
+        // Auto-generate dynamic fallback file to ensure download never returns 404
         $targetDir = dirname($runtimePath);
         if (!is_dir($targetDir)) {
             @mkdir($targetDir, 0777, true);
@@ -131,9 +153,32 @@ class DocumentController extends Controller
     public function download(Document $document)
     {
         $filePath = $this->resolveFilePath($document);
-        $fileName = Str::slug($document->title) . '.' . $document->file_type;
+        $extension = strtolower($document->file_type ?: pathinfo($filePath, PATHINFO_EXTENSION) ?: 'pdf');
 
-        return response()->download($filePath, $fileName);
+        // 1. Generate safe ASCII fallback name (never empty, never starting with bare dot)
+        $asciiSlug = Str::slug($document->title);
+        $safeAscii = ($asciiSlug ?: 'document_' . $document->id) . '.' . $extension;
+
+        // 2. Generate clean UTF-8 filename for Khmer / Unicode display
+        $cleanUtf8 = trim(str_replace(['"', '/', '\\', "\n", "\r", '<', '>', ':', '|', '?', '*'], '', $document->title));
+        $utf8Name = ($cleanUtf8 ?: 'document_' . $document->id) . '.' . $extension;
+
+        $mimeType = @mime_content_type($filePath) ?: 'application/octet-stream';
+        if ($extension === 'pdf') {
+            $mimeType = 'application/pdf';
+        }
+
+        $disposition = HeaderUtils::makeDisposition(
+            HeaderUtils::DISPOSITION_ATTACHMENT,
+            $utf8Name,
+            $safeAscii
+        );
+
+        $response = response()->download($filePath, $safeAscii, [
+            'Content-Type' => $mimeType,
+        ]);
+        $response->headers->set('Content-Disposition', $disposition);
+        return $response;
     }
 
     /**
@@ -142,13 +187,30 @@ class DocumentController extends Controller
     public function preview(Document $document)
     {
         $filePath = $this->resolveFilePath($document);
-        $mimeType = mime_content_type($filePath) ?: 'application/octet-stream';
-        $fileName = Str::slug($document->title) . '.' . $document->file_type;
+        $extension = strtolower($document->file_type ?: pathinfo($filePath, PATHINFO_EXTENSION) ?: 'pdf');
 
-        return response()->file($filePath, [
+        $asciiSlug = Str::slug($document->title);
+        $safeAscii = ($asciiSlug ?: 'document_' . $document->id) . '.' . $extension;
+
+        $cleanUtf8 = trim(str_replace(['"', '/', '\\', "\n", "\r", '<', '>', ':', '|', '?', '*'], '', $document->title));
+        $utf8Name = ($cleanUtf8 ?: 'document_' . $document->id) . '.' . $extension;
+
+        $mimeType = @mime_content_type($filePath) ?: 'application/octet-stream';
+        if ($extension === 'pdf') {
+            $mimeType = 'application/pdf';
+        }
+
+        $disposition = HeaderUtils::makeDisposition(
+            HeaderUtils::DISPOSITION_INLINE,
+            $utf8Name,
+            $safeAscii
+        );
+
+        $response = response()->file($filePath, [
             'Content-Type' => $mimeType,
-            'Content-Disposition' => 'inline; filename="' . $fileName . '"',
         ]);
+        $response->headers->set('Content-Disposition', $disposition);
+        return $response;
     }
 
     /**

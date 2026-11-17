@@ -220,7 +220,7 @@
                                 </a>
                             @endif
 
-                            <a href="/documents/{{ $item->id }}/download" class="w-full py-2 px-3 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold text-center shadow transition flex items-center justify-center gap-1.5">
+                            <a href="/documents/{{ $item->id }}/download" download class="w-full py-2 px-3 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold text-center shadow transition flex items-center justify-center gap-1.5">
                                 <i class="fa-solid fa-download text-xs"></i>
                                 <span>ទាញយក</span>
                             </a>
