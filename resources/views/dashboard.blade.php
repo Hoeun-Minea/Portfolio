@@ -308,7 +308,7 @@
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-slate-100 text-xs">
-                    @foreach($recentDocuments as $doc)
+                    @forelse($recentDocuments as $doc)
                         <tr class="document-row-item hover:bg-slate-50 transition"
                             data-category-id="{{ $doc->category_id }}"
                             data-title="{{ strtolower($doc->title) }}"
@@ -366,7 +366,14 @@
                                 </form>
                             </td>
                         </tr>
-                    @endforeach
+                    @empty
+                        <tr>
+                            <td colspan="6" class="py-12 text-center text-slate-400">
+                                <i class="fa-solid fa-folder-open text-2xl text-slate-300 mb-2"></i>
+                                <p class="text-xs">មិនទាន់មានឯកសារនៅឡើយទេ</p>
+                            </td>
+                        </tr>
+                    @endforelse
                 </tbody>
             </table>
         </div>

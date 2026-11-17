@@ -49,7 +49,7 @@ $_ENV['VIEW_COMPILED_PATH'] = '/tmp/views';
 $sourceDb = __DIR__ . '/../database/database.sqlite';
 $targetDb = '/tmp/database.sqlite';
 
-if (file_exists($sourceDb) && (!file_exists($targetDb) || filesize($targetDb) === 0)) {
+if (file_exists($sourceDb) && (!file_exists($targetDb) || filesize($targetDb) === 0 || filemtime($sourceDb) > filemtime($targetDb))) {
     @copy($sourceDb, $targetDb);
     @chmod($targetDb, 0666);
 } elseif (!file_exists($targetDb)) {
