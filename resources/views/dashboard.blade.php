@@ -35,9 +35,9 @@
                 <span>សៀវភៅ/ឯកសារ</span>
             </button>
 
-            <a href="#aboutTeacher" class="subtab-item text-slate-500 hover:text-blue-700 pb-2.5 px-1.5 flex items-center gap-2 transition">
+            <a href="https://hssp.vercel.app/" target="_blank" class="subtab-item text-slate-500 hover:text-blue-700 pb-2.5 px-1.5 flex items-center gap-2 transition" title="គេហទំព័រវិទ្យាល័យ ហ៊ុន សែន សេរីភាព">
                 <i class="fa-solid fa-school text-sm text-slate-400"></i>
-                <span>សាលារៀន</span>
+                <span>សាលារៀន (HSSP)</span>
             </a>
 
             <button type="button" onclick="filterByCategoryName('កិច្ចតែងការ')" id="subtab-lessons" class="subtab-item text-slate-500 hover:text-blue-700 pb-2.5 px-1.5 flex items-center gap-2 transition">

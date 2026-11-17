@@ -138,9 +138,32 @@
                 <span class="px-3.5 py-1.5 rounded-full bg-white/10 backdrop-blur-sm border border-white/15 text-white flex items-center gap-1.5">
                     <i class="fa-solid fa-award text-amber-300"></i> ស្នាដៃ {{ $portfolioDocuments->count() }} ឯកសារ
                 </span>
-                <span class="px-3.5 py-1.5 rounded-full bg-white/10 backdrop-blur-sm border border-white/15 text-white flex items-center gap-1.5">
+                <a href="https://hssp.vercel.app/" target="_blank" class="px-3.5 py-1.5 rounded-full bg-white/10 hover:bg-white/20 backdrop-blur-sm border border-white/15 text-white flex items-center gap-1.5 transition">
                     <i class="fa-solid fa-school text-emerald-300"></i> វិទ្យាល័យ ហ៊ុន សែន សេរីភាព
-                </span>
+                </a>
+            </div>
+
+            <!-- Social and School Links Bar -->
+            <div class="flex flex-wrap items-center justify-center gap-2.5 pt-3">
+                <a href="https://web.facebook.com/MineaHoeun10" target="_blank" class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-600/90 hover:bg-blue-600 text-white text-xs font-semibold shadow-sm transition transform hover:-translate-y-0.5">
+                    <i class="fa-brands fa-facebook-f text-sm"></i>
+                    <span>Facebook: Minea Hoeun</span>
+                </a>
+
+                <a href="https://www.youtube.com/@hoeunminea8304" target="_blank" class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-red-600/90 hover:bg-red-600 text-white text-xs font-semibold shadow-sm transition transform hover:-translate-y-0.5">
+                    <i class="fa-brands fa-youtube text-sm"></i>
+                    <span>YouTube: @hoeunminea8304</span>
+                </a>
+
+                <a href="https://t.me/mineahoeun" target="_blank" class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-sky-500/90 hover:bg-sky-500 text-white text-xs font-semibold shadow-sm transition transform hover:-translate-y-0.5">
+                    <i class="fa-brands fa-telegram text-sm"></i>
+                    <span>Telegram: @mineahoeun</span>
+                </a>
+
+                <a href="https://hssp.vercel.app/" target="_blank" class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-emerald-600/90 hover:bg-emerald-600 text-white text-xs font-semibold shadow-sm transition transform hover:-translate-y-0.5">
+                    <i class="fa-solid fa-globe text-sm"></i>
+                    <span>វិទ្យាល័យ ហ៊ុន សែន សេរីភាព</span>
+                </a>
             </div>
 
         </div>
@@ -281,8 +304,22 @@
                 ប្រព័ន្ធសាលាឌីជីថល — Portfolio ស្នាដៃ និងកាតាឡុកឯកសារបង្រៀន
             </p>
             <p class="text-xs text-slate-500">
-                រៀបចំ និងគ្រប់គ្រងដោយ <strong>លោកគ្រូ ហឿន មិនា | ICT</strong> (វិទ្យាល័យ ហ៊ុន សែន សេរីភាព)
+                រៀបចំ និងគ្រប់គ្រងដោយ <strong>លោកគ្រូ ហឿន មិនា | ICT</strong> (<a href="https://hssp.vercel.app/" target="_blank" class="text-emerald-700 hover:underline font-semibold">វិទ្យាល័យ ហ៊ុន សែន សេរីភាព</a>)
             </p>
+            <div class="flex items-center justify-center space-x-2 pt-1">
+                <a href="https://web.facebook.com/MineaHoeun10" target="_blank" class="w-8 h-8 rounded-full bg-blue-50 text-blue-600 hover:bg-blue-600 hover:text-white flex items-center justify-center transition" title="Facebook">
+                    <i class="fa-brands fa-facebook-f text-xs"></i>
+                </a>
+                <a href="https://www.youtube.com/@hoeunminea8304" target="_blank" class="w-8 h-8 rounded-full bg-red-50 text-red-600 hover:bg-red-600 hover:text-white flex items-center justify-center transition" title="YouTube">
+                    <i class="fa-brands fa-youtube text-xs"></i>
+                </a>
+                <a href="https://t.me/mineahoeun" target="_blank" class="w-8 h-8 rounded-full bg-sky-50 text-sky-500 hover:bg-sky-500 hover:text-white flex items-center justify-center transition" title="Telegram">
+                    <i class="fa-brands fa-telegram text-xs"></i>
+                </a>
+                <a href="https://hssp.vercel.app/" target="_blank" class="w-8 h-8 rounded-full bg-emerald-50 text-emerald-600 hover:bg-emerald-600 hover:text-white flex items-center justify-center transition" title="គេហទំព័រវិទ្យាល័យ ហ៊ុន សែន សេរីភាព">
+                    <i class="fa-solid fa-school text-xs"></i>
+                </a>
+            </div>
             <p class="text-[11px] text-slate-400">
                 &copy; {{ date('Y') }} សាលាឌីជីថល ក្រសួងអប់រំ យុវជន និងកីឡា — រក្សាសិទ្ធិគ្រប់យ៉ាង
             </p>
