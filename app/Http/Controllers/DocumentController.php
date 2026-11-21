@@ -146,38 +146,52 @@ class DocumentController extends Controller
      */
     private function resolveFilePath(Document $document): string
     {
-        $runtimePath = storage_path('app/public/' . $document->file_path);
-        $repoPath = base_path('storage/app/public/' . $document->file_path);
-        $publicPath = public_path('storage/' . $document->file_path);
+        $isVercel = (getenv('VERCEL') || !empty($_ENV['VERCEL']) || is_dir('/tmp'));
 
-        if (file_exists($runtimePath) && filesize($runtimePath) > 0) {
-            return $runtimePath;
+        // Potential paths to locate the file
+        $paths = [
+            storage_path('app/public/' . $document->file_path),
+            base_path('storage/app/public/' . $document->file_path),
+            public_path('storage/' . $document->file_path),
+        ];
+
+        if ($isVercel) {
+            array_unshift($paths, '/tmp/storage/app/public/' . $document->file_path);
+        }
+
+        foreach ($paths as $path) {
+            if (file_exists($path) && filesize($path) > 0) {
+                return $path;
+            }
+        }
+
+        // Target path for writing restored/fallback file
+        $targetPath = $isVercel
+            ? '/tmp/storage/app/public/' . $document->file_path
+            : storage_path('app/public/' . $document->file_path);
+
+        $targetDir = dirname($targetPath);
+        if (!is_dir($targetDir)) {
+            @mkdir($targetDir, 0777, true);
         }
 
         // Restore file from database binary cache if available
         if (!empty($document->file_data)) {
-            $targetDir = dirname($runtimePath);
-            if (!is_dir($targetDir)) {
-                @mkdir($targetDir, 0777, true);
-            }
             $binary = base64_decode($document->file_data);
-            if ($binary !== false) {
-                file_put_contents($runtimePath, $binary);
-                return $runtimePath;
+            if ($binary !== false && strlen($binary) > 0) {
+                @file_put_contents($targetPath, $binary);
+                return $targetPath;
             }
-        }
-
-        if (file_exists($repoPath) && filesize($repoPath) > 0) {
-            return $repoPath;
-        }
-        if (file_exists($publicPath) && filesize($publicPath) > 0) {
-            return $publicPath;
         }
 
         // Auto-generate dynamic fallback file to ensure download never returns 404
-        $targetDir = dirname($runtimePath);
-        if (!is_dir($targetDir)) {
-            @mkdir($targetDir, 0777, true);
+        $extension = strtolower($document->file_type ?: pathinfo($targetPath, PATHINFO_EXTENSION) ?: 'pdf');
+
+        if ($extension === 'pdf') {
+            // Valid minimal single-page PDF binary (valid PDF 1.4 spec) so PDF viewers never crash
+            $validPdf = "%PDF-1.4\n1 0 obj<</Type/Catalog/Pages 2 0 R>>endobj\n2 0 obj<</Type/Pages/Kids[3 0 R]/Count 1>>endobj\n3 0 obj<</Type/Page/MediaBox[0 0 612 792]/Parent 2 0 R/Resources<<>>>>endobj\nxref\n0 4\n0000000000 65535 f \n0000000010 00000 n \n0000000060 00000 n \n0000000117 00000 n \ntrailer<</Size 4/Root 1 0 R>>\nstartxref\n190\n%%EOF";
+            @file_put_contents($targetPath, $validPdf);
+            return $targetPath;
         }
 
         $content = "Teacher Digital Portfolio - Hoeun Minea | ICT\n";
@@ -187,8 +201,8 @@ class DocumentController extends Controller
         $content .= "ឆ្នាំសិក្សា៖ " . $document->academic_year . "\n";
         $content .= "ការពិពណ៌នា៖ " . ($document->description ?? 'ឯកសារភ័ស្តុតាងការងារ និងស្នាដៃបង្រៀន') . "\n";
 
-        file_put_contents($runtimePath, $content);
-        return $runtimePath;
+        @file_put_contents($targetPath, $content);
+        return $targetPath;
     }
 
     /**
@@ -199,8 +213,7 @@ class DocumentController extends Controller
         // កត់ត្រា និងរាប់ចំនួនទាញយកជាក់ស្ដែង (Real Downloads Counter)
         $document->increment('downloads_count');
 
-        $filePath = $this->resolveFilePath($document);
-        $extension = strtolower($document->file_type ?: pathinfo($filePath, PATHINFO_EXTENSION) ?: 'pdf');
+        $extension = strtolower($document->file_type ?: 'pdf');
 
         // 1. Generate safe ASCII fallback name (never empty, never starting with bare dot)
         $asciiSlug = Str::slug($document->title);
@@ -210,10 +223,20 @@ class DocumentController extends Controller
         $cleanUtf8 = trim(str_replace(['"', '/', '\\', "\n", "\r", '<', '>', ':', '|', '?', '*'], '', $document->title));
         $utf8Name = ($cleanUtf8 ?: 'document_' . $document->id) . '.' . $extension;
 
-        $mimeType = @mime_content_type($filePath) ?: 'application/octet-stream';
-        if ($extension === 'pdf') {
-            $mimeType = 'application/pdf';
-        }
+        $mimeType = match ($extension) {
+            'pdf' => 'application/pdf',
+            'png' => 'image/png',
+            'jpg', 'jpeg' => 'image/jpeg',
+            'webp' => 'image/webp',
+            'gif' => 'image/gif',
+            'doc' => 'application/msword',
+            'docx' => 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+            'ppt' => 'application/vnd.ms-powerpoint',
+            'pptx' => 'application/vnd.openxmlformats-officedocument.presentationml.presentation',
+            'xls' => 'application/vnd.ms-excel',
+            'xlsx' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+            default => 'application/octet-stream',
+        };
 
         $disposition = HeaderUtils::makeDisposition(
             HeaderUtils::DISPOSITION_ATTACHMENT,
@@ -221,6 +244,19 @@ class DocumentController extends Controller
             $safeAscii
         );
 
+        // Stream directly from memory if file_data is cached in database
+        if (!empty($document->file_data)) {
+            $binary = base64_decode($document->file_data);
+            if ($binary !== false && strlen($binary) > 0) {
+                return response($binary, 200, [
+                    'Content-Type' => $mimeType,
+                    'Content-Disposition' => $disposition,
+                    'Content-Length' => strlen($binary),
+                ]);
+            }
+        }
+
+        $filePath = $this->resolveFilePath($document);
         $response = response()->download($filePath, $safeAscii, [
             'Content-Type' => $mimeType,
         ]);
@@ -233,8 +269,7 @@ class DocumentController extends Controller
      */
     public function preview(Document $document)
     {
-        $filePath = $this->resolveFilePath($document);
-        $extension = strtolower($document->file_type ?: pathinfo($filePath, PATHINFO_EXTENSION) ?: 'pdf');
+        $extension = strtolower($document->file_type ?: 'pdf');
 
         $asciiSlug = Str::slug($document->title);
         $safeAscii = ($asciiSlug ?: 'document_' . $document->id) . '.' . $extension;
@@ -242,10 +277,20 @@ class DocumentController extends Controller
         $cleanUtf8 = trim(str_replace(['"', '/', '\\', "\n", "\r", '<', '>', ':', '|', '?', '*'], '', $document->title));
         $utf8Name = ($cleanUtf8 ?: 'document_' . $document->id) . '.' . $extension;
 
-        $mimeType = @mime_content_type($filePath) ?: 'application/octet-stream';
-        if ($extension === 'pdf') {
-            $mimeType = 'application/pdf';
-        }
+        $mimeType = match ($extension) {
+            'pdf' => 'application/pdf',
+            'png' => 'image/png',
+            'jpg', 'jpeg' => 'image/jpeg',
+            'webp' => 'image/webp',
+            'gif' => 'image/gif',
+            'doc' => 'application/msword',
+            'docx' => 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+            'ppt' => 'application/vnd.ms-powerpoint',
+            'pptx' => 'application/vnd.openxmlformats-officedocument.presentationml.presentation',
+            'xls' => 'application/vnd.ms-excel',
+            'xlsx' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+            default => 'application/octet-stream',
+        };
 
         $disposition = HeaderUtils::makeDisposition(
             HeaderUtils::DISPOSITION_INLINE,
@@ -253,10 +298,37 @@ class DocumentController extends Controller
             $safeAscii
         );
 
+        // Stream directly from memory if file_data is cached in database
+        if (!empty($document->file_data)) {
+            $binary = base64_decode($document->file_data);
+            if ($binary !== false && strlen($binary) > 0) {
+                return response($binary, 200, [
+                    'Content-Type' => $mimeType,
+                    'Content-Disposition' => $disposition,
+                    'Content-Length' => strlen($binary),
+                    'Access-Control-Allow-Origin' => '*',
+                    'Access-Control-Allow-Methods' => 'GET, OPTIONS',
+                    'Access-Control-Allow-Headers' => 'Range, Content-Type',
+                    'Access-Control-Expose-Headers' => 'Accept-Ranges, Content-Encoding, Content-Length, Content-Range',
+                    'Accept-Ranges' => 'bytes',
+                    'X-Content-Type-Options' => 'nosniff',
+                    'Cache-Control' => 'public, max-age=3600',
+                ]);
+            }
+        }
+
+        $filePath = $this->resolveFilePath($document);
         $response = response()->file($filePath, [
             'Content-Type' => $mimeType,
+            'Access-Control-Allow-Origin' => '*',
+            'Access-Control-Allow-Methods' => 'GET, OPTIONS',
+            'Access-Control-Allow-Headers' => 'Range, Content-Type',
+            'Access-Control-Expose-Headers' => 'Accept-Ranges, Content-Encoding, Content-Length, Content-Range',
+            'Accept-Ranges' => 'bytes',
+            'X-Content-Type-Options' => 'nosniff',
         ]);
         $response->headers->set('Content-Disposition', $disposition);
+        $response->headers->remove('X-Frame-Options');
         return $response;
     }
 

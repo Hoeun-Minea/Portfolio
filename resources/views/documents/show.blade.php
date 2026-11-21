@@ -69,16 +69,100 @@
 
             </div>
 
-            <!-- 2. Embedded Document Preview Viewer (ដូចក្នុងរូបភាព Screenshot) -->
-            <div class="relative bg-[#323639] rounded-2xl border border-slate-300 shadow-md overflow-hidden min-h-[780px] flex flex-col justify-center items-center">
+                        <!-- 2. Embedded Document Preview Viewer (ដូចក្នុងរូបភាព Screenshot MoEYS Sala Digital) -->
+            <div id="pdfViewerWrapper" class="relative bg-[#323639] rounded-2xl border border-slate-300 shadow-md overflow-hidden min-h-[780px] flex flex-col">
                 
                 @if($document->file_type === 'pdf')
-                    <!-- PDF Viewer Embedded iframe (displays with native Chrome/Edge PDF controls) -->
-                    <iframe src="{{ route('documents.preview', $document) }}#toolbar=1&navpanes=1" 
-                            class="w-full h-[820px] rounded-2xl border-0" 
-                            title="{{ $document->title }}"
-                            allowfullscreen>
-                    </iframe>
+                    <!-- PDF.js Top Dark Toolbar (ដូចរូបភាព Screenshot MoEYS Sala Digital បេះបិទ) -->
+                    <div class="bg-[#202124] text-slate-200 px-4 py-2.5 flex flex-wrap items-center justify-between gap-2 border-b border-white/10 select-none z-10">
+                        <!-- Left: Document Title -->
+                        <div class="flex items-center space-x-2 min-w-0 max-w-[260px] sm:max-w-xs">
+                            <i class="fa-regular fa-file-pdf text-red-400 text-sm flex-shrink-0"></i>
+                            <span class="text-xs font-medium text-slate-200 truncate" title="{{ $document->title }}">{{ $document->title }}</span>
+                        </div>
+
+                        <!-- Center: Page Navigation & Zoom Controls (ដូច Screenshot 1/28, - 126% +) -->
+                        <div class="flex items-center space-x-2 text-xs">
+                            <!-- Page Prev/Next -->
+                            <div class="flex items-center bg-[#2d2e30] rounded-lg px-2 py-1 border border-white/10 space-x-1.5">
+                                <button type="button" onclick="onPrevPage()" class="p-1 hover:text-white text-slate-300 hover:bg-white/10 rounded transition" title="ទំព័រមុន (Previous Page)">
+                                    <i class="fa-solid fa-chevron-left text-[10px]"></i>
+                                </button>
+                                <div class="flex items-center space-x-1 font-mono text-[11px]">
+                                    <input type="number" id="pdfPageNum" value="1" min="1" class="w-10 bg-transparent text-center text-white focus:outline-none focus:bg-white/10 rounded py-0.5" title="វាយបញ្ចូលលេខទំព័រ">
+                                    <span class="text-slate-400">/</span>
+                                    <span id="pdfPageCount" class="text-slate-400">--</span>
+                                </div>
+                                <button type="button" onclick="onNextPage()" class="p-1 hover:text-white text-slate-300 hover:bg-white/10 rounded transition" title="ទំព័របន្ទាប់ (Next Page)">
+                                    <i class="fa-solid fa-chevron-right text-[10px]"></i>
+                                </button>
+                            </div>
+
+                            <span class="text-white/20 hidden sm:inline">|</span>
+
+                            <!-- Zoom Controls (- 100% +) -->
+                            <div class="hidden sm:flex items-center bg-[#2d2e30] rounded-lg px-2 py-1 border border-white/10 space-x-1.5">
+                                <button type="button" onclick="onZoomOut()" class="p-1 hover:text-white text-slate-300 hover:bg-white/10 rounded transition" title="បង្រួម (Zoom Out)">
+                                    <i class="fa-solid fa-minus text-[10px]"></i>
+                                </button>
+                                <span id="pdfZoomLevel" class="text-[11px] font-mono text-slate-200 min-w-[42px] text-center">100%</span>
+                                <button type="button" onclick="onZoomIn()" class="p-1 hover:text-white text-slate-300 hover:bg-white/10 rounded transition" title="ពង្រីក (Zoom In)">
+                                    <i class="fa-solid fa-plus text-[10px]"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Right: Actions (Fit Width, Rotate, Print, Download, Fullscreen, Open in Tab) -->
+                        <div class="flex items-center space-x-1 text-xs">
+                            <button type="button" onclick="onFitWidth()" class="p-1.5 hover:text-white text-slate-300 hover:bg-white/10 rounded-lg transition" title="សមល្មមទទឹងអេក្រង់ (Fit to Width)">
+                                <i class="fa-solid fa-arrows-left-right-to-line text-xs"></i>
+                            </button>
+                            <button type="button" onclick="onRotate()" class="p-1.5 hover:text-white text-slate-300 hover:bg-white/10 rounded-lg transition" title="បង្វិល 90° (Rotate)">
+                                <i class="fa-solid fa-rotate-right text-xs"></i>
+                            </button>
+                            <button type="button" onclick="onPrintPdf()" class="p-1.5 hover:text-white text-slate-300 hover:bg-white/10 rounded-lg transition" title="បោះពុម្ព (Print)">
+                                <i class="fa-solid fa-print text-xs"></i>
+                            </button>
+                            <button type="button" onclick="onToggleFullscreen()" class="p-1.5 hover:text-white text-slate-300 hover:bg-white/10 rounded-lg transition" title="ពេញអេក្រង់ (Fullscreen)">
+                                <i class="fa-solid fa-expand text-xs"></i>
+                            </button>
+                            <a href="{{ route('documents.preview', $document) }}" target="_blank" class="p-1.5 hover:text-white text-slate-300 hover:bg-white/10 rounded-lg transition" title="បើកមើលក្នុងផ្ទាំងថ្មី (Open in New Tab)">
+                                <i class="fa-solid fa-arrow-up-right-from-square text-xs"></i>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- PDF Scrollable Canvas Viewport -->
+                    <div id="pdfViewerContainer" class="flex-1 w-full bg-[#525659] overflow-auto p-4 sm:p-6 flex flex-col items-center justify-start min-h-[720px] relative">
+                        <!-- Loading State -->
+                        <div id="pdfLoading" class="absolute inset-0 bg-[#323639]/90 backdrop-blur-xs flex flex-col items-center justify-center space-y-3 z-20">
+                            <div class="w-10 h-10 border-3 border-blue-400 border-t-transparent rounded-full animate-spin"></div>
+                            <p class="text-xs font-semibold text-slate-200">កំពុងដំណើរការបើកឯកសារ PDF...</p>
+                        </div>
+
+                        <!-- Error State -->
+                        <div id="pdfError" class="hidden absolute inset-0 bg-[#323639] flex flex-col items-center justify-center p-6 text-center space-y-4 z-20">
+                            <div class="w-16 h-16 rounded-2xl bg-red-500/10 text-red-400 flex items-center justify-center text-3xl">
+                                <i class="fa-solid fa-triangle-exclamation"></i>
+                            </div>
+                            <div class="max-w-md space-y-1">
+                                <h3 class="font-khmer-muol text-base text-white">មិនអាចបង្ហាញឯកសារដោយផ្ទាល់បានទេ</h3>
+                                <p class="text-xs text-slate-400">លោកគ្រូអាចចុចប៊ូតុងខាងក្រោមដើម្បីបើកមើលតាម Tab ថ្មី ឬទាញយកឯកសារ</p>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <a href="{{ route('documents.preview', $document) }}" target="_blank" class="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold shadow-sm transition">
+                                    <i class="fa-solid fa-arrow-up-right-from-square mr-1.5"></i> បើកមើលក្នុង Tab ថ្មី
+                                </a>
+                                <a href="{{ route('documents.download', $document) }}" download class="px-4 py-2 rounded-xl bg-white/10 hover:bg-white/20 text-white text-xs font-semibold transition">
+                                    <i class="fa-solid fa-download mr-1.5"></i> ទាញយក
+                                </a>
+                            </div>
+                        </div>
+
+                        <!-- Canvas for Rendered PDF -->
+                        <canvas id="pdfCanvas" class="shadow-2xl rounded-sm bg-white mx-auto my-auto transition-transform"></canvas>
+                    </div>
+
                 @elseif(in_array($document->file_type, ['jpg', 'jpeg', 'png', 'webp', 'gif']))
                     <!-- Image Viewer -->
                     <div class="w-full h-[820px] flex items-center justify-center p-4 bg-slate-900/90 overflow-auto">
@@ -86,41 +170,38 @@
                              alt="{{ $document->title }}" 
                              class="max-w-full max-h-full object-contain rounded-lg shadow-2xl">
                     </div>
+
                 @else
-                    <!-- Office Document (Word, PPT, Excel) Viewer Fallback -->
-                    <div class="w-full h-[820px] flex flex-col items-center justify-center p-8 bg-gradient-to-b from-slate-800 to-slate-900 text-white text-center space-y-4">
-                        <div class="w-20 h-20 rounded-3xl bg-white/10 flex items-center justify-center text-4xl shadow-lg border border-white/10 
-                            @if(in_array($document->file_type, ['doc', 'docx'])) text-blue-400
-                            @elseif(in_array($document->file_type, ['ppt', 'pptx'])) text-amber-400
-                            @elseif(in_array($document->file_type, ['xls', 'xlsx'])) text-emerald-400
-                            @else text-slate-300 @endif">
-                            @if(in_array($document->file_type, ['doc', 'docx']))
-                                <i class="fa-solid fa-file-word"></i>
-                            @elseif(in_array($document->file_type, ['ppt', 'pptx']))
-                                <i class="fa-solid fa-file-powerpoint"></i>
-                            @elseif(in_array($document->file_type, ['xls', 'xlsx']))
-                                <i class="fa-solid fa-file-excel"></i>
-                            @else
-                                <i class="fa-solid fa-file-lines"></i>
-                            @endif
+                    <!-- Office Document (Word, PPT, Excel) with Google Docs Viewer & Download Card -->
+                    <div class="w-full flex-1 flex flex-col min-h-[780px]">
+                        <!-- Office Header Bar -->
+                        <div class="bg-[#202124] text-slate-200 px-4 py-2.5 flex items-center justify-between border-b border-white/10">
+                            <div class="flex items-center space-x-2">
+                                @if(in_array($document->file_type, ['doc', 'docx']))
+                                    <i class="fa-solid fa-file-word text-blue-400 text-sm"></i>
+                                @elseif(in_array($document->file_type, ['ppt', 'pptx']))
+                                    <i class="fa-solid fa-file-powerpoint text-amber-400 text-sm"></i>
+                                @elseif(in_array($document->file_type, ['xls', 'xlsx']))
+                                    <i class="fa-solid fa-file-excel text-emerald-400 text-sm"></i>
+                                @else
+                                    <i class="fa-solid fa-file-lines text-slate-300 text-sm"></i>
+                                @endif
+                                <span class="text-xs font-medium text-slate-200 truncate">{{ $document->title }}</span>
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                <a href="{{ route('documents.download', $document) }}" download class="px-3 py-1 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-xs font-semibold flex items-center gap-1.5 transition">
+                                    <i class="fa-solid fa-download text-[11px]"></i>
+                                    <span>ទាញយក</span>
+                                </a>
+                            </div>
                         </div>
 
-                        <div class="max-w-md space-y-1.5">
-                            <h3 class="font-khmer-muol text-lg sm:text-xl text-white">{{ $document->title }}</h3>
-                            <p class="text-xs text-slate-400">ឯកសារប្រភេទ {{ strtoupper($document->file_type) }} • ទំហំ {{ $document->file_size }}</p>
-                            <p class="text-xs text-slate-300 pt-2 leading-relaxed">
-                                ឯកសារនេះត្រូវបានរក្សាទុកដោយជោគជ័យ។ លោកគ្រូអាចចុចប៊ូតុងខាងក្រោមដើម្បីទាញយក និងបើកមើលក្នុងកម្មវិធី Microsoft Office។
-                            </p>
-                        </div>
-
-                        <div class="pt-3 flex flex-wrap items-center justify-center gap-3">
-                            <a href="{{ route('documents.download', $document) }}" 
-                               download 
-                               class="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-blue-600 hover:bg-blue-700 active:scale-95 text-white text-xs font-bold shadow-lg transition">
-                                <i class="fa-solid fa-download"></i>
-                                <span>ទាញយកឯកសារ {{ strtoupper($document->file_type) }}</span>
-                            </a>
-                        </div>
+                        <!-- Embedded Google Docs Viewer (works seamlessly online) -->
+                        <iframe src="https://docs.google.com/viewer?url={{ urlencode(route('documents.preview', $document)) }}&embedded=true" 
+                                class="w-full flex-1 min-h-[720px] border-0 bg-white" 
+                                title="{{ $document->title }}"
+                                allowfullscreen>
+                        </iframe>
                     </div>
                 @endif
 
@@ -343,6 +424,201 @@
 @endsection
 
 @push('scripts')
+@if($document->file_type === 'pdf')
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script>
+    if (typeof pdfjsLib !== 'undefined') {
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+    }
+
+    let pdfDoc = null;
+    let pageNum = 1;
+    let pageRendering = false;
+    let pageNumPending = null;
+    let scale = 1.25;
+    let rotation = 0;
+    const canvas = document.getElementById('pdfCanvas');
+    const ctx = canvas ? canvas.getContext('2d') : null;
+
+    function renderPage(num) {
+        if (!pdfDoc || !canvas || !ctx) return;
+        pageRendering = true;
+        
+        pdfDoc.getPage(num).then(function(page) {
+            const viewport = page.getViewport({ scale: scale, rotation: rotation });
+            
+            const outputScale = window.devicePixelRatio || 1;
+            canvas.width = Math.floor(viewport.width * outputScale);
+            canvas.height = Math.floor(viewport.height * outputScale);
+            canvas.style.width = Math.floor(viewport.width) + "px";
+            canvas.style.height = Math.floor(viewport.height) + "px";
+
+            const transform = outputScale !== 1
+                ? [outputScale, 0, 0, outputScale, 0, 0]
+                : null;
+
+            const renderContext = {
+                canvasContext: ctx,
+                transform: transform,
+                viewport: viewport
+            };
+
+            const renderTask = page.render(renderContext);
+
+            renderTask.promise.then(function() {
+                pageRendering = false;
+                const loadingEl = document.getElementById('pdfLoading');
+                if (loadingEl) loadingEl.classList.add('hidden');
+                
+                if (pageNumPending !== null) {
+                    renderPage(pageNumPending);
+                    pageNumPending = null;
+                }
+            }).catch(function(err) {
+                console.error('Page render error:', err);
+                pageRendering = false;
+            });
+        }).catch(function(err) {
+            console.error('Error fetching page:', err);
+            pageRendering = false;
+            const loadingEl = document.getElementById('pdfLoading');
+            if (loadingEl) loadingEl.classList.add('hidden');
+            const errorEl = document.getElementById('pdfError');
+            if (errorEl) errorEl.classList.remove('hidden');
+        });
+
+        const pageNumInput = document.getElementById('pdfPageNum');
+        if (pageNumInput) pageNumInput.value = num;
+    }
+
+    function queueRenderPage(num) {
+        if (pageRendering) {
+            pageNumPending = num;
+        } else {
+            renderPage(num);
+        }
+    }
+
+    function onPrevPage() {
+        if (!pdfDoc || pageNum <= 1) return;
+        pageNum--;
+        queueRenderPage(pageNum);
+    }
+
+    function onNextPage() {
+        if (!pdfDoc || pageNum >= pdfDoc.numPages) return;
+        pageNum++;
+        queueRenderPage(pageNum);
+    }
+
+    function onZoomIn() {
+        scale = Math.min(3.0, +(scale + 0.25).toFixed(2));
+        updateZoomDisplay();
+        queueRenderPage(pageNum);
+    }
+
+    function onZoomOut() {
+        scale = Math.max(0.5, +(scale - 0.25).toFixed(2));
+        updateZoomDisplay();
+        queueRenderPage(pageNum);
+    }
+
+    function updateZoomDisplay() {
+        const el = document.getElementById('pdfZoomLevel');
+        if (el) el.textContent = Math.round(scale * 100) + '%';
+    }
+
+    function onFitWidth() {
+        const container = document.getElementById('pdfViewerContainer');
+        if (!container || !pdfDoc) return;
+        pdfDoc.getPage(pageNum).then(function(page) {
+            const viewport = page.getViewport({ scale: 1.0, rotation: rotation });
+            const containerWidth = container.clientWidth - 48;
+            if (containerWidth > 200) {
+                scale = +(containerWidth / viewport.width).toFixed(2);
+                updateZoomDisplay();
+                queueRenderPage(pageNum);
+            }
+        });
+    }
+
+    function onRotate() {
+        rotation = (rotation + 90) % 360;
+        queueRenderPage(pageNum);
+    }
+
+    function onPrintPdf() {
+        const previewUrl = '{{ route("documents.preview", $document) }}';
+        const win = window.open(previewUrl, '_blank');
+        if (win) {
+            win.focus();
+            setTimeout(() => { try { win.print(); } catch (e) {} }, 1000);
+        }
+    }
+
+    function onToggleFullscreen() {
+        const elem = document.getElementById('pdfViewerWrapper');
+        if (!elem) return;
+        if (!document.fullscreenElement) {
+            elem.requestFullscreen().catch(err => {
+                console.error('Fullscreen error:', err);
+            });
+        } else {
+            document.exitFullscreen();
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        const pageNumInput = document.getElementById('pdfPageNum');
+        if (pageNumInput) {
+            pageNumInput.addEventListener('change', (e) => {
+                const targetPage = parseInt(e.target.value, 10);
+                if (pdfDoc && targetPage >= 1 && targetPage <= pdfDoc.numPages) {
+                    pageNum = targetPage;
+                    queueRenderPage(pageNum);
+                } else {
+                    e.target.value = pageNum;
+                }
+            });
+        }
+
+        const pdfUrl = '{{ route("documents.preview", $document) }}';
+        if (typeof pdfjsLib !== 'undefined') {
+            const loadingTask = pdfjsLib.getDocument({
+                url: pdfUrl,
+                cMapUrl: 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/cmaps/',
+                cMapPacked: true,
+            });
+
+            loadingTask.promise.then(function(pdf) {
+                pdfDoc = pdf;
+                const countEl = document.getElementById('pdfPageCount');
+                if (countEl) countEl.textContent = pdf.numPages;
+                
+                const container = document.getElementById('pdfViewerContainer');
+                if (container && container.clientWidth > 300) {
+                    pdf.getPage(1).then(page => {
+                        const vp = page.getViewport({ scale: 1.0 });
+                        const targetScale = (container.clientWidth - 48) / vp.width;
+                        scale = Math.min(1.5, Math.max(0.75, +targetScale.toFixed(2)));
+                        updateZoomDisplay();
+                        renderPage(pageNum);
+                    });
+                } else {
+                    renderPage(pageNum);
+                }
+            }).catch(function(error) {
+                console.error('PDF.js loading error:', error);
+                const loadingEl = document.getElementById('pdfLoading');
+                if (loadingEl) loadingEl.classList.add('hidden');
+                const errorEl = document.getElementById('pdfError');
+                if (errorEl) errorEl.classList.remove('hidden');
+            });
+        }
+    });
+</script>
+@endif
+
 <script>
     function toggleFollowTeacher() {
         const btn = document.getElementById('followTeacherBtn');
