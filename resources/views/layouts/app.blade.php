@@ -101,31 +101,16 @@
                     </a>
                 </div>
 
-                <!-- Navigation Menu Links (រៀបចំស្អាត របៀបរៀបរយ មិនបាក់ជួរ) -->
-                <nav class="hidden md:flex items-center gap-1 lg:gap-1.5 xl:gap-2 text-xs xl:text-sm font-medium">
-                    <a href="{{ route('dashboard') }}" class="inline-flex items-center gap-1.5 py-2 px-2.5 rounded-xl whitespace-nowrap transition {{ request()->routeIs('dashboard') ? 'text-blue-700 bg-blue-50 font-bold' : 'text-slate-600 hover:text-blue-700 hover:bg-slate-50' }}">
+                <!-- Navigation Menu Links (ស្អាត មានរបៀប មិនចង្អៀត) -->
+                <nav class="hidden md:flex items-center gap-2 text-xs lg:text-sm font-medium">
+                    <a href="{{ route('dashboard') }}" class="inline-flex items-center gap-2 py-2 px-3.5 rounded-xl whitespace-nowrap transition {{ request()->routeIs('dashboard') ? 'text-blue-700 bg-blue-50 font-bold shadow-2xs' : 'text-slate-600 hover:text-blue-700 hover:bg-slate-50' }}">
                         <i class="fa-solid fa-layer-group text-blue-600 text-xs"></i>
                         <span>ផ្ទាំងគ្រប់គ្រង</span>
                     </a>
 
-                    <a href="{{ route('portfolio.public') }}" target="_blank" class="inline-flex items-center gap-1.5 py-2 px-2.5 rounded-xl whitespace-nowrap transition {{ request()->routeIs('portfolio.public') ? 'text-blue-700 bg-blue-50 font-bold' : 'text-slate-600 hover:text-blue-700 hover:bg-slate-50' }}">
+                    <a href="{{ route('portfolio.public') }}" class="inline-flex items-center gap-2 py-2 px-3.5 rounded-xl whitespace-nowrap transition {{ request()->routeIs('portfolio.public') ? 'text-blue-700 bg-blue-50 font-bold shadow-2xs' : 'text-slate-600 hover:text-blue-700 hover:bg-slate-50' }}">
                         <i class="fa-solid fa-award text-amber-500 text-xs"></i>
                         <span>Portfolio ស្នាដៃ</span>
-                    </a>
-
-                    <a href="{{ route('dashboard') }}#librarySection" class="inline-flex items-center gap-1.5 py-2 px-2.5 rounded-xl whitespace-nowrap text-slate-600 hover:text-blue-700 hover:bg-slate-50 transition">
-                        <i class="fa-solid fa-book-bookmark text-emerald-600 text-xs"></i>
-                        <span>បណ្ណាល័យ ICT</span>
-                    </a>
-
-                    <a href="https://hssp.vercel.app/" target="_blank" class="inline-flex items-center gap-1.5 py-2 px-2.5 rounded-xl whitespace-nowrap text-slate-600 hover:text-blue-700 hover:bg-slate-50 transition" title="គេហទំព័រវិទ្យាល័យ ហ៊ុន សែន សេរីភាព">
-                        <i class="fa-solid fa-school text-indigo-600 text-xs"></i>
-                        <span>វិទ្យាល័យសេរីភាព</span>
-                    </a>
-
-                    <a href="{{ route('dashboard') }}#aboutTeacher" class="inline-flex items-center gap-1.5 py-2 px-2.5 rounded-xl whitespace-nowrap text-slate-600 hover:text-blue-700 hover:bg-slate-50 transition">
-                        <i class="fa-solid fa-circle-info text-teal-600 text-xs"></i>
-                        <span>អំពីគ្រូបង្រៀន</span>
                     </a>
                 </nav>
 

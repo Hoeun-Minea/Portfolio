@@ -17,6 +17,8 @@ class DocumentController extends Controller
      */
     public function index()
     {
+        $this->autoRestoreSnapshotIfEmpty();
+
         $totalDocuments = Document::count();
         $totalPortfolios = Document::where('is_portfolio', true)->count();
         $categories = Category::withCount('documents')->get();
@@ -129,6 +131,9 @@ class DocumentController extends Controller
                 'description'   => $validated['description'] ?? null,
                 'is_portfolio'  => $request->boolean('is_portfolio'),
             ]);
+
+            // Sync snapshot automatically for persistence across updates
+            $this->syncSnapshot();
 
             return redirect('/')->with('success', 'ឯកសារ «' . $validated['title'] . '» ត្រូវបានបញ្ចូល និងរក្សាទុកដោយជោគជ័យ!');
         }
@@ -297,6 +302,8 @@ class DocumentController extends Controller
         $title = $document->title;
         $document->delete();
 
+        $this->syncSnapshot();
+
         return redirect('/')->with('success', 'ឯកសារ «' . $title . '» ត្រូវបានលុបរួចរាល់!');
     }
 
@@ -305,12 +312,200 @@ class DocumentController extends Controller
      */
     public function portfolio()
     {
+        $this->autoRestoreSnapshotIfEmpty();
+
         $portfolioDocuments = Document::with('category')
             ->where('is_portfolio', true)
             ->latest()
             ->get();
 
-        return view('portfolio', compact('portfolioDocuments'));
+        $categories = Category::all();
+        $totalViews = Document::sum('views_count') ?: 0;
+        $totalDownloads = Document::sum('downloads_count') ?: 0;
+
+        $teacher = User::where('role', 'teacher')->first() 
+            ?? User::firstOrCreate(
+                ['email' => 'hoeun.minea@gmail.com'],
+                ['name' => 'ហឿន មិនា | ICT', 'role' => 'teacher', 'followers_count' => 0]
+            );
+        $teacherFollowers = $teacher->followers_count ?? 0;
+
+        return view('portfolio', compact(
+            'portfolioDocuments',
+            'categories',
+            'totalViews',
+            'totalDownloads',
+            'teacherFollowers'
+        ));
+    }
+
+    /**
+     * នាំចេញទិន្នន័យឯកសារទាំងអស់ជា JSON Backup (ទាញយកទុកលើកុំព្យូទ័រ)
+     */
+    public function exportBackup()
+    {
+        $documents = Document::with('category')->get();
+        $categories = Category::all();
+
+        $payload = [
+            'exported_at' => now()->toIso8601String(),
+            'app' => 'បណ្ណាល័យខ្ញុំ — វិទ្យាល័យ ហ៊ុន សែន សេរីភាព',
+            'teacher' => 'ហឿន មិនា | ICT',
+            'total_documents' => $documents->count(),
+            'categories' => $categories,
+            'documents' => $documents,
+        ];
+
+        $json = json_encode($payload, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+        $fileName = 'backup_documents_' . date('Y_m_d_His') . '.json';
+
+        return response($json, 200, [
+            'Content-Type' => 'application/json',
+            'Content-Disposition' => 'attachment; filename="' . $fileName . '"',
+        ]);
+    }
+
+    /**
+     * នាំចូល និងស្ដារទិន្នន័យឯកសារពី JSON Backup (Restore Documents)
+     */
+    public function importBackup(Request $request)
+    {
+        $request->validate([
+            'backup_file' => 'required|file|max:51200',
+        ]);
+
+        $content = file_get_contents($request->file('backup_file')->getRealPath());
+        $data = json_decode($content, true);
+
+        if (!$data || !isset($data['documents'])) {
+            return back()->with('error', 'ឯកសារ Backup មិនត្រឹមត្រូវ ឬខូចទ្រង់ទ្រាយ!');
+        }
+
+        $restoredCount = 0;
+
+        if (isset($data['categories']) && is_array($data['categories'])) {
+            foreach ($data['categories'] as $cat) {
+                Category::firstOrCreate(
+                    ['id' => $cat['id']],
+                    ['name' => $cat['name'], 'slug' => $cat['slug'] ?? Str::slug($cat['name'])]
+                );
+            }
+        }
+
+        foreach ($data['documents'] as $docData) {
+            $doc = Document::updateOrCreate(
+                ['title' => $docData['title']],
+                [
+                    'category_id' => $docData['category_id'],
+                    'file_path' => $docData['file_path'],
+                    'file_type' => $docData['file_type'],
+                    'file_size' => $docData['file_size'],
+                    'file_data' => $docData['file_data'] ?? null,
+                    'academic_year' => $docData['academic_year'],
+                    'description' => $docData['description'] ?? null,
+                    'is_portfolio' => $docData['is_portfolio'] ?? false,
+                    'views_count' => $docData['views_count'] ?? 0,
+                    'downloads_count' => $docData['downloads_count'] ?? 0,
+                ]
+            );
+
+            if (!empty($doc->file_data)) {
+                $targetPath = storage_path('app/public/' . $doc->file_path);
+                $dir = dirname($targetPath);
+                if (!is_dir($dir)) {
+                    @mkdir($dir, 0777, true);
+                }
+                @file_put_contents($targetPath, base64_decode($doc->file_data));
+            }
+
+            $restoredCount++;
+        }
+
+        $this->syncSnapshot();
+
+        return back()->with('success', "បានស្ដារឯកសារចំនួន $restoredCount ដោយជោគជ័យ!");
+    }
+
+    /**
+     * រក្សាទុក Snapshot ស្វ័យប្រវត្តិក្នុង storage/app
+     */
+    private function syncSnapshot(): void
+    {
+        try {
+            $documents = Document::with('category')->get();
+            $categories = Category::all();
+
+            $payload = [
+                'updated_at' => now()->toIso8601String(),
+                'categories' => $categories,
+                'documents' => $documents,
+            ];
+
+            $json = json_encode($payload, JSON_UNESCAPED_UNICODE);
+            
+            $runtimeDir = storage_path('app');
+            if (!is_dir($runtimeDir)) {
+                @mkdir($runtimeDir, 0777, true);
+            }
+            $runtimeFile = storage_path('app/documents_snapshot.json');
+            $repoFile = base_path('storage/app/documents_snapshot.json');
+
+            @file_put_contents($runtimeFile, $json);
+            if (is_writable(dirname($repoFile))) {
+                @file_put_contents($repoFile, $json);
+            }
+        } catch (\Throwable $e) {}
+    }
+
+    /**
+     * ស្ដារទិន្នន័យស្វ័យប្រវត្តិពី Snapshot បើទិន្នន័យទទេ
+     */
+    private function autoRestoreSnapshotIfEmpty(): void
+    {
+        if (Document::count() > 0) {
+            return;
+        }
+
+        $files = [
+            storage_path('app/documents_snapshot.json'),
+            base_path('storage/app/documents_snapshot.json'),
+        ];
+
+        foreach ($files as $f) {
+            if (file_exists($f) && filesize($f) > 0) {
+                $content = @file_get_contents($f);
+                $data = @json_decode($content, true);
+                if ($data && !empty($data['documents'])) {
+                    if (isset($data['categories']) && is_array($data['categories'])) {
+                        foreach ($data['categories'] as $cat) {
+                            Category::firstOrCreate(
+                                ['id' => $cat['id']],
+                                ['name' => $cat['name'], 'slug' => $cat['slug'] ?? Str::slug($cat['name'])]
+                            );
+                        }
+                    }
+
+                    foreach ($data['documents'] as $docData) {
+                        Document::updateOrCreate(
+                            ['title' => $docData['title']],
+                            [
+                                'category_id' => $docData['category_id'],
+                                'file_path' => $docData['file_path'],
+                                'file_type' => $docData['file_type'],
+                                'file_size' => $docData['file_size'],
+                                'file_data' => $docData['file_data'] ?? null,
+                                'academic_year' => $docData['academic_year'],
+                                'description' => $docData['description'] ?? null,
+                                'is_portfolio' => $docData['is_portfolio'] ?? false,
+                                'views_count' => $docData['views_count'] ?? 0,
+                                'downloads_count' => $docData['downloads_count'] ?? 0,
+                            ]
+                        );
+                    }
+                    return;
+                }
+            }
+        }
     }
 
     /**

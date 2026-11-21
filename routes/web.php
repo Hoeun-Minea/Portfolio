@@ -33,10 +33,14 @@ Route::get('/auth/telegram/callback', [AuthController::class, 'handleTelegramCal
 Route::get('/auth/quick-teacher', [AuthController::class, 'quickTeacherLogin'])->name('auth.quick-teacher');
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
-// --- PROTECTED ACTIONS (ទាមទារចូលគណនី Auth: Upload, Edit, Delete) ---
+// --- PROTECTED ACTIONS (ទាមទារចូលគណនី Auth: Upload, Edit, Delete, Backup) ---
 Route::middleware('auth')->group(function () {
     Route::post('/documents', [DocumentController::class, 'store'])->name('documents.store');
     Route::put('/documents/{document}', [DocumentController::class, 'update'])->name('documents.update');
     Route::delete('/documents/{document}', [DocumentController::class, 'destroy'])->name('documents.destroy');
+    
+    // Backup & Restore សម្រាប់រក្សាឯកសារពេល Update ប្រព័ន្ធ
+    Route::get('/system/backup/export', [DocumentController::class, 'exportBackup'])->name('system.backup.export');
+    Route::post('/system/backup/import', [DocumentController::class, 'importBackup'])->name('system.backup.import');
 });
 

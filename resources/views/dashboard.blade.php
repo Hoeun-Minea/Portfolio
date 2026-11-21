@@ -82,12 +82,19 @@
                     </button>
                 </div>
 
-                <!-- Open Upload Dialog Button -->
+                <!-- Open Upload Dialog Button & Backup Modal -->
                 @auth
-                <button type="button" id="openUploadDialogBtn" class="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 active:scale-95 text-white text-xs font-semibold rounded-xl shadow-sm transition">
-                    <i class="fa-solid fa-cloud-arrow-up"></i>
-                    <span>+ បញ្ចូលឯកសារ</span>
-                </button>
+                <div class="flex items-center gap-2">
+                    <button type="button" onclick="document.getElementById('backupDialog')?.showModal()" class="inline-flex items-center gap-1.5 px-3 py-2 bg-slate-100 hover:bg-slate-200 active:scale-95 text-slate-700 text-xs font-semibold rounded-xl transition" title="បម្រុងទុក និងស្ដារឯកសារ (ការពារការបាត់បង់)">
+                        <i class="fa-solid fa-database text-xs text-blue-600"></i>
+                        <span class="hidden sm:inline">បម្រុងទុក / ស្ដារ</span>
+                    </button>
+
+                    <button type="button" id="openUploadDialogBtn" class="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 active:scale-95 text-white text-xs font-semibold rounded-xl shadow-sm transition">
+                        <i class="fa-solid fa-cloud-arrow-up"></i>
+                        <span>+ បញ្ចូលឯកសារ</span>
+                    </button>
+                </div>
                 @else
                 <a href="{{ route('login') }}" id="openUploadDialogBtn" class="inline-flex items-center gap-2 px-4 py-2 bg-[#008ba3] hover:bg-[#007387] active:scale-95 text-white text-xs font-semibold rounded-xl shadow-sm transition" title="ចូលគណនីដើម្បីបញ្ចូលឯកសារ">
                     <i class="fa-solid fa-cloud-arrow-up"></i>
@@ -594,6 +601,69 @@
                 </button>
             </div>
         </form>
+    </div>
+</dialog>
+
+<!-- 8. Backup & Restore Modal Dialog (ការពារការបាត់បង់ឯកសារពេល Update) -->
+<dialog id="backupDialog" class="p-0 rounded-3xl bg-white shadow-2xl border border-slate-200/90 w-full max-w-md mx-auto my-auto overflow-hidden backdrop:bg-slate-900/50">
+    <div class="flex flex-col">
+        <!-- Dialog Header -->
+        <div class="px-6 py-4 bg-slate-50 border-b border-slate-100 flex items-center justify-between">
+            <div class="flex items-center space-x-2.5">
+                <div class="w-8 h-8 rounded-xl bg-blue-100 text-blue-600 flex items-center justify-center text-sm shadow-xs">
+                    <i class="fa-solid fa-database"></i>
+                </div>
+                <div>
+                    <h3 class="font-khmer-muol text-sm text-slate-800">បម្រុងទុក និងស្ដារឯកសារ</h3>
+                    <p class="text-[10px] text-slate-500">រក្សាទុកឯកសារដែលបាន Upload មិនឱ្យបាត់បង់ពេល Update</p>
+                </div>
+            </div>
+            <button type="button" onclick="document.getElementById('backupDialog').close()" class="p-1 text-slate-400 hover:text-slate-600 rounded-lg">
+                <i class="fa-solid fa-xmark text-sm"></i>
+            </button>
+        </div>
+
+        <div class="p-6 space-y-4">
+            <!-- 1. Export Section -->
+            <div class="p-4 rounded-2xl bg-blue-50/70 border border-blue-100 space-y-2">
+                <div class="flex items-center gap-2 text-xs font-bold text-blue-900">
+                    <i class="fa-solid fa-cloud-arrow-down text-blue-600"></i>
+                    <span>១. ទាញយកឯកសារ Backup (នាំចេញ)</span>
+                </div>
+                <p class="text-[11px] text-slate-600 leading-relaxed">
+                    ទាញយកឯកសារទិន្នន័យ (JSON) រួមទាំងឯកសារ Upload ទាំងអស់រក្សាទុកលើកុំព្យូទ័ររបស់អ្នកដោយសុវត្ថិភាព។
+                </p>
+                <a href="{{ route('system.backup.export') }}" download class="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold rounded-xl shadow-xs transition">
+                    <i class="fa-solid fa-download"></i>
+                    <span>ទាញយក Backup ឥឡូវនេះ</span>
+                </a>
+            </div>
+
+            <!-- 2. Import Section -->
+            <div class="p-4 rounded-2xl bg-amber-50/70 border border-amber-100 space-y-2">
+                <div class="flex items-center gap-2 text-xs font-bold text-amber-900">
+                    <i class="fa-solid fa-cloud-arrow-up text-amber-600"></i>
+                    <span>២. ស្ដារឯកសារឡើងវិញ (នាំចូល)</span>
+                </div>
+                <p class="text-[11px] text-slate-600 leading-relaxed">
+                    ជ្រើសរើសឯកសារ Backup (.json) ដែលបានទាញយកពីមុន ដើម្បីស្ដារឯកសារទាំងអស់ចូលប្រព័ន្ធវិញ។
+                </p>
+                <form action="{{ route('system.backup.import') }}" method="POST" enctype="multipart/form-data" class="space-y-3">
+                    @csrf
+                    <input type="file" name="backup_file" accept=".json,application/json" required class="block w-full text-xs text-slate-500 file:mr-3 file:py-1.5 file:px-3 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-amber-600 file:text-white hover:file:bg-amber-700 cursor-pointer">
+                    <button type="submit" class="inline-flex items-center gap-2 px-4 py-2 bg-slate-800 hover:bg-slate-900 text-white text-xs font-semibold rounded-xl shadow-xs transition">
+                        <i class="fa-solid fa-rotate-right"></i>
+                        <span>ចាប់ផ្ដើមស្ដារទិន្នន័យ</span>
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <div class="px-6 py-3 bg-slate-50 border-t border-slate-100 text-right">
+            <button type="button" onclick="document.getElementById('backupDialog').close()" class="px-4 py-1.5 text-xs font-semibold text-slate-600 hover:bg-slate-200 rounded-xl transition">
+                បិទ
+            </button>
+        </div>
     </div>
 </dialog>
 

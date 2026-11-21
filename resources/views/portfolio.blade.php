@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
-    <title>Portfolio ស្នាដៃ និងសមិទ្ធផលការងារ — ហឿន មិនា | ICT</title>
+    <title>Portfolio ស្នាដៃ — បណ្ណាល័យខ្ញុំ | ហឿន មិនា ICT</title>
 
     <!-- Google Fonts: Kantumruy Pro, Moul, Siemreap -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -44,8 +44,8 @@
 </head>
 <body class="min-h-full font-khmer-body text-slate-800 antialiased bg-[#f4f6f8] flex flex-col">
 
-    <!-- 1. Sala Digital Top Navigation Bar -->
-    <header class="bg-white border-b border-slate-200 sticky top-0 z-40 shadow-sm no-print">
+    <!-- 1. Header Navigation Bar (ដូចបណ្ណាល័យខ្ញុំ រៀបចំស្អាត មិនចង្អៀត) -->
+    <header class="bg-white border-b border-slate-200 sticky top-0 z-40 shadow-xs no-print">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="h-20 flex items-center justify-between gap-4">
                 
@@ -64,32 +64,27 @@
                     </a>
                 </div>
 
-                <!-- Navigation Links (ស្អាត មិនបាក់ជួរ) -->
-                <nav class="hidden md:flex items-center gap-1.5 lg:gap-2 text-xs lg:text-sm font-medium">
-                    <a href="{{ route('dashboard') }}" class="inline-flex items-center gap-1.5 py-2 px-2.5 rounded-xl whitespace-nowrap text-slate-600 hover:text-blue-700 hover:bg-slate-50 transition">
+                <!-- Navigation Links: ដកចេញ ៣ ម៉ឺនុយ ទុកតែ ផ្ទាំងគ្រប់គ្រង និង Portfolio ស្នាដៃ -->
+                <nav class="hidden md:flex items-center gap-2 text-xs lg:text-sm font-medium">
+                    <a href="{{ route('dashboard') }}" class="inline-flex items-center gap-2 py-2 px-3.5 rounded-xl whitespace-nowrap text-slate-600 hover:text-blue-700 hover:bg-slate-50 transition">
                         <i class="fa-solid fa-layer-group text-blue-600 text-xs"></i>
                         <span>ផ្ទាំងគ្រប់គ្រង</span>
                     </a>
 
-                    <a href="{{ route('portfolio.public') }}" class="inline-flex items-center gap-1.5 py-2 px-2.5 rounded-xl whitespace-nowrap text-blue-700 bg-blue-50 font-bold transition">
+                    <a href="{{ route('portfolio.public') }}" class="inline-flex items-center gap-2 py-2 px-3.5 rounded-xl whitespace-nowrap text-blue-700 bg-blue-50 font-bold shadow-2xs transition">
                         <i class="fa-solid fa-award text-amber-500 text-xs"></i>
                         <span>Portfolio ស្នាដៃ</span>
-                    </a>
-
-                    <a href="{{ route('dashboard') }}#librarySection" class="inline-flex items-center gap-1.5 py-2 px-2.5 rounded-xl whitespace-nowrap text-slate-600 hover:text-blue-700 hover:bg-slate-50 transition">
-                        <i class="fa-solid fa-book-bookmark text-emerald-600 text-xs"></i>
-                        <span>បណ្ណាល័យ ICT</span>
                     </a>
                 </nav>
 
                 <!-- Actions: Share & Print -->
                 <div class="flex items-center space-x-2 sm:space-x-3">
-                    <button type="button" id="shareBtn" class="inline-flex items-center gap-1.5 px-3 sm:px-4 py-2 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold transition">
+                    <button type="button" id="shareBtn" class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-full bg-slate-100 hover:bg-slate-200 active:scale-95 text-slate-700 text-xs font-semibold transition">
                         <i class="fa-solid fa-share-nodes text-xs"></i>
                         <span class="hidden sm:inline">ចែករំលែក Link</span>
                     </button>
 
-                    <button type="button" onclick="window.print()" class="inline-flex items-center gap-1.5 px-3 sm:px-4 py-2 rounded-full bg-blue-50 text-blue-700 hover:bg-blue-100 border border-blue-200 text-xs font-semibold transition">
+                    <button type="button" onclick="window.print()" class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-full bg-blue-50 text-blue-700 hover:bg-blue-100 active:scale-95 border border-blue-200 text-xs font-semibold transition">
                         <i class="fa-solid fa-print text-xs"></i>
                         <span>បោះពុម្ព</span>
                     </button>
@@ -99,69 +94,83 @@
         </div>
     </header>
 
-    <!-- 2. Hero Profile Banner: លោកគ្រូ ហឿន មិនា | ICT -->
-    <section class="relative bg-gradient-to-r from-[#003865] via-[#005596] to-[#0f2744] text-white py-12 sm:py-16 px-4 sm:px-6 shadow-md">
-        <div class="max-w-5xl mx-auto text-center space-y-4 relative z-10">
+    <!-- 2. Hero Profile Banner: លោកគ្រូ ហឿន មិនា | ICT (រចនាទាន់សម័យ និងស៊ីសង្វាក់ជាមួយបណ្ណាល័យខ្ញុំ) -->
+    <section class="relative bg-gradient-to-br from-[#002b4d] via-[#005596] to-[#008ba3] text-white py-12 sm:py-16 px-4 sm:px-6 shadow-md overflow-hidden">
+        <!-- Background subtle decorative shapes -->
+        <div class="absolute -top-24 -right-24 w-96 h-96 bg-white/5 rounded-full blur-3xl pointer-events-none"></div>
+        <div class="absolute -bottom-24 -left-24 w-96 h-96 bg-teal-400/10 rounded-full blur-3xl pointer-events-none"></div>
+
+        <div class="max-w-5xl mx-auto text-center space-y-5 relative z-10">
             
             <!-- Avatar -->
             <div class="relative inline-block mx-auto">
-                <div class="w-24 h-24 sm:w-28 sm:h-28 rounded-full bg-white/20 p-1.5 shadow-xl mx-auto flex items-center justify-center">
-                    <div class="w-full h-full bg-white rounded-full flex items-center justify-center text-3xl font-bold text-blue-700 shadow-inner">
+                <div class="w-24 h-24 sm:w-28 sm:h-28 rounded-full bg-white/20 p-1.5 shadow-2xl mx-auto flex items-center justify-center ring-4 ring-white/30 backdrop-blur-sm">
+                    <div class="w-full h-full bg-gradient-to-tr from-blue-700 to-teal-500 rounded-full flex items-center justify-center text-3xl font-bold text-white shadow-inner">
                         HM
                     </div>
                 </div>
-                <span class="absolute bottom-1 right-1 w-5 h-5 bg-emerald-500 border-2 border-white rounded-full" title="Active"></span>
+                <span class="absolute bottom-1 right-1 w-5 h-5 bg-emerald-400 border-2 border-white rounded-full shadow-xs" title="គ្រូបង្រៀនសកម្ម"></span>
             </div>
 
             <!-- Profile Info -->
-            <div class="space-y-1.5">
-                <div class="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-white/10 backdrop-blur-md border border-white/15 text-xs text-blue-100 font-medium">
-                    <i class="fa-solid fa-laptop-code text-amber-300"></i>
-                    <span>គ្រប់គ្រង និងរៀបចំដោយ ហឿន មិនា | ICT</span>
+            <div class="space-y-2">
+                <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-xs text-blue-100 font-semibold shadow-xs">
+                    <i class="fa-solid fa-award text-amber-300"></i>
+                    <span>Portfolio ស្នាដៃបង្រៀន និងសមិទ្ធផលការងារ</span>
                 </div>
-                <h1 class="font-khmer-muol text-2xl sm:text-3xl text-white tracking-wide">
+                
+                <h1 class="font-khmer-muol text-2xl sm:text-3xl lg:text-4xl text-white tracking-wide drop-shadow-xs">
                     លោកគ្រូ ហឿន មិនា (Hoeun Minea)
                 </h1>
-                <p class="text-xs sm:text-sm text-blue-100 max-w-xl mx-auto">
+                
+                <p class="text-xs sm:text-sm text-blue-100 font-medium max-w-xl mx-auto">
                     គ្រូបង្រៀនមុខវិជ្ជាព័ត៌មានវិទ្យា (ICT) • វិទ្យាល័យ ហ៊ុន សែន សេរីភាព
                 </p>
-                <p class="text-[11px] sm:text-xs text-blue-200/90 max-w-md mx-auto italic">
-                    «ប្តេជ្ញាលើកកម្ពស់គុណភាពអប់រំតាមបែបឌីជីថល តាមរយៈការបញ្ចូលបច្ចេកវិទ្យាព័ត៌មានវិទ្យាទៅក្នុងការបង្រៀន»
+                
+                <p class="text-[11px] sm:text-xs text-blue-200/90 max-w-lg mx-auto italic leading-relaxed">
+                    «ប្តេជ្ញាលើកកម្ពស់គុណភាពអប់រំតាមបែបឌីជីថល តាមរយៈការបញ្ចូលបច្ចេកវិទ្យាព័ត៌មានវិទ្យាទៅក្នុងការបង្រៀន និងរៀបចំឯកសារគរុកោសល្យទំនើប»
                 </p>
             </div>
 
-            <!-- Badges -->
-            <div class="flex flex-wrap items-center justify-center gap-2.5 pt-2 text-xs">
-                <span class="px-3.5 py-1.5 rounded-full bg-white/10 backdrop-blur-sm border border-white/15 text-white flex items-center gap-1.5">
-                    <i class="fa-solid fa-laptop-file text-amber-300"></i> គ្រូបង្រៀន ICT
-                </span>
-                <span class="px-3.5 py-1.5 rounded-full bg-white/10 backdrop-blur-sm border border-white/15 text-white flex items-center gap-1.5">
-                    <i class="fa-solid fa-award text-amber-300"></i> ស្នាដៃ {{ $portfolioDocuments->count() }} ឯកសារ
-                </span>
-                <a href="https://hssp.vercel.app/" target="_blank" class="px-3.5 py-1.5 rounded-full bg-white/10 hover:bg-white/20 backdrop-blur-sm border border-white/15 text-white flex items-center gap-1.5 transition">
-                    <i class="fa-solid fa-school text-emerald-300"></i> វិទ្យាល័យ ហ៊ុន សែន សេរីភាព
-                </a>
+            <!-- Real Stat Highlights Cards (រាប់ជាក់ស្ដែង) -->
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 max-w-3xl mx-auto pt-2">
+                <div class="p-3 rounded-2xl bg-white/10 backdrop-blur-md border border-white/15 text-center">
+                    <p class="text-xl sm:text-2xl font-bold text-white">{{ $portfolioDocuments->count() }}</p>
+                    <p class="text-[11px] text-blue-200 mt-0.5">ឯកសារស្នាដៃ</p>
+                </div>
+                <div class="p-3 rounded-2xl bg-white/10 backdrop-blur-md border border-white/15 text-center">
+                    <p class="text-xl sm:text-2xl font-bold text-white">{{ number_format($totalViews ?? 0) }}</p>
+                    <p class="text-[11px] text-blue-200 mt-0.5">ចំនួនទស្សនាសរុប</p>
+                </div>
+                <div class="p-3 rounded-2xl bg-white/10 backdrop-blur-md border border-white/15 text-center">
+                    <p class="text-xl sm:text-2xl font-bold text-white">{{ number_format($totalDownloads ?? 0) }}</p>
+                    <p class="text-[11px] text-blue-200 mt-0.5">ចំនួនទាញយកសរុប</p>
+                </div>
+                <div class="p-3 rounded-2xl bg-white/10 backdrop-blur-md border border-white/15 text-center">
+                    <p class="text-xl sm:text-2xl font-bold text-white">{{ number_format($teacherFollowers ?? 0) }}</p>
+                    <p class="text-[11px] text-blue-200 mt-0.5">អ្នកតាមដាន</p>
+                </div>
             </div>
 
             <!-- Social and School Links Bar -->
-            <div class="flex flex-wrap items-center justify-center gap-2.5 pt-3">
-                <a href="https://web.facebook.com/MineaHoeun10" target="_blank" class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-600/90 hover:bg-blue-600 text-white text-xs font-semibold shadow-sm transition transform hover:-translate-y-0.5">
-                    <i class="fa-brands fa-facebook-f text-sm"></i>
+            <div class="flex flex-wrap items-center justify-center gap-2.5 pt-2">
+                <a href="https://web.facebook.com/MineaHoeun10" target="_blank" class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-600 hover:bg-blue-500 text-white text-xs font-semibold shadow-xs transition transform hover:-translate-y-0.5">
+                    <i class="fa-brands fa-facebook-f text-xs"></i>
                     <span>Facebook</span>
                 </a>
 
-                <a href="https://www.youtube.com/@hoeunminea8304" target="_blank" class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-red-600/90 hover:bg-red-600 text-white text-xs font-semibold shadow-sm transition transform hover:-translate-y-0.5">
-                    <i class="fa-brands fa-youtube text-sm"></i>
+                <a href="https://www.youtube.com/@hoeunminea8304" target="_blank" class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-red-600 hover:bg-red-500 text-white text-xs font-semibold shadow-xs transition transform hover:-translate-y-0.5">
+                    <i class="fa-brands fa-youtube text-xs"></i>
                     <span>YouTube</span>
                 </a>
 
-                <a href="https://t.me/mineahoeun" target="_blank" class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-sky-500/90 hover:bg-sky-500 text-white text-xs font-semibold shadow-sm transition transform hover:-translate-y-0.5">
-                    <i class="fa-brands fa-telegram text-sm"></i>
+                <a href="https://t.me/mineahoeun" target="_blank" class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-sky-500 hover:bg-sky-400 text-white text-xs font-semibold shadow-xs transition transform hover:-translate-y-0.5">
+                    <i class="fa-brands fa-telegram text-xs"></i>
                     <span>Telegram</span>
                 </a>
 
-                <a href="https://hssp.vercel.app/" target="_blank" class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-emerald-600/90 hover:bg-emerald-600 text-white text-xs font-semibold shadow-sm transition transform hover:-translate-y-0.5">
-                    <i class="fa-solid fa-globe text-sm"></i>
+                <a href="https://hssp.vercel.app/" target="_blank" class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold shadow-xs transition transform hover:-translate-y-0.5" title="គេហទំព័រវិទ្យាល័យ ហ៊ុន សែន សេរីភាព">
+                    <i class="fa-solid fa-school text-xs"></i>
                     <span>វិទ្យាល័យ ហ៊ុន សែន សេរីភាព</span>
                 </a>
             </div>
@@ -169,54 +178,77 @@
         </div>
     </section>
 
-    <!-- 3. Portfolio Showcase Grid (ដូច Sala Digital Book Covers) -->
+    <!-- 3. Portfolio Showcase Grid (ទំនើប ទាន់សម័យ ស៊ីសង្វាក់ជាមួយបណ្ណាល័យខ្ញុំ) -->
     <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10">
         
-        <!-- Header Info -->
-        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-slate-200 mb-6">
+        <!-- Header Info & Filter Bar -->
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-slate-200 mb-6">
             <div>
-                <h2 class="font-khmer-muol text-lg sm:text-xl text-slate-900">ស្នាដៃ និងសមិទ្ធផលការងារគំរូ</h2>
-                <p class="text-xs text-slate-500 mt-0.5">ភ័ស្តុតាងកិច្ចតែងការគំរូ ICT ស្លាយមេរៀន និងវិញ្ញាបនបត្រអភិវឌ្ឍវិជ្ជាជីវៈ</p>
+                <h2 class="font-khmer-muol text-lg sm:text-xl text-slate-900 flex items-center gap-2">
+                    <i class="fa-solid fa-award text-amber-500 text-base"></i>
+                    <span>ស្នាដៃ និងសមិទ្ធផលការងារគំរូ</span>
+                </h2>
+                <p class="text-xs text-slate-500 mt-0.5">
+                    ភ័ស្តុតាងកិច្ចតែងការគំរូ ICT ស្លាយមេរៀន ឯកសារបង្រៀន និងវិញ្ញាបនបត្រអភិវឌ្ឍវិជ្ជាជីវៈ
+                </p>
             </div>
 
-            <div class="text-xs font-semibold text-slate-700 bg-white px-3.5 py-2 rounded-full border border-slate-200 shadow-sm self-start sm:self-auto">
-                <span class="text-blue-700 font-bold">{{ $portfolioDocuments->count() }}</span> ឯកសារស្នាដៃបានជ្រើសរើស
+            <div class="flex items-center gap-2">
+                <span class="text-xs font-semibold text-slate-700 bg-white px-4 py-2 rounded-full border border-slate-200 shadow-2xs">
+                    <strong class="text-blue-700">{{ $portfolioDocuments->count() }}</strong> ឯកសារស្នាដៃបានជ្រើសរើស
+                </span>
+                <a href="{{ route('dashboard') }}" class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold transition" title="ត្រឡប់ទៅបណ្ណាល័យ">
+                    <i class="fa-solid fa-book-open text-xs text-blue-600"></i>
+                    <span>បណ្ណាល័យខ្ញុំ</span>
+                </a>
             </div>
         </div>
 
         <!-- Book Cover Cards Grid (5 Columns on Desktop) -->
         <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-5">
             @forelse($portfolioDocuments as $item)
-                <div class="group flex flex-col justify-between bg-white rounded-2xl border border-slate-200 shadow-sm hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300 overflow-hidden">
+                <div class="group flex flex-col justify-between bg-white rounded-3xl border border-slate-200 shadow-xs hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300 overflow-hidden">
                     
                     <!-- 3:4 Aspect Ratio Portrait Book Cover Container -->
-                    <div class="relative aspect-[3/4] w-full overflow-hidden p-3 flex flex-col justify-between 
+                    <div class="relative aspect-[3/4] w-full overflow-hidden p-3.5 flex flex-col justify-between 
                         @if(str_contains(strtolower($item->title), 'steam') || str_contains(strtolower($item->title), 'network'))
-                            bg-gradient-to-br from-[#e8decb] via-[#dfd3bc] to-[#c9bca0] text-[#3e3427]
+                            bg-gradient-to-br from-[#f1e8d9] via-[#e5d9c3] to-[#cfc1a5] text-[#3e3427]
                         @elseif($item->file_type === 'pdf')
-                            bg-gradient-to-br from-slate-100 via-amber-50/60 to-slate-200 text-slate-800
+                            bg-gradient-to-br from-slate-100 via-amber-50/70 to-slate-200 text-slate-800
                         @elseif(in_array($item->file_type, ['ppt', 'pptx']))
                             bg-gradient-to-br from-teal-50 via-emerald-100 to-sky-100 text-teal-900
                         @else
-                            bg-gradient-to-br from-blue-50 via-slate-50 to-indigo-100 text-slate-800
-                        @endif border-b border-slate-200/60">
+                            bg-gradient-to-br from-blue-50 via-indigo-50 to-slate-100 text-slate-800
+                        @endif border-b border-slate-200/70">
 
-                        <!-- Spine shadow -->
+                        <!-- Spine shadow (book 3D look) -->
                         <div class="absolute left-0 top-0 bottom-0 w-3 bg-gradient-to-r from-black/15 via-black/5 to-transparent pointer-events-none"></div>
 
-                        <!-- Top Emblem -->
+                        <!-- Top Ribbon: Portfolio Star & Extension Badge -->
                         <div class="flex items-center justify-between w-full relative z-10">
-                            <div class="w-8 h-8 rounded-full bg-white/90 shadow-sm border border-slate-200/60 flex items-center justify-center">
-                                <i class="fa-solid fa-award text-amber-500 text-xs"></i>
-                            </div>
-                            <span class="px-2 py-0.5 rounded-full text-[10px] font-mono font-bold uppercase tracking-wider bg-white/90 shadow-sm border border-slate-200/60 text-blue-700">
+                            <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-amber-500 text-white shadow-xs flex items-center gap-1">
+                                <i class="fa-solid fa-star text-[9px]"></i>
+                                <span>ស្នាដៃ</span>
+                            </span>
+                            <span class="px-2 py-0.5 rounded-full text-[10px] font-mono font-bold uppercase tracking-wider bg-white/90 shadow-2xs border border-slate-200/60 text-blue-700">
                                 {{ $item->file_type }}
                             </span>
                         </div>
 
                         <!-- Center Cover Graphic & Title -->
                         <div class="my-auto text-center px-2 py-2 relative z-10 space-y-2">
-                            <div class="inline-block px-2.5 py-1 rounded bg-black/5 backdrop-blur-sm">
+                            <div class="w-10 h-10 rounded-2xl bg-white/80 shadow-xs mx-auto flex items-center justify-center text-blue-700">
+                                @if($item->file_type === 'pdf')
+                                    <i class="fa-solid fa-file-pdf text-xl text-rose-500"></i>
+                                @elseif(in_array($item->file_type, ['ppt', 'pptx']))
+                                    <i class="fa-solid fa-file-powerpoint text-xl text-amber-500"></i>
+                                @elseif(in_array($item->file_type, ['doc', 'docx']))
+                                    <i class="fa-solid fa-file-word text-xl text-blue-600"></i>
+                                @else
+                                    <i class="fa-solid fa-file-lines text-xl text-emerald-600"></i>
+                                @endif
+                            </div>
+                            <div class="inline-block px-2.5 py-1 rounded bg-black/5 backdrop-blur-xs">
                                 <p class="font-khmer-muol text-[11px] sm:text-xs leading-snug line-clamp-3">
                                     {{ $item->title }}
                                 </p>
@@ -226,22 +258,20 @@
                             </p>
                         </div>
 
-                        <!-- Year & Portfolio Star -->
+                        <!-- Year -->
                         <div class="flex items-center justify-between text-[10px] font-medium relative z-10 pt-1">
                             <span class="opacity-70"><i class="fa-regular fa-calendar text-[9px]"></i> {{ $item->academic_year }}</span>
-                            <span class="px-2 py-0.5 rounded-full bg-emerald-600 text-white font-bold text-[9px] shadow-sm flex items-center gap-1">
-                                <i class="fa-solid fa-star text-[8px]"></i> ស្នាដៃ
-                            </span>
+                            <span class="text-[10px] font-mono opacity-60">{{ $item->file_size }}</span>
                         </div>
 
-                        <!-- Hover Overlay -->
+                        <!-- Hover Action Overlay -->
                         <div class="absolute inset-0 bg-slate-950/75 backdrop-blur-xs opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex flex-col items-center justify-center gap-2 p-3 z-20">
-                            <a href="/documents/{{ $item->id }}" class="w-full py-2 px-3 rounded-xl bg-white text-blue-700 hover:bg-blue-50 text-xs font-bold text-center shadow transition flex items-center justify-center gap-1.5">
+                            <a href="/documents/{{ $item->id }}" class="w-full py-2 px-3 rounded-xl bg-white text-blue-700 hover:bg-blue-50 text-xs font-bold text-center shadow transition flex items-center justify-center gap-1.5 active:scale-95">
                                 <i class="fa-solid fa-eye text-xs"></i>
                                 <span>មើលឯកសារ (Preview)</span>
                             </a>
 
-                            <a href="/documents/{{ $item->id }}/download" download class="w-full py-2 px-3 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold text-center shadow transition flex items-center justify-center gap-1.5">
+                            <a href="/documents/{{ $item->id }}/download" download class="w-full py-2 px-3 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold text-center shadow transition flex items-center justify-center gap-1.5 active:scale-95">
                                 <i class="fa-solid fa-download text-xs"></i>
                                 <span>ទាញយក</span>
                             </a>
@@ -257,23 +287,21 @@
                                     {{ $item->title }}
                                 </a>
                             </h4>
+                            <!-- Author Line (មិនស្ទួន) -->
                             <p class="text-[11px] text-slate-500 mt-1 truncate">
                                 by ហឿន មិនា | ICT
                             </p>
                         </div>
-                                by ហឿន មិនា | ICT
-                            </p>
-                        </div>
 
-                        <!-- Stats Row -->
-                        <div class="pt-2 border-t border-slate-100 flex items-center justify-between text-[11px] text-slate-400">
-                            <span class="flex items-center gap-1">
+                        <!-- Stats Row: 👁 Views, ⬇ Downloads (រាប់ជាក់ស្ដែង) -->
+                        <div class="pt-2 border-t border-slate-100 flex items-center justify-between text-[11px] text-slate-500">
+                            <span class="flex items-center gap-1" title="ចំនួនអ្នកទស្សនាជាក់ស្ដែង">
                                 <i class="fa-regular fa-eye text-slate-400 text-[10px]"></i>
-                                <span>{{ number_format(3200 + ($item->id * 437)) }}</span>
+                                <span>{{ number_format($item->views_count ?? 0) }}</span>
                             </span>
-                            <span class="flex items-center gap-1">
+                            <span class="flex items-center gap-1" title="ចំនួនទាញយកជាក់ស្ដែង">
                                 <i class="fa-solid fa-download text-slate-400 text-[10px]"></i>
-                                <span>{{ number_format(150 + ($item->id * 43)) }}</span>
+                                <span>{{ number_format($item->downloads_count ?? 0) }}</span>
                             </span>
                         </div>
                     </div>
@@ -281,15 +309,16 @@
                 </div>
             @empty
                 <div class="col-span-full py-16 text-center text-slate-400 bg-white rounded-3xl border border-dashed border-slate-200">
-                    <div class="w-16 h-16 rounded-2xl bg-amber-50 text-amber-500 mx-auto flex items-center justify-center text-3xl mb-3">
+                    <div class="w-16 h-16 rounded-2xl bg-amber-50 text-amber-500 mx-auto flex items-center justify-center text-3xl mb-3 shadow-xs">
                         <i class="fa-solid fa-award"></i>
                     </div>
-                    <h4 class="font-khmer-muol text-base text-slate-700 mb-1">មិនទាន់មានឯកសារស្នាដៃនៅឡើយទេ</h4>
-                    <p class="text-xs text-slate-400 max-w-sm mx-auto mb-4">
+                    <h4 class="font-khmer-muol text-base text-slate-800 mb-1">មិនទាន់មានឯកសារស្នាដៃនៅឡើយទេ</h4>
+                    <p class="text-xs text-slate-500 max-w-sm mx-auto mb-4">
                         លោកគ្រូ ហឿន មិនា អាចចូលទៅកាន់ផ្ទាំងគ្រប់គ្រង ហើយជ្រើសរើស "កំណត់ជាឯកសារស្នាដៃ (Portfolio)"។
                     </p>
-                    <a href="{{ route('dashboard') }}" class="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 text-white text-xs font-semibold rounded-xl hover:bg-blue-700 transition">
-                        <i class="fa-solid fa-arrow-left"></i> ត្រឡប់ទៅផ្ទាំងគ្រប់គ្រង
+                    <a href="{{ route('dashboard') }}" class="inline-flex items-center gap-2 px-5 py-2.5 bg-blue-600 hover:bg-blue-700 active:scale-95 text-white text-xs font-semibold rounded-xl shadow-xs transition">
+                        <i class="fa-solid fa-arrow-left"></i>
+                        <span>ត្រឡប់ទៅផ្ទាំងគ្រប់គ្រង</span>
                     </a>
                 </div>
             @endforelse
@@ -297,59 +326,46 @@
 
     </main>
 
-    <!-- 4. Footer: Sala Digital Style -->
-    <footer class="mt-auto bg-white border-t border-slate-200 text-slate-600 pt-10 pb-8 no-print">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-3">
-            <p class="text-xs font-semibold text-slate-800">
-                ប្រព័ន្ធសាលាឌីជីថល — Portfolio ស្នាដៃ និងកាតាឡុកឯកសារបង្រៀន
+    <!-- 4. Footer: បណ្ណាល័យខ្ញុំ Style -->
+    <footer class="mt-auto bg-white border-t border-slate-200 text-slate-600 pt-8 pb-8 no-print">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-2">
+            <p class="text-xs font-bold text-slate-800">
+                បណ្ណាល័យខ្ញុំ — វិទ្យាល័យ ហ៊ុន សែន សេរីភាព
             </p>
             <p class="text-xs text-slate-500">
                 រៀបចំ និងគ្រប់គ្រងដោយ <strong>លោកគ្រូ ហឿន មិនា | ICT</strong> (<a href="https://hssp.vercel.app/" target="_blank" class="text-emerald-700 hover:underline font-semibold">វិទ្យាល័យ ហ៊ុន សែន សេរីភាព</a>)
             </p>
-            <div class="flex items-center justify-center space-x-2 pt-1">
-                <a href="https://web.facebook.com/MineaHoeun10" target="_blank" class="w-8 h-8 rounded-full bg-blue-50 text-blue-600 hover:bg-blue-600 hover:text-white flex items-center justify-center transition" title="Facebook">
-                    <i class="fa-brands fa-facebook-f text-xs"></i>
-                </a>
-                <a href="https://www.youtube.com/@hoeunminea8304" target="_blank" class="w-8 h-8 rounded-full bg-red-50 text-red-600 hover:bg-red-600 hover:text-white flex items-center justify-center transition" title="YouTube">
-                    <i class="fa-brands fa-youtube text-xs"></i>
-                </a>
-                <a href="https://t.me/mineahoeun" target="_blank" class="w-8 h-8 rounded-full bg-sky-50 text-sky-500 hover:bg-sky-500 hover:text-white flex items-center justify-center transition" title="Telegram">
-                    <i class="fa-brands fa-telegram text-xs"></i>
-                </a>
-                <a href="https://hssp.vercel.app/" target="_blank" class="w-8 h-8 rounded-full bg-emerald-50 text-emerald-600 hover:bg-emerald-600 hover:text-white flex items-center justify-center transition" title="គេហទំព័រវិទ្យាល័យ ហ៊ុន សែន សេរីភាព">
-                    <i class="fa-solid fa-school text-xs"></i>
-                </a>
-            </div>
-            <p class="text-[11px] text-slate-400">
-                &copy; {{ date('Y') }} សាលាឌីជីថល ក្រសួងអប់រំ យុវជន និងកីឡា — រក្សាសិទ្ធិគ្រប់យ៉ាង
+            <p class="text-[11px] text-slate-400 pt-1">
+                រក្សាសិទ្ធិគ្រប់យ៉ាង &copy; {{ date('Y') }}
             </p>
         </div>
     </footer>
 
-    <!-- Copy Link Notification Toast -->
-    <div id="toast" class="fixed bottom-6 right-6 z-50 transform translate-y-20 opacity-0 transition-all duration-300 bg-slate-900 text-white px-4 py-3 rounded-2xl shadow-xl flex items-center space-x-2 text-xs font-medium">
-        <i class="fa-solid fa-circle-check text-emerald-400 text-sm"></i>
+    <!-- Toast Notification -->
+    <div id="copyToast" class="fixed bottom-6 right-6 z-50 transform translate-y-20 opacity-0 transition-all duration-300 bg-slate-900 text-white px-5 py-3.5 rounded-2xl shadow-xl flex items-center space-x-2.5 text-xs font-medium">
+        <i class="fa-solid fa-circle-check text-emerald-400 text-base"></i>
         <span>បានចម្លង Link Portfolio រួចរាល់!</span>
     </div>
 
     <script>
-        const shareBtn = document.getElementById('shareBtn');
-        const toast = document.getElementById('toast');
+        document.addEventListener('DOMContentLoaded', () => {
+            const shareBtn = document.getElementById('shareBtn');
+            const toast = document.getElementById('copyToast');
 
-        if (shareBtn && toast) {
-            shareBtn.addEventListener('click', async () => {
-                try {
-                    await navigator.clipboard.writeText(window.location.href);
-                    toast.classList.remove('translate-y-20', 'opacity-0');
-                    setTimeout(() => {
-                        toast.classList.add('translate-y-20', 'opacity-0');
-                    }, 2500);
-                } catch (err) {
-                    alert('Link: ' + window.location.href);
-                }
-            });
-        }
+            if (shareBtn && toast) {
+                shareBtn.addEventListener('click', async () => {
+                    try {
+                        await navigator.clipboard.writeText(window.location.href);
+                        toast.classList.remove('translate-y-20', 'opacity-0');
+                        setTimeout(() => {
+                            toast.classList.add('translate-y-20', 'opacity-0');
+                        }, 2500);
+                    } catch (err) {
+                        prompt('ចម្លង Link Portfolio៖', window.location.href);
+                    }
+                });
+            }
+        });
     </script>
-
 </body>
 </html>

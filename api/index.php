@@ -45,16 +45,52 @@ $_ENV['SESSION_DRIVER'] = 'cookie';
 putenv('VIEW_COMPILED_PATH=/tmp/views');
 $_ENV['VIEW_COMPILED_PATH'] = '/tmp/views';
 
-// 3. Prepare SQLite database in /tmp
+// 3. Prepare SQLite database in /tmp (ការពារកុំឱ្យបាត់ឯកសារពេល Update ប្រព័ន្ធ)
 $sourceDb = __DIR__ . '/../database/database.sqlite';
 $targetDb = '/tmp/database.sqlite';
 
-if (file_exists($sourceDb) && (!file_exists($targetDb) || filesize($targetDb) === 0 || filemtime($sourceDb) > filemtime($targetDb))) {
-    @copy($sourceDb, $targetDb);
-    @chmod($targetDb, 0666);
+$targetHasDocs = false;
+if (file_exists($targetDb) && filesize($targetDb) > 0) {
+    try {
+        $pdoCheck = new PDO("sqlite:$targetDb");
+        $stmtCheck = $pdoCheck->query("SELECT count(*) FROM documents");
+        if ($stmtCheck && (int)$stmtCheck->fetchColumn() > 0) {
+            $targetHasDocs = true; // មានឯកសារ Upload រួចហើយ មិនត្រូវ Overwrite ឡើយ
+        }
+    } catch (\Throwable $e) {}
+}
+
+if (!$targetHasDocs && file_exists($sourceDb)) {
+    if (!file_exists($targetDb) || filesize($targetDb) === 0 || filemtime($sourceDb) > filemtime($targetDb)) {
+        @copy($sourceDb, $targetDb);
+        @chmod($targetDb, 0666);
+    }
 } elseif (!file_exists($targetDb)) {
     @touch($targetDb);
     @chmod($targetDb, 0666);
+}
+
+// ធានាថារាល់ Column សំខាន់ៗ (views_count, downloads_count, file_data) មានជានិច្ច
+if (file_exists($targetDb) && filesize($targetDb) > 0) {
+    try {
+        $pdo = new PDO("sqlite:$targetDb");
+        $cols = [];
+        $res = $pdo->query("PRAGMA table_info(documents)");
+        if ($res) {
+            while ($row = $res->fetch(PDO::FETCH_ASSOC)) {
+                $cols[] = $row['name'];
+            }
+            if (!in_array('views_count', $cols)) {
+                $pdo->exec("ALTER TABLE documents ADD COLUMN views_count INTEGER DEFAULT 0");
+            }
+            if (!in_array('downloads_count', $cols)) {
+                $pdo->exec("ALTER TABLE documents ADD COLUMN downloads_count INTEGER DEFAULT 0");
+            }
+            if (!in_array('file_data', $cols)) {
+                $pdo->exec("ALTER TABLE documents ADD COLUMN file_data LONGTEXT NULL");
+            }
+        }
+    } catch (\Throwable $e) {}
 }
 
 if (empty(getenv('DB_CONNECTION')) || getenv('DB_CONNECTION') === 'sqlite') {
