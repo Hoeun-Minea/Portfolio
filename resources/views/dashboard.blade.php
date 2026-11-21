@@ -265,24 +265,21 @@
                                 {{ $doc->title }}
                             </a>
                         </h4>
-                        <!-- Author Line -->
+                        <!-- Author Line (មិនស្ទួន) -->
                         <p class="text-[11px] text-slate-500 mt-1 truncate">
                             by ហឿន មិនា | ICT
                         </p>
                     </div>
-                            by ហឿន មិនា | ICT
-                        </p>
-                    </div>
 
-                    <!-- Stats Row: 👁 Views, ⬇ Downloads -->
-                    <div class="pt-2 border-t border-slate-100 flex items-center justify-between text-[11px] text-slate-400">
-                        <span class="flex items-center gap-1">
+                    <!-- Stats Row: 👁 Views, ⬇ Downloads (រាប់តាមការជាក់ស្ដែង) -->
+                    <div class="pt-2 border-t border-slate-100 flex items-center justify-between text-[11px] text-slate-500">
+                        <span class="flex items-center gap-1" title="ចំនួនអ្នកទស្សនាជាក់ស្ដែង">
                             <i class="fa-regular fa-eye text-slate-400 text-[10px]"></i>
-                            <span>{{ number_format(3200 + ($doc->id * 437)) }}</span>
+                            <span>{{ number_format($doc->views_count ?? 0) }}</span>
                         </span>
-                        <span class="flex items-center gap-1">
+                        <span class="flex items-center gap-1" title="ចំនួនទាញយកជាក់ស្ដែង">
                             <i class="fa-solid fa-download text-slate-400 text-[10px]"></i>
-                            <span>{{ number_format(150 + ($doc->id * 43)) }}</span>
+                            <span>{{ number_format($doc->downloads_count ?? 0) }}</span>
                         </span>
                     </div>
                 </div>

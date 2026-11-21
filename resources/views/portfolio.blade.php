@@ -49,34 +49,34 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="h-20 flex items-center justify-between gap-4">
                 
-                <!-- Logo: សាលាឌីជីថល -->
+                <!-- Logo: បណ្ណាល័យខ្ញុំ -->
                 <div class="flex items-center space-x-3 flex-shrink-0">
                     <a href="{{ route('dashboard') }}" class="flex items-center space-x-3 group">
-                        <div class="w-12 h-12 rounded-xl bg-gradient-to-tr from-amber-500 via-rose-500 to-blue-600 p-0.5 shadow-md group-hover:scale-105 transition transform">
+                        <div class="w-11 h-11 sm:w-12 sm:h-12 rounded-xl bg-gradient-to-tr from-amber-500 via-rose-500 to-blue-600 p-0.5 shadow-md group-hover:scale-105 transition transform flex-shrink-0">
                             <div class="w-full h-full bg-white rounded-[10px] flex items-center justify-center">
-                                <i class="fa-solid fa-book-open-reader text-2xl text-blue-600 group-hover:text-amber-500 transition"></i>
+                                <i class="fa-solid fa-book-open-reader text-xl sm:text-2xl text-blue-600 group-hover:text-amber-500 transition"></i>
                             </div>
                         </div>
-                        <div>
-                            <span class="font-khmer-muol text-lg sm:text-xl text-slate-900 group-hover:text-blue-700 transition">សាលាឌីជីថល</span>
-                            <p class="text-[11px] text-slate-500 font-medium">ក្រសួងអប់រំ យុវជន និងកីឡា • ហឿន មិនា | ICT</p>
+                        <div class="min-w-0">
+                            <span class="font-khmer-muol text-base sm:text-lg text-slate-900 group-hover:text-blue-700 transition whitespace-nowrap">បណ្ណាល័យខ្ញុំ</span>
+                            <p class="text-[10px] sm:text-[11px] text-slate-500 font-medium whitespace-nowrap">វិទ្យាល័យ ហ៊ុន សែន សេរីភាព • ហឿន មិនា | ICT</p>
                         </div>
                     </a>
                 </div>
 
-                <!-- Navigation Links -->
-                <nav class="hidden md:flex items-center space-x-6 text-sm">
-                    <a href="{{ route('dashboard') }}" class="flex items-center space-x-2 py-2 px-1 text-slate-600 hover:text-blue-700 font-medium transition">
+                <!-- Navigation Links (ស្អាត មិនបាក់ជួរ) -->
+                <nav class="hidden md:flex items-center gap-1.5 lg:gap-2 text-xs lg:text-sm font-medium">
+                    <a href="{{ route('dashboard') }}" class="inline-flex items-center gap-1.5 py-2 px-2.5 rounded-xl whitespace-nowrap text-slate-600 hover:text-blue-700 hover:bg-slate-50 transition">
                         <i class="fa-solid fa-layer-group text-blue-600 text-xs"></i>
                         <span>ផ្ទាំងគ្រប់គ្រង</span>
                     </a>
 
-                    <a href="{{ route('portfolio.public') }}" class="flex items-center space-x-2 py-2 px-1 text-blue-700 border-b-2 border-blue-700 font-semibold transition">
+                    <a href="{{ route('portfolio.public') }}" class="inline-flex items-center gap-1.5 py-2 px-2.5 rounded-xl whitespace-nowrap text-blue-700 bg-blue-50 font-bold transition">
                         <i class="fa-solid fa-award text-amber-500 text-xs"></i>
                         <span>Portfolio ស្នាដៃ</span>
                     </a>
 
-                    <a href="{{ route('dashboard') }}#librarySection" class="flex items-center space-x-2 py-2 px-1 text-slate-600 hover:text-blue-700 font-medium transition">
+                    <a href="{{ route('dashboard') }}#librarySection" class="inline-flex items-center gap-1.5 py-2 px-2.5 rounded-xl whitespace-nowrap text-slate-600 hover:text-blue-700 hover:bg-slate-50 transition">
                         <i class="fa-solid fa-book-bookmark text-emerald-600 text-xs"></i>
                         <span>បណ្ណាល័យ ICT</span>
                     </a>

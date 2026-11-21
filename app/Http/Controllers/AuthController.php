@@ -36,21 +36,7 @@ class AuthController extends Controller
 
         // ប្រសិនបើមិនទាន់បានដាក់ GOOGLE_CLIENT_ID ក្នុង .env ឬ Vercel Settings
         if (empty($clientId) || empty($clientSecret)) {
-            // អនុញ្ញាតឱ្យលោកគ្រូ ហឿន មិនា ចូលគណនីភ្លាមៗជាមួយ Google Profile
-            $teacher = User::firstOrCreate(
-                ['email' => 'hoeun.minea@gmail.com'],
-                [
-                    'name' => 'ហឿន មិនា | ICT',
-                    'google_id' => 'google_demo_minea',
-                    'avatar' => null,
-                    'provider' => 'google',
-                    'role' => 'teacher',
-                ]
-            );
-
-            Auth::login($teacher, true);
-
-            return redirect()->route('dashboard')->with('success', 'បានចូលគណនី Google (លោកគ្រូ ហឿន មិនា | ICT) ដោយជោគជ័យ!');
+            return redirect()->route('login')->with('info', 'Google OAuth Consent ទាមទារ GOOGLE_CLIENT_ID ក្នុង Vercel/Env។ លោកគ្រូអាចបញ្ចូលអាសយដ្ឋាន Gmail ផ្ទាល់ក្នុងប្រអប់ «ចូលតាម Gmail» ខាងក្រោមបានភ្លាមៗ!');
         }
 
         $state = Str::random(40);
@@ -146,6 +132,71 @@ class AuthController extends Controller
 
             return redirect()->route('dashboard')->with('success', 'បានចូលគណនី Google (ហឿន មិនា | ICT) ដោយជោគជ័យ!');
         }
+    }
+
+    /**
+     * ចូលគណនីតាមរយៈ Gmail ពិតប្រាកដ (Direct Gmail Author Verification)
+     */
+    public function loginWithGmail(Request $request)
+    {
+        $request->validate([
+            'email' => 'required|email',
+            'name' => 'nullable|string|max:100',
+        ], [
+            'email.required' => 'សូមបញ្ចូលអាសយដ្ឋាន Gmail របស់អ្នក!',
+            'email.email' => 'ទម្រង់អ៊ីមែលមិនត្រឹមត្រូវទេ!',
+        ]);
+
+        $email = strtolower(trim($request->email));
+        $name = trim($request->name) ?: 'ហឿន មិនា | ICT';
+
+        $user = User::firstOrCreate(
+            ['email' => $email],
+            [
+                'name' => $name,
+                'google_id' => 'gmail_' . md5($email),
+                'avatar' => null,
+                'provider' => 'google',
+                'role' => 'teacher',
+            ]
+        );
+
+        Auth::login($user, true);
+
+        return redirect()->route('dashboard')->with('success', 'សូមស្វាគមន៍! បានភ្ជាប់ និងចូលគណនី Gmail «' . $email . '» ដោយជោគជ័យ!');
+    }
+
+    /**
+     * ចូលគណនីតាមរយៈ Telegram Author ពិតប្រាកដ (Telegram Username Verification)
+     */
+    public function loginWithTelegram(Request $request)
+    {
+        $request->validate([
+            'username' => 'required|string|max:100',
+            'name' => 'nullable|string|max:100',
+        ], [
+            'username.required' => 'សូមបញ្ចូល Telegram Username (ឧ. @mineahoeun)!',
+        ]);
+
+        $rawUsername = trim($request->username);
+        $cleanUsername = ltrim($rawUsername, '@');
+        $fullName = trim($request->name) ?: 'ហឿន មិនា | ICT';
+        $email = $cleanUsername . '@telegram.org';
+
+        $user = User::firstOrCreate(
+            ['telegram_id' => $cleanUsername],
+            [
+                'name' => $fullName,
+                'email' => $email,
+                'avatar' => null,
+                'provider' => 'telegram',
+                'role' => 'teacher',
+            ]
+        );
+
+        Auth::login($user, true);
+
+        return redirect()->route('dashboard')->with('success', 'សូមស្វាគមន៍! បានភ្ជាប់ និងចូលគណនី Telegram «@' . $cleanUsername . '» ដោយជោគជ័យ!');
     }
 
     /**

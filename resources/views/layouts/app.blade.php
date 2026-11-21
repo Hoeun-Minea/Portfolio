@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
-    <title>@yield('title', 'សាលាឌីជីថល — ប្រព័ន្ធគ្រប់គ្រងឯកសារ និង Portfolio | ហឿន មិនា ICT')</title>
+    <title>@yield('title', 'បណ្ណាល័យខ្ញុំ — វិទ្យាល័យ ហ៊ុន សែន សេរីភាព | ហឿន មិនា ICT')</title>
 
     <!-- Google Fonts: Kantumruy Pro, Moul, Siemreap -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -83,48 +83,48 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="h-20 flex items-center justify-between gap-4">
                 
-                <!-- Logo: សាលាឌីជីថល (Sala Digital) -->
+                <!-- Logo: បណ្ណាល័យខ្ញុំ (វិទ្យាល័យ ហ៊ុន សែន សេរីភាព . ហឿន មិនា | ICT) -->
                 <div class="flex items-center space-x-3 flex-shrink-0">
                     <a href="{{ route('dashboard') }}" class="flex items-center space-x-3 group">
                         <!-- Open Book with Gradient Logo -->
-                        <div class="w-12 h-12 rounded-xl bg-gradient-to-tr from-amber-500 via-rose-500 to-blue-600 p-0.5 shadow-md group-hover:scale-105 transition transform">
+                        <div class="w-11 h-11 sm:w-12 sm:h-12 rounded-xl bg-gradient-to-tr from-amber-500 via-rose-500 to-blue-600 p-0.5 shadow-md group-hover:scale-105 transition transform flex-shrink-0">
                             <div class="w-full h-full bg-white rounded-[10px] flex items-center justify-center">
-                                <i class="fa-solid fa-book-open-reader text-2xl text-blue-600 group-hover:text-amber-500 transition"></i>
+                                <i class="fa-solid fa-book-open-reader text-xl sm:text-2xl text-blue-600 group-hover:text-amber-500 transition"></i>
                             </div>
                         </div>
-                        <div>
+                        <div class="min-w-0">
                             <div class="flex items-center space-x-1.5">
-                                <span class="font-khmer-muol text-lg sm:text-xl text-slate-900 group-hover:text-blue-700 transition">សាលាឌីជីថល</span>
+                                <span class="font-khmer-muol text-base sm:text-lg text-slate-900 group-hover:text-blue-700 transition whitespace-nowrap">បណ្ណាល័យខ្ញុំ</span>
                             </div>
-                            <p class="text-[11px] text-slate-500 font-medium">ក្រសួងអប់រំ យុវជន និងកីឡា • ហឿន មិនា | ICT</p>
+                            <p class="text-[10px] sm:text-[11px] text-slate-500 font-medium whitespace-nowrap">វិទ្យាល័យ ហ៊ុន សែន សេរីភាព • ហឿន មិនា | ICT</p>
                         </div>
                     </a>
                 </div>
 
-                <!-- Navigation Menu Links (ដូច sala.moeys.gov.kh) -->
-                <nav class="hidden md:flex items-center space-x-6 text-sm">
-                    <a href="{{ route('dashboard') }}" class="flex items-center space-x-2 py-2 px-1 font-medium transition {{ request()->routeIs('dashboard') ? 'text-blue-700 border-b-2 border-blue-700' : 'text-slate-600 hover:text-blue-700' }}">
+                <!-- Navigation Menu Links (រៀបចំស្អាត របៀបរៀបរយ មិនបាក់ជួរ) -->
+                <nav class="hidden md:flex items-center gap-1 lg:gap-1.5 xl:gap-2 text-xs xl:text-sm font-medium">
+                    <a href="{{ route('dashboard') }}" class="inline-flex items-center gap-1.5 py-2 px-2.5 rounded-xl whitespace-nowrap transition {{ request()->routeIs('dashboard') ? 'text-blue-700 bg-blue-50 font-bold' : 'text-slate-600 hover:text-blue-700 hover:bg-slate-50' }}">
                         <i class="fa-solid fa-layer-group text-blue-600 text-xs"></i>
                         <span>ផ្ទាំងគ្រប់គ្រង</span>
                     </a>
 
-                    <a href="{{ route('portfolio.public') }}" target="_blank" class="flex items-center space-x-2 py-2 px-1 font-medium transition {{ request()->routeIs('portfolio.public') ? 'text-blue-700 border-b-2 border-blue-700' : 'text-slate-600 hover:text-blue-700' }}">
+                    <a href="{{ route('portfolio.public') }}" target="_blank" class="inline-flex items-center gap-1.5 py-2 px-2.5 rounded-xl whitespace-nowrap transition {{ request()->routeIs('portfolio.public') ? 'text-blue-700 bg-blue-50 font-bold' : 'text-slate-600 hover:text-blue-700 hover:bg-slate-50' }}">
                         <i class="fa-solid fa-award text-amber-500 text-xs"></i>
                         <span>Portfolio ស្នាដៃ</span>
                     </a>
 
-                    <a href="#librarySection" class="flex items-center space-x-2 py-2 px-1 text-slate-600 hover:text-blue-700 font-medium transition">
+                    <a href="{{ route('dashboard') }}#librarySection" class="inline-flex items-center gap-1.5 py-2 px-2.5 rounded-xl whitespace-nowrap text-slate-600 hover:text-blue-700 hover:bg-slate-50 transition">
                         <i class="fa-solid fa-book-bookmark text-emerald-600 text-xs"></i>
                         <span>បណ្ណាល័យ ICT</span>
                     </a>
 
-                    <a href="https://hssp.vercel.app/" target="_blank" class="flex items-center space-x-2 py-2 px-1 text-slate-600 hover:text-blue-700 font-medium transition" title="គេហទំព័រវិទ្យាល័យ ហ៊ុន សែន សេរីភាព">
+                    <a href="https://hssp.vercel.app/" target="_blank" class="inline-flex items-center gap-1.5 py-2 px-2.5 rounded-xl whitespace-nowrap text-slate-600 hover:text-blue-700 hover:bg-slate-50 transition" title="គេហទំព័រវិទ្យាល័យ ហ៊ុន សែន សេរីភាព">
                         <i class="fa-solid fa-school text-indigo-600 text-xs"></i>
                         <span>វិទ្យាល័យសេរីភាព</span>
                     </a>
 
-                    <a href="#aboutTeacher" class="flex items-center space-x-2 py-2 px-1 text-slate-600 hover:text-blue-700 font-medium transition">
-                        <i class="fa-solid fa-circle-info text-emerald-600 text-xs"></i>
+                    <a href="{{ route('dashboard') }}#aboutTeacher" class="inline-flex items-center gap-1.5 py-2 px-2.5 rounded-xl whitespace-nowrap text-slate-600 hover:text-blue-700 hover:bg-slate-50 transition">
+                        <i class="fa-solid fa-circle-info text-teal-600 text-xs"></i>
                         <span>អំពីគ្រូបង្រៀន</span>
                     </a>
                 </nav>
@@ -379,7 +379,7 @@
 
             <!-- Bottom Copyright Bar -->
             <div class="pt-6 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-400 gap-2">
-                <p>សាលាឌីជីថល &copy; {{ date('Y') }} — គ្រប់គ្រង និងរៀបចំដោយ <strong>ហឿន មិនា | ICT</strong> (វិទ្យាល័យ ហ៊ុន សែន សេរីភាព)</p>
+                <p>បណ្ណាល័យខ្ញុំ &copy; {{ date('Y') }} — គ្រប់គ្រង និងរៀបចំដោយ <strong>ហឿន មិនា | ICT</strong> (វិទ្យាល័យ ហ៊ុន សែន សេរីភាព)</p>
                 <div class="flex space-x-4">
                     <a href="#" class="hover:underline">លក្ខខណ្ឌប្រើប្រាស់</a>
                     <a href="#" class="hover:underline">គោលការណ៍ឯកជនភាព</a>

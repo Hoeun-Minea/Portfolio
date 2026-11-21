@@ -20,10 +20,14 @@ class Document extends Model
         'academic_year',
         'description',
         'is_portfolio',
+        'views_count',
+        'downloads_count',
     ];
 
     protected $casts = [
         'is_portfolio' => 'boolean',
+        'views_count' => 'integer',
+        'downloads_count' => 'integer',
     ];
 
     /**

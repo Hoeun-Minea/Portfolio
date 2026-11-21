@@ -20,10 +20,15 @@ Route::get('/documents/{document}/raw', [DocumentController::class, 'preview'])-
 // 5. ទំព័រ Portfolio សាធារណៈ សម្រាប់ដាក់ពាក្យការងារ
 Route::get('/portfolio', [DocumentController::class, 'portfolio'])->name('portfolio.public');
 
+// 6. Route សម្រាប់តាមដានគ្រូបង្រៀន (Follow Teacher - Real Followers Tracking)
+Route::post('/teacher/follow', [DocumentController::class, 'followTeacher'])->name('teacher.follow');
+
 // --- AUTHENTICATION (Google, Telegram, Teacher Login) ---
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
 Route::get('/auth/google', [AuthController::class, 'redirectToGoogle'])->name('auth.google');
 Route::get('/auth/google/callback', [AuthController::class, 'handleGoogleCallback'])->name('auth.google.callback');
+Route::post('/auth/gmail', [AuthController::class, 'loginWithGmail'])->name('auth.gmail');
+Route::post('/auth/telegram-author', [AuthController::class, 'loginWithTelegram'])->name('auth.telegram');
 Route::get('/auth/telegram/callback', [AuthController::class, 'handleTelegramCallback'])->name('auth.telegram.callback');
 Route::get('/auth/quick-teacher', [AuthController::class, 'quickTeacherLogin'])->name('auth.quick-teacher');
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');

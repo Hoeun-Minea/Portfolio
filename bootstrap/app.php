@@ -14,6 +14,9 @@ $app = Application::configure(basePath: dirname(__DIR__))
     ->withMiddleware(function (Middleware $middleware): void {
         // Trust Vercel and Cloudflare reverse proxies to correctly detect HTTPS
         $middleware->trustProxies(at: '*');
+        $middleware->validateCsrfTokens(except: [
+            'teacher/follow',
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         $exceptions->shouldRenderJsonWhen(

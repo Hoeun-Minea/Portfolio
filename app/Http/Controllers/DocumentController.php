@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use App\Models\Document;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -37,6 +38,9 @@ class DocumentController extends Controller
      */
     public function show(Document $document)
     {
+        // កត់ត្រា និងរាប់ចំនួនអ្នកទស្សនាជាក់ស្ដែង (Real Views Counter)
+        $document->increment('views_count');
+
         $document->load('category');
 
         $relatedDocuments = Document::with('category')
@@ -54,7 +58,17 @@ class DocumentController extends Controller
                 ->get();
         }
 
-        return view('documents.show', compact('document', 'relatedDocuments'));
+        // ទាញទិន្នន័យអ្នកតាមដានជាក់ស្ដែងរបស់គ្រូបង្រៀន (Real Followers Count)
+        $teacher = User::where('role', 'teacher')->first() 
+            ?? User::firstOrCreate(
+                ['email' => 'hoeun.minea@gmail.com'],
+                ['name' => 'ហឿន មិនា | ICT', 'role' => 'teacher', 'followers_count' => 0]
+            );
+
+        $teacherFollowers = $teacher->followers_count ?? 0;
+        $isFollowed = session('teacher_followed', false);
+
+        return view('documents.show', compact('document', 'relatedDocuments', 'teacherFollowers', 'isFollowed'));
     }
 
     /**
@@ -177,6 +191,9 @@ class DocumentController extends Controller
      */
     public function download(Document $document)
     {
+        // កត់ត្រា និងរាប់ចំនួនទាញយកជាក់ស្ដែង (Real Downloads Counter)
+        $document->increment('downloads_count');
+
         $filePath = $this->resolveFilePath($document);
         $extension = strtolower($document->file_type ?: pathinfo($filePath, PATHINFO_EXTENSION) ?: 'pdf');
 
@@ -294,5 +311,41 @@ class DocumentController extends Controller
             ->get();
 
         return view('portfolio', compact('portfolioDocuments'));
+    }
+
+    /**
+     * មុខងារចុចតាមដានគ្រូបង្រៀន (Follow / Unfollow Teacher - Real Counter)
+     */
+    public function followTeacher(Request $request)
+    {
+        $teacher = User::where('role', 'teacher')->first() 
+            ?? User::firstOrCreate(
+                ['email' => 'hoeun.minea@gmail.com'],
+                ['name' => 'ហឿន មិនា | ICT', 'role' => 'teacher', 'followers_count' => 0]
+            );
+
+        $isFollowed = session('teacher_followed', false);
+
+        if ($isFollowed) {
+            $teacher->decrement('followers_count');
+            session(['teacher_followed' => false]);
+            $status = 'unfollowed';
+        } else {
+            $teacher->increment('followers_count');
+            session(['teacher_followed' => true]);
+            $status = 'followed';
+        }
+
+        $currentCount = max(0, $teacher->fresh()->followers_count);
+
+        if ($request->wantsJson() || $request->ajax()) {
+            return response()->json([
+                'status' => $status,
+                'followers_count' => $currentCount,
+                'is_followed' => ($status === 'followed')
+            ]);
+        }
+
+        return back()->with('success', $status === 'followed' ? 'បានតាមដានគ្រូបង្រៀនដោយជោគជ័យ!' : 'បានឈប់តាមដាន');
     }
 }

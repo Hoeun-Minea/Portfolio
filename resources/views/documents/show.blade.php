@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', $document->title . ' — សាលាឌីជីថល')
+@section('title', $document->title . ' — បណ្ណាល័យខ្ញុំ')
 
 @section('content')
 <div class="space-y-6">
@@ -28,15 +28,15 @@
             <!-- 1. Stats Bar & Action Buttons (ដូចរូបភាព Screenshot បេះបិទ) -->
             <div class="bg-white rounded-2xl border border-slate-200 px-5 py-3.5 flex flex-wrap items-center justify-between gap-3 shadow-xs">
                 
-                <!-- Left: 👁 ទស្សនា & ⬇ ទាញយក -->
+                <!-- Left: 👁 ទស្សនា & ⬇ ទាញយក (រាប់ជាក់ស្ដែង) -->
                 <div class="flex items-center space-x-5 text-xs text-slate-600 font-medium">
-                    <span class="flex items-center gap-1.5">
+                    <span class="flex items-center gap-1.5" title="ចំនួនអ្នកទស្សនាជាក់ស្ដែង">
                         <i class="fa-regular fa-eye text-slate-400 text-sm"></i>
-                        <span><strong class="text-slate-800">{{ number_format(320 + ($document->id * 47)) }}</strong> ទស្សនា</span>
+                        <span><strong class="text-slate-800" id="liveViewsCount">{{ number_format($document->views_count ?? 0) }}</strong> ទស្សនា</span>
                     </span>
-                    <span class="flex items-center gap-1.5">
+                    <span class="flex items-center gap-1.5" title="ចំនួនទាញយកជាក់ស្ដែង">
                         <i class="fa-solid fa-download text-slate-400 text-sm"></i>
-                        <span><strong class="text-slate-800">{{ number_format(15 + ($document->id * 11)) }}</strong> ទាញយក</span>
+                        <span><strong class="text-slate-800" id="liveDownloadsCount">{{ number_format($document->downloads_count ?? 0) }}</strong> ទាញយក</span>
                     </span>
                 </div>
 
@@ -183,6 +183,23 @@
                     </div>
                 </div>
 
+                <!-- Follower Row (រាប់តាមការជាក់ស្ដែង ដូច Sala Digital) -->
+                <div class="flex items-center justify-between pt-2 border-t border-slate-100">
+                    <div>
+                        <span class="text-sm font-bold text-slate-800" id="followerCountDisplay">{{ number_format($teacherFollowers ?? 0) }}</span>
+                        <span class="text-[11px] text-slate-500">អ្នកតាមដាន</span>
+                    </div>
+
+                    <!-- Interactive Follow Button -->
+                    <button type="button" 
+                            id="followTeacherBtn" 
+                            onclick="toggleFollowTeacher()" 
+                            class="px-4 py-1.5 rounded-full text-xs font-semibold shadow-xs transition active:scale-95 flex items-center gap-1.5 {{ $isFollowed ? 'bg-slate-100 text-slate-700 hover:bg-slate-200 border border-slate-300' : 'bg-[#005596] hover:bg-[#003a66] text-white' }}">
+                        <i class="fa-solid {{ $isFollowed ? 'fa-check' : 'fa-plus' }} text-xs" id="followIcon"></i>
+                        <span id="followText">{{ $isFollowed ? 'បានតាមដាន' : 'តាមដាន' }}</span>
+                    </button>
+                </div>
+
                 <!-- Teacher Social & School Links -->
                 <div class="flex items-center justify-between pt-1 border-t border-slate-100">
                     <span class="text-[11px] text-slate-400 font-medium">ទំនាក់ទំនង៖</span>
@@ -327,6 +344,43 @@
 
 @push('scripts')
 <script>
+    function toggleFollowTeacher() {
+        const btn = document.getElementById('followTeacherBtn');
+        const icon = document.getElementById('followIcon');
+        const text = document.getElementById('followText');
+        const countEl = document.getElementById('followerCountDisplay');
+
+        btn.disabled = true;
+
+        fetch('{{ route("teacher.follow") }}', {
+            method: 'POST',
+            headers: {
+                'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            }
+        })
+        .then(res => res.json())
+        .then(data => {
+            btn.disabled = false;
+            if (countEl) countEl.textContent = new Intl.NumberFormat().format(data.followers_count);
+            
+            if (data.is_followed) {
+                btn.className = 'px-4 py-1.5 rounded-full text-xs font-semibold shadow-xs transition active:scale-95 flex items-center gap-1.5 bg-slate-100 text-slate-700 hover:bg-slate-200 border border-slate-300';
+                if (icon) icon.className = 'fa-solid fa-check text-xs';
+                if (text) text.textContent = 'បានតាមដាន';
+            } else {
+                btn.className = 'px-4 py-1.5 rounded-full text-xs font-semibold shadow-xs transition active:scale-95 flex items-center gap-1.5 bg-[#005596] hover:bg-[#003a66] text-white';
+                if (icon) icon.className = 'fa-solid fa-plus text-xs';
+                if (text) text.textContent = 'តាមដាន';
+            }
+        })
+        .catch(err => {
+            btn.disabled = false;
+            console.error('Follow error:', err);
+        });
+    }
+
     document.addEventListener('DOMContentLoaded', () => {
         const shareBtn = document.getElementById('shareDocumentBtn');
         const toast = document.getElementById('copyToast');
